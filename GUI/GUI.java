@@ -16,6 +16,7 @@ public class GUI implements ActionListener {
     private JButton createAccButton;
     private JRadioButton radioButtonClient;
     private JRadioButton radioButtonMusician;
+    private JPanel previousPanel;
 
 
     public GUI() {
@@ -50,7 +51,7 @@ public class GUI implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(radioButtonClient.isSelected()) {
-                    System.out.println("log in cliente");
+                    showLogInPanel();
                 } else if (radioButtonMusician.isSelected()) {
                     System.out.println("log in musico");
                 }
@@ -98,7 +99,7 @@ public class GUI implements ActionListener {
         userGroup.add(radioButtonClient);
         userGroup.add(radioButtonMusician);
 
-        //Criação do painel e adição dos diferentes componentes 
+        //Criação do painel e adição dos diferentes componentes
         panel = new JPanel();
         panel.setLayout(null);
         panel.setBackground(new Color(124, 98, 171));
@@ -113,10 +114,30 @@ public class GUI implements ActionListener {
         frame.add(panel);
         frame.revalidate();
 
-
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
     }
+
+    // Método para voltar ao painel anterior
+    public void retrocederPainel() {
+        if (previousPanel != null) {
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(previousPanel);
+            frame.revalidate();
+            frame.repaint();
+        }
+    }
+
+    private void showLogInPanel() {
+        // Salvar o painel atual como painel anterior
+        previousPanel = panel;
+
+        // Criação e exibição do novo painel a partir de outra classe
+        LogInCliente logInCliente = new LogInCliente();
+        logInCliente.painelLogInCliente(frame, this);
+    }
+
+
+
 }
