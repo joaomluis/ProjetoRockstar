@@ -1,4 +1,5 @@
 package GUI;
+import BackEnd.Musico;
 import BackEnd.User;
 
 import javax.swing.*;
@@ -6,25 +7,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LogInCliente {
+public class LogInMusico {
 
     private JPanel logInPanel;
     private JLabel title;
     private JLabel subtitle;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
+    private JLabel pinLabel;
     private JTextField usernameField;
     private  JPasswordField passwordField;
+    private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
-    private User[] users;
+    private Musico[] musicos;
 
-    protected void painelLogInCliente(JFrame frame, GUI gui) {
+    protected void painelLogInMusico(JFrame frame, GUI gui) {
 
-        users = new User[] {
-                new User("user1", "password1"),
-                new User("user2", "password2"),
-                new User("user3", "password3")
+        musicos = new Musico[] {
+                new Musico("musico1", "password1", "1"),
+                new Musico("musico2", "password2", "2"),
+                new Musico("musico3", "password3", "3")
         };
 
         logInPanel = new JPanel();
@@ -36,7 +39,7 @@ public class LogInCliente {
         title.setText("RockStar.Inc");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Arial", Font.BOLD, 36));
-        title.setBounds(138, 50, 223, 40);
+        title.setBounds(138, 30, 223, 40);
 
         //subtitulo do painel, contem slogan
         subtitle = new JLabel();
@@ -53,6 +56,10 @@ public class LogInCliente {
         passwordField = new JPasswordField();
         passwordField.setBounds(230, usernameField.getY() + 45, 150, 28);
 
+        //caixa de texto para o Pin
+        pinField = new JPasswordField();
+        pinField.setBounds(230, passwordField.getY() + 45, 150, 28);
+
         // label do Username
         usernameLabel = new JLabel();
         usernameLabel.setText("Username");
@@ -67,9 +74,17 @@ public class LogInCliente {
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 13));
         passwordLabel.setBounds(passwordField.getX() - 80, passwordField.getY(), 70, 28);
 
+        //label do pin
+
+        pinLabel = new JLabel();
+        pinLabel.setText("Pin");
+        pinLabel.setForeground(Color.black);
+        pinLabel.setFont(new Font("Arial", Font.BOLD, 13));
+        pinLabel.setBounds(pinField.getX() - 40, pinField.getY(), 40, 28);
+
         //botão para avançar com o log in
         logInButton = new JButton();
-        logInButton.setBounds(100, 280, 115, 32);
+        logInButton.setBounds(100, 295, 115, 32);
         logInButton.setText("Log In");
         logInButton.setFocusable(false);
         logInButton.setFont(new Font("Arial", Font.BOLD, 15));
@@ -79,8 +94,9 @@ public class LogInCliente {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = String.valueOf(passwordField.getPassword());
+                String pin = String.valueOf(pinField.getPassword());
 
-                if (validateCredentials(username, password)) {
+                if (validateCredentials(username, password, pin)) {
                     // Credenciais válidas
                     JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                     // Realizar ação após o login ser bem-sucedido
@@ -93,7 +109,7 @@ public class LogInCliente {
 
         // botão que cancela tarefa e volta para o painel anterior
         cancelButton = new JButton();
-        cancelButton.setBounds(285, 280, 115, 32);
+        cancelButton.setBounds(285, logInButton.getY(), 115, 32);
         cancelButton.setText("Cancelar");
         cancelButton.setFocusable(false);
         cancelButton.setFont(new Font("Arial", Font.BOLD, 15));
@@ -111,17 +127,19 @@ public class LogInCliente {
         logInPanel.add(usernameField);
         logInPanel.add(logInButton);
         logInPanel.add(passwordField);
+        logInPanel.add(pinField);
         logInPanel.add(usernameLabel);
         logInPanel.add(passwordLabel);
+        logInPanel.add(pinLabel);
 
         frame.getContentPane().removeAll();
         frame.getContentPane().add(logInPanel);
         frame.revalidate();
         frame.repaint();
     }
-    private boolean validateCredentials(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+    private boolean validateCredentials(String username, String password, String pin) {
+        for (Musico musico: musicos) {
+            if (musico.getUsername().equals(username) && musico.getPassword().equals(password) && musico.getPin().equals(pin)) {
                 return true; // Credenciais válidas
             }
         }

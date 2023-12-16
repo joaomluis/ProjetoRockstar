@@ -53,7 +53,7 @@ public class GUI implements ActionListener {
                 if(radioButtonClient.isSelected()) {
                     showLogInPanel();
                 } else if (radioButtonMusician.isSelected()) {
-                    System.out.println("log in musico");
+                    showLogInPanelMusician();
                 }
             }
         });
@@ -132,10 +132,15 @@ public class GUI implements ActionListener {
     private void showLogInPanel() {
         // Salvar o painel atual como painel anterior
         previousPanel = panel;
-
         // Criação e exibição do novo painel a partir de outra classe
         LogInCliente logInCliente = new LogInCliente();
         logInCliente.painelLogInCliente(frame, this);
+    }
+
+    private void showLogInPanelMusician(){
+        previousPanel = panel;
+        LogInMusico logInMusico = new LogInMusico();
+        logInMusico.painelLogInMusico(frame, this);
     }
 
 
