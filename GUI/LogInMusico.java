@@ -51,14 +51,17 @@ public class LogInMusico {
         // caixa de texto para o username
         usernameField = new JTextField();
         usernameField.setBounds(230, subtitle.getY() + 67, 150, 28);
+        usernameField.setFont(new Font("Arial", Font.BOLD, 13));
 
         //caixa de texto para a password
         passwordField = new JPasswordField();
         passwordField.setBounds(230, usernameField.getY() + 45, 150, 28);
+        passwordField.setFont(new Font("Arial", Font.BOLD, 13));
 
         //caixa de texto para o Pin
         pinField = new JPasswordField();
         pinField.setBounds(230, passwordField.getY() + 45, 150, 28);
+        pinField.setFont(new Font("Arial", Font.BOLD, 13));
 
         // label do Username
         usernameLabel = new JLabel();
