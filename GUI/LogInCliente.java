@@ -1,12 +1,14 @@
 package GUI;
 import BackEnd.User;
+import GUI.MenuCliente.MenuPrincipal;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LogInCliente {
+public class LogInCliente{
 
     private JPanel logInPanel;
     private JLabel title;
@@ -24,7 +26,8 @@ public class LogInCliente {
         users = new User[] {
                 new User("user1", "password1"),
                 new User("user2", "password2"),
-                new User("user3", "password3")
+                new User("user3", "password3"),
+                new User("1", "1")
         };
 
         logInPanel = new JPanel();
@@ -84,8 +87,11 @@ public class LogInCliente {
 
                 if (validateCredentials(username, password)) {
                     // Credenciais válidas
-                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
+                    //JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                     // Realizar ação após o login ser bem-sucedido
+                    frame.dispose();
+                    MenuPrincipal menuPrincipal = new MenuPrincipal();
+                    menuPrincipal.interfaceClient();
                 } else {
                     // Credenciais inválidas
                     JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
