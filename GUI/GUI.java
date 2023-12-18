@@ -69,9 +69,9 @@ public class GUI implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (radioButtonClient.isSelected()) {
-                    System.out.println("Criar conta cliente");
+                    showCreateClientPanel();
                 } else if (radioButtonMusician.isSelected()) {
-                    System.out.println("Criar conta músico");
+                    showCreateMusicianPanel();
                 }
             }
         });
@@ -141,6 +141,18 @@ public class GUI implements ActionListener {
         previousPanel = panel;
         LogInMusico logInMusico = new LogInMusico();
         logInMusico.painelLogInMusico(frame, this);
+    }
+
+    private void showCreateClientPanel() {
+        previousPanel = panel;
+        RegistarCliente registarCliente = new RegistarCliente();
+        registarCliente.createClientPanel(frame, this);
+    }
+
+    private void showCreateMusicianPanel() {
+        previousPanel = panel;
+        RegistarMusico registarMusico = new RegistarMusico();
+        registarMusico.createMusicianPanel(frame, this);
     }
 
 

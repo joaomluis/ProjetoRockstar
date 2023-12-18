@@ -78,7 +78,6 @@ public class LogInMusico {
         passwordLabel.setBounds(passwordField.getX() - 80, passwordField.getY(), 70, 28);
 
         //label do pin
-
         pinLabel = new JLabel();
         pinLabel.setText("Pin");
         pinLabel.setForeground(Color.black);
