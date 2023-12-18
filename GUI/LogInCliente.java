@@ -1,6 +1,6 @@
 package GUI;
 import BackEnd.User;
-import GUI.MenuCliente.MenuPrincipal;
+import GUI.MenuCliente.FrameCliente;
 
 
 import javax.swing.*;
@@ -90,7 +90,7 @@ public class LogInCliente{
                     //JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                     // Realizar ação após o login ser bem-sucedido
                     frame.dispose();
-                    MenuPrincipal menuPrincipal = new MenuPrincipal();
+                    FrameCliente menuPrincipal = new FrameCliente();
                     menuPrincipal.interfaceClient();
                 } else {
                     // Credenciais inválidas
