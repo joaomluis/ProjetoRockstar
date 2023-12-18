@@ -5,62 +5,83 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MusicoMeusAlbuns extends JFrame implements ActionListener {
-    private final JButton retroceder;
+public class MusicoMeusAlbuns extends JPanel implements ActionListener {
+    private FrameMusic frameMusic;
+    private JTable tabela;
     private JButton botao1;
     private JButton botao2;
     private JButton botao3;
     private JTextField pesquisa;
 
-    public MusicoMeusAlbuns() {
-        //Janela principal
-        setTitle("Menu Musico");
-        setDefaultCloseOperation(3);//=JFrame.EXIT_ON_CLOSE
-        setSize(500, 500);
-        setResizable(false);
+    public MusicoMeusAlbuns(FrameMusic frameMusic) {
+        this.frameMusic = frameMusic;
+        setLayout(new BorderLayout());
+        setBackground(new Color(124, 98, 171));
 
-        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
+//        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
         JPanel painelSuperior = new JPanel(); // Inicializa o painel superior
         painelSuperior.setBackground(new Color(124, 98, 171));
-        painelSuperior.setPreferredSize(new Dimension(0, 50)); //Altura do painel Superior
+        painelSuperior.setPreferredSize(new Dimension(0, 20)); //Altura do painel Superior
         painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
-        pesquisa = new JTextField();
-        retroceder = new JButton("\u2190"); //"Símbolo de Lupa" e tem o código Unicode U+1F50D
-        JLabel username = new JLabel("nomeUsuario");  //Subsituir o Nome do usuario
+        JLabel titulo = new JLabel("Meus Albuns");  //Subsituir o Nome do usuario
         //Add elementos ao Painel superior
-        painelSuperior.add(retroceder).setBounds(10,10,30,30); // Adiciona a barra de pesquisa ao painel superior
-        painelSuperior.add(username).setBounds(380,0,120,20);
-
+        painelSuperior.add(titulo).setBounds(380,0,120,20);
         ////////////////////////////////////////PAINEL CENTRAL////////////////////////////////////////////////////////
-        JPanel painelCentral = new JPanel();    //Inicializa o painel central
-        painelCentral.setBackground(new Color(142, 126, 178));
-        painelCentral.setLayout(null);
+        JPanel painelCentral = new JPanel();
+
+
+        String[][] musica = {
+                {"Killing", "FF","25"},
+                {"Blow", "Eva","14"},
+                {"Legendary", "Skillet Album","22"}
+        };
+        String[] columnNames = {"Nome","Album", "Preço"};
+        tabela = new JTable(musica, columnNames);
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        painelCentral.setLayout(new BorderLayout());
+
+        painelCentral.add(scrollPane, BorderLayout.CENTER);
+
+
+        ////////////////////////////////////////PAINEL EAST////////////////////////////////////////////////////////
+        JPanel painelEast = new JPanel();    //Inicializa o painel central
+        painelEast.setBackground(new Color(142, 126, 178));
+        painelEast.setLayout(new GridLayout(15,1));
+        //Largura do painel East
+        painelEast.setPreferredSize(new Dimension(100, 0));
 
         //Criar elementos Painel Central
-        botao1 = new JButton("Meus Albuns");
-        botao2 = new JButton("Musicas");
-        botao3 = new JButton("Estatistica");
+        botao1 = new JButton("Ver");
+        botao2 = new JButton("Criar");
         //Add elementos ao Painel Central
-        painelCentral.add(botao1).setBounds(100,10,300,40);
-        painelCentral.add(botao2).setBounds(botao1.getX(),botao1.getY()+botao1.getHeight()+10,300,40);
-        painelCentral.add(botao3).setBounds(botao2.getX(),botao2.getY()+botao2.getHeight()+150,300,40);
+        painelEast.add(botao1).setBounds(0,0,300,40);
+        painelEast.add(botao2).setBounds(botao1.getX(),botao1.getY()+botao1.getHeight()+10,300,40);
+
+        ////////////////////////////////////////PAINEL WEST////////////////////////////////////////////////////////
+        JPanel painelWest = new JPanel();
+        painelWest.setBackground(new Color(154, 145, 178));
+
+        ////////////////////////////////////////PAINEL SOUTH////////////////////////////////////////////////////////
+        JPanel painelSouth = new JPanel();
+        painelWest.setBackground(new Color(154, 145, 178));
 
         ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
-        Container contentPane = getContentPane();
+        Container contentPane = frameMusic.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(painelSuperior, "North"); //instrução da localização no layout
-        contentPane.add(painelCentral, "Center"); //instrução da localização no layout
-        setLocationRelativeTo((Component)null);
+
+        contentPane.setBackground(new Color(124, 98, 171));
+
+        add(painelSuperior, BorderLayout.NORTH);
+        add(painelWest, BorderLayout.WEST);
+        add(painelSouth, BorderLayout.SOUTH);
+        add(painelEast, BorderLayout.EAST);
+        add(painelCentral, BorderLayout.CENTER);
+        //instrução da localização no layout
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new MusicoMeusAlbuns();
-        });
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
