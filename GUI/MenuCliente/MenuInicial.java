@@ -19,6 +19,12 @@ public class MenuInicial extends JPanel {
         setLayout(null);
         setBackground(new Color(20,64,88));
 
+        username = new JLabel();
+        username.setText("RockStar.Inc");
+        username.setForeground(new Color(198,107,61));
+        username.setFont(new Font("Arial", Font.BOLD, 36));
+        username.setBounds(138, 50, 223, 40);
 
+        add(username);
     }
 }

@@ -1,9 +1,12 @@
 package GUI.MenuCliente;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class FrameCliente extends JFrame {
 
+    private JButton homeButton;
+    private JPanel homeButtonPanel;
     public void interfaceClient() {
 
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
