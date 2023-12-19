@@ -66,8 +66,13 @@ public class MainMusic extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(meusAlbuns == e.getSource()){
+        if (e.getSource() == meusAlbuns) {
             frameMusic.showMusicoMeusAlbuns();
+        }
+        else if (e.getSource() == musicas) {
+            frameMusic.showPainel1();
+        }
+        else if (e.getSource() == estatistica) {
         }
     }
 
