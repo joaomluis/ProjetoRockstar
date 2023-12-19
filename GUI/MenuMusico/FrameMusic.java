@@ -7,11 +7,15 @@ import java.awt.event.ActionListener;
 
 public class FrameMusic extends JFrame implements ActionListener {
 
+    private MainMusic mainMusic;
+    private Painel1 painel1;
+    private MusicoMeusAlbuns musicoMeusAlbuns;
     private JLabel username;
     private JButton back;
     private JButton home;
     private CardLayout cardLayout;
     private JPanel panelCont;
+    private JPanel painelAtual;
 
     public FrameMusic(){
         // Configurações da frame
@@ -28,9 +32,9 @@ public class FrameMusic extends JFrame implements ActionListener {
         panelCont.setLayout(cardLayout);
 
         // Cria os painéis que serão exibidos no cardLayout (todos os paineis serão criados aqui)
-        MainMusic mainMusic = new MainMusic(this);
-        Painel1 painel1 = new Painel1(this);
-        MusicoMeusAlbuns musicoMeusAlbuns = new MusicoMeusAlbuns(this);
+        mainMusic = new MainMusic(this);
+        painel1 = new Painel1(this);
+        musicoMeusAlbuns = new MusicoMeusAlbuns(this);
 
         // Adicione os painéis ao painel de conteúdo (todos os paineis serão adicionados aqui)
         panelCont.add(mainMusic, "MainMusic");
@@ -74,18 +78,44 @@ public class FrameMusic extends JFrame implements ActionListener {
         if(e.getSource()==home){
             cardLayout.show(panelCont, "MainMusic");
         }
-        if(e.getSource()==back){
-            cardLayout.show(panelCont, "Painel1"); //acção teste
+        else if(e.getSource()==back){
+            if(painelAtual == musicoMeusAlbuns){
+                cardLayout.show(panelCont, "MainMusic");
+                setPainelAtual(mainMusic);          //atualiza o painel atual
+
+            }
+            else if(painelAtual == painel1){
+                cardLayout.show(panelCont, "MeusAlbuns");
+                setPainelAtual(musicoMeusAlbuns);   //atualiza o painel atual
+
+            }
+            //cardLayout.show(panelCont, "Painel1"); //acção teste
         }
+
     }
+
+    /**
+     * Métodos show, são compostos por um setPainelAtual para atualizar o painel, e por um show do cardLayout para mostrar o painel.
+     */
     public void showMainMusic(){
+        setPainelAtual(mainMusic);
         cardLayout.show(panelCont, "MainMusic");
     }
     public void showPainel1(){
+        setPainelAtual(painel1);
         cardLayout.show(panelCont, "Painel1");
     }
     public void showMusicoMeusAlbuns(){
+        setPainelAtual(musicoMeusAlbuns);     //atualiza o painel atual
         cardLayout.show(panelCont, "MeusAlbuns");
+    }
+
+    /**
+     * Serve para atualizar o painel com o painel desejado com argumento
+     * @param painelAtual
+     */
+    public void setPainelAtual(JPanel painelAtual) {
+        this.painelAtual = painelAtual;
     }
 
     public static void main(String[] args) {

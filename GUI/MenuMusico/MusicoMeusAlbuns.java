@@ -8,8 +8,8 @@ import javax.swing.*;
 public class MusicoMeusAlbuns extends JPanel implements ActionListener {
     private FrameMusic frameMusic;
     private JTable tabela;
-    private JButton botao1;
-    private JButton botao2;
+    private JButton ver;
+    private JButton criar;
     private JButton botao3;
     private JTextField pesquisa;
 
@@ -53,11 +53,13 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         painelEast.setPreferredSize(new Dimension(100, 0));
 
         //Criar elementos Painel Central
-        botao1 = new JButton("Ver");
-        botao2 = new JButton("Criar");
+        ver = new JButton("Ver");
+        ver.addActionListener(this);    //adicionar o botão ao actionListener
+        criar = new JButton("Criar");
+        criar.addActionListener(this);  //adicionar o botão ao actionListener
         //Add elementos ao Painel Central
-        painelEast.add(botao1).setBounds(0,0,300,40);
-        painelEast.add(botao2).setBounds(botao1.getX(),botao1.getY()+botao1.getHeight()+10,300,40);
+        painelEast.add(ver).setBounds(0,0,300,40);
+        painelEast.add(criar).setBounds(ver.getX(), ver.getY()+ ver.getHeight()+10,300,40);
 
         ////////////////////////////////////////PAINEL WEST////////////////////////////////////////////////////////
         JPanel painelWest = new JPanel();
@@ -85,7 +87,9 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == ver) {
+            frameMusic.showPainel1();
+        }
     }
 }
 
