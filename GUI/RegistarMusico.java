@@ -22,12 +22,12 @@ public class RegistarMusico {
 
         createMusicianPanel = new JPanel();
         createMusicianPanel.setLayout(null);
-        createMusicianPanel.setBackground(new Color(124, 98, 171));
+        createMusicianPanel.setBackground(new Color(77, 24, 28));
 
         // titulo principal do painel
         tittleLabel = new JLabel();
         tittleLabel.setText("Criar uma conta");
-        tittleLabel.setForeground(Color.BLACK);
+        tittleLabel.setForeground(new Color(229, 141, 46));
         tittleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         tittleLabel.setBounds(138, 30, 223, 40);
 
@@ -49,21 +49,21 @@ public class RegistarMusico {
         // label do Username
         usernameLabel = new JLabel();
         usernameLabel.setText("Username");
-        usernameLabel.setForeground(Color.black);
+        usernameLabel.setForeground(new Color(229, 141, 46));
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 13));
         usernameLabel.setBounds(usernameField.getX() - 80, usernameField.getY(), 70, 28);
 
         //label da passaword
         passwordLabel = new JLabel();
         passwordLabel.setText("Password");
-        passwordLabel.setForeground(Color.black);
+        passwordLabel.setForeground(new Color(229, 141, 46));
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 13));
         passwordLabel.setBounds(passwordField.getX() - 80, passwordField.getY(), 70, 28);
 
         //label do pin
         pinLabel = new JLabel();
         pinLabel.setText("Pin");
-        pinLabel.setForeground(Color.black);
+        pinLabel.setForeground(new Color(229, 141, 46));
         pinLabel.setFont(new Font("Arial", Font.BOLD, 13));
         pinLabel.setBounds(pinField.getX() - 40, pinField.getY(), 40, 28);
 

@@ -32,19 +32,19 @@ public class LogInCliente{
 
         logInPanel = new JPanel();
         logInPanel.setLayout(null);
-        logInPanel.setBackground(new Color(124, 98, 171));
+        logInPanel.setBackground(new Color(77, 24, 28));
 
         // titulo principal do painel
         title = new JLabel();
         title.setText("RockStar.Inc");
-        title.setForeground(Color.BLACK);
+        title.setForeground(new Color(229, 141, 46));
         title.setFont(new Font("Arial", Font.BOLD, 36));
         title.setBounds(138, 50, 223, 40);
 
         //subtitulo do painel, contem slogan
         subtitle = new JLabel();
         subtitle.setText("Ready to Rock your world!");
-        subtitle.setForeground(Color.black);
+        subtitle.setForeground(new Color(229, 141, 46));
         subtitle.setFont(new Font("Arial", Font.BOLD, 24));
         subtitle.setBounds(title.getX() - 43, title.getY() + 40, 310, 30);
 
@@ -61,14 +61,14 @@ public class LogInCliente{
         // label do Username
         usernameLabel = new JLabel();
         usernameLabel.setText("Username");
-        usernameLabel.setForeground(Color.black);
+        usernameLabel.setForeground(new Color(229, 141, 46));
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 13));
         usernameLabel.setBounds(usernameField.getX() - 80, usernameField.getY(), 70, 28);
 
         //label da passaword
         passwordLabel = new JLabel();
         passwordLabel.setText("Password");
-        passwordLabel.setForeground(Color.black);
+        passwordLabel.setForeground(new Color(229, 141, 46));
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 13));
         passwordLabel.setBounds(passwordField.getX() - 80, passwordField.getY(), 70, 28);
 

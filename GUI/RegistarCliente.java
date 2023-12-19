@@ -20,13 +20,13 @@ public class RegistarCliente {
 
         createClientPanel = new JPanel();
         createClientPanel.setLayout(null);
-        createClientPanel.setBackground(new Color(124, 98, 171));
+        createClientPanel.setBackground(new Color(77, 24, 28));
 
         tittleLabel = new JLabel();
         tittleLabel.setText("Criar uma conta");
         tittleLabel.setBounds(138, 50, 223, 40);
         tittleLabel.setFont(new Font("Arial", Font.BOLD, 28));
-        tittleLabel.setForeground(Color.black);
+        tittleLabel.setForeground(new Color(229, 141, 46));
 
         // caixa de texto para o username
         usernameField = new JTextField();
@@ -41,14 +41,14 @@ public class RegistarCliente {
         // label do Username
         usernameLabel = new JLabel();
         usernameLabel.setText("Username");
-        usernameLabel.setForeground(Color.black);
+        usernameLabel.setForeground(new Color(229, 141, 46));
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 13));
         usernameLabel.setBounds(usernameField.getX() - 80, usernameField.getY(), 70, 28);
 
         //label da passaword
         passwordLabel = new JLabel();
         passwordLabel.setText("Password");
-        passwordLabel.setForeground(Color.black);
+        passwordLabel.setForeground(new Color(229, 141, 46));
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 13));
         passwordLabel.setBounds(passwordField.getX() - 80, passwordField.getY(), 70, 28);
 

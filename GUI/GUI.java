@@ -35,9 +35,10 @@ public class GUI implements ActionListener {
         //Texto da plataforma RockStar
         labelWelcomeText = new JLabel();
         labelWelcomeText.setText("RockStar.Inc");
-        labelWelcomeText.setForeground(Color.BLACK);
-        labelWelcomeText.setBorder(new LineBorder(Color.BLACK));
+        labelWelcomeText.setForeground(new Color(229, 141, 46));
+        labelWelcomeText.setBorder(new LineBorder(new Color(229, 141, 46)));
         labelWelcomeText.setFont(new Font("Arial", Font.BOLD, 36));
+
         labelWelcomeText.setBounds(138, 80, 223, 40);
 
         // Botão de log in
@@ -82,8 +83,8 @@ public class GUI implements ActionListener {
         radioButtonClient.setBounds(160, 280, 77, 30);
         radioButtonClient.setText("Cliente");
         radioButtonClient.setFont(new Font("Arial", Font.BOLD, 15));
-        radioButtonClient.setForeground(Color.black);
-        radioButtonClient.setBackground(new Color(124, 98, 171));
+        radioButtonClient.setForeground(new Color(229, 141, 46));
+        radioButtonClient.setBackground(new Color(77, 24, 28));
         radioButtonClient.setFocusable(false);
         radioButtonClient.addActionListener(this);
 
@@ -92,8 +93,8 @@ public class GUI implements ActionListener {
         radioButtonMusician.setBounds(260, 280, 77, 30);
         radioButtonMusician.setText("Músico");
         radioButtonMusician.setFont(new Font("Arial", Font.BOLD, 15));
-        radioButtonMusician.setForeground(Color.black);
-        radioButtonMusician.setBackground(new Color(124, 98, 171));
+        radioButtonMusician.setForeground(new Color(229, 141, 46));
+        radioButtonMusician.setBackground(new Color(77, 24, 28));
         radioButtonMusician.setFocusable(false);
 
         userGroup.add(radioButtonClient);
@@ -102,7 +103,7 @@ public class GUI implements ActionListener {
         //Criação do painel e adição dos diferentes componentes
         panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(new Color(124, 98, 171));
+        panel.setBackground(new Color(77, 24, 28));
         panel.add(labelWelcomeText);
         panel.add(logInButton);
         panel.add(createAccButton);
