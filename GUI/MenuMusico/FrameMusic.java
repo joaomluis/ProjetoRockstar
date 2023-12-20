@@ -67,9 +67,12 @@ public class FrameMusic extends JFrame implements ActionListener {
         // Adicione o painel de botões ao frame
         add(northPanel, BorderLayout.NORTH);
 
-        showMainMusic();
+        northPanel.setBackground(new Color(124, 98, 171));
+
+        showMainMusic(); //apresentar o 1º painel
 
         setVisible(true); // Torna o frame visível
+
     }
 
 
@@ -77,6 +80,7 @@ public class FrameMusic extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==home){
             cardLayout.show(panelCont, "MainMusic");
+            setPainelAtual(mainMusic);
         }
         else if(e.getSource()==back){
             if(painelAtual == musicoMeusAlbuns){
@@ -91,7 +95,6 @@ public class FrameMusic extends JFrame implements ActionListener {
             }
             //cardLayout.show(panelCont, "Painel1"); //acção teste
         }
-
     }
 
     /**
