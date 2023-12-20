@@ -1,5 +1,7 @@
 package GUI.MenuCliente;
 
+import GUI.GUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,14 +33,6 @@ public class MenuInicial extends JPanel implements ActionListener {
         tittle.setFont(new Font("Arial", Font.BOLD, 33));
         tittle.setBounds(110, 55, 400, 40);
 
-
-        //Botão para aceder à loja
-        store = new JButton();
-        store.setFocusable(false);
-        store.setBounds(610, 15, 58, 25);
-        store.setText("Loja");
-        store.setFont(new Font("Arial", Font.BOLD, 10));
-        store.setForeground(Color.black);
 
         //botão para aceder ao menu das músicas do cliente
         myMusic = new JButton();
@@ -80,6 +74,15 @@ public class MenuInicial extends JPanel implements ActionListener {
         logOut.setFont(new Font("Arial", Font.BOLD, 15));
         logOut.setText("Log out");
         logOut.setFocusable(false);
+        logOut.addActionListener(this);
+
+        //Botão para aceder à loja
+        store = new JButton();
+        store.setFocusable(false);
+        store.setBounds(logOut.getX(), logOut.getY() + 50, 280, 35);
+        store.setText("Loja");
+        store.setFont(new Font("Arial", Font.BOLD, 15));
+        store.setForeground(Color.black);
 
         add(tittle);
         add(store);
@@ -95,6 +98,10 @@ public class MenuInicial extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == myMusic) {
             frameCliente.showMyMusicPanel();
+        }
+        if (e.getSource()== logOut) {
+            frameCliente.dispose();
+            GUI gui = new GUI();
         }
     }
 }

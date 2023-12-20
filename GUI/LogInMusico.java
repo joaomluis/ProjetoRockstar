@@ -1,6 +1,7 @@
 package GUI;
 import BackEnd.Musico;
 import BackEnd.User;
+import GUI.MenuMusico.FrameMusic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +28,7 @@ public class LogInMusico {
         musicos = new Musico[] {
                 new Musico("musico1", "password1", "1"),
                 new Musico("musico2", "password2", "2"),
-                new Musico("musico3", "password3", "3")
+                new Musico("3", "3", "3")
         };
 
         logInPanel = new JPanel();
@@ -101,7 +102,9 @@ public class LogInMusico {
                 if (validateCredentials(username, password, pin)) {
                     // Credenciais válidas
                     JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
-                    // Realizar ação após o login ser bem-sucedido
+                    frame.dispose();
+                    FrameMusic frameMusic = new FrameMusic();
+
                 } else {
                     // Credenciais inválidas
                     JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder

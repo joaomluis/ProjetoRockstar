@@ -10,11 +10,10 @@ import java.awt.event.ActionListener;
 public class MyMusic extends JPanel implements ActionListener {
 
     private FrameCliente frameCliente;
-    private JList<Musica> musicList;
+    private JTable musicList;
     private JButton returnButton;
     private JButton removeMusic;
     private JButton rateMusic;
-    private JLabel username;
     private JLabel panelTittle;
 
     public MyMusic(FrameCliente frameCliente) {
