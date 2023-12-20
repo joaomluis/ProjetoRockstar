@@ -62,7 +62,7 @@ public class GUI implements ActionListener {
         //Botão de criar nova conta
         createAccButton = new JButton();
         createAccButton.setBounds(285, 200, 115, 32);
-        createAccButton.setText("Criar Conta");
+        createAccButton.setText("Registar");
         createAccButton.setFocusable(false);
         createAccButton.setFont(new Font("Arial", Font.BOLD, 15));
         createAccButton.setForeground(Color.black);
@@ -90,7 +90,7 @@ public class GUI implements ActionListener {
 
         //Botão seleção interface Musico
         radioButtonMusician = new JRadioButton();
-        radioButtonMusician.setBounds(260, 280, 77, 30);
+        radioButtonMusician.setBounds(260, 280, 82, 30);
         radioButtonMusician.setText("Músico");
         radioButtonMusician.setFont(new Font("Arial", Font.BOLD, 15));
         radioButtonMusician.setForeground(new Color(229, 141, 46));

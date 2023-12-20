@@ -43,6 +43,10 @@ public class FrameCliente extends JFrame {
         menuInicial.mainPanel();
         setContentPane(menuInicial);
     }
+    protected void showMyMusicPanel() {
+        MyMusic myMusic1 = new MyMusic();
+        myMusic1.myMusicPanel(this);
+    }
 
     public static void main(String[] args) {
 
