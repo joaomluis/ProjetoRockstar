@@ -1,6 +1,10 @@
 package GUI.MenuMusico;
 
 import BackEnd.Musica;
+import GUI.MenuMusico.PopUps.AdicionarMusica;
+import GUI.MenuMusico.PopUps.AlterarDisponibilidade;
+import GUI.MenuMusico.PopUps.AlterarNome;
+import GUI.MenuMusico.PopUps.AlterarPreco;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,15 +12,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class MusicoMusicas extends JPanel implements ActionListener {
+    private JButton editarDisponibilidade;
+    private JButton editarPreco;
     private DefaultTableModel tabelaDefault;
     private FrameMusic frameMusic;
     private JTable tabela;
-    private JButton editar;
+    private JButton editarNome;
     private JButton adicionar;
     private ArrayList<Musica> musicas;
     private int sortByNameOrder = 1;
@@ -85,21 +90,27 @@ public class MusicoMusicas extends JPanel implements ActionListener {
 
         //Criar elementos Painel EAST
 
-        editar = new JButton("Editar");
-        editar.addActionListener(this);    //adicionar o botão ao actionListener
-        painelEast.add(editar).setBounds(0,0,300,40);
-
+        editarNome = new JButton("Editar nome");
+        editarPreco = new JButton("Editar preço");
+        editarDisponibilidade = new JButton("Editar disponibilidade");
         adicionar = new JButton("Adicionar");
+
+        editarNome.addActionListener(this);    //adicionar o botão ao actionListener
+        editarPreco.addActionListener(this);    //adicionar o botão ao actionListener
+        editarDisponibilidade.addActionListener(this);    //adicionar o botão ao actionListener
         adicionar.addActionListener(this);  //adicionar o botão ao actionListener
-        //Add elementos ao Painel Central
-        painelEast.add(adicionar).setBounds(0,0,300,40);
+
+        //Add ao painel
+        painelEast.add(editarNome);
+        painelEast.add(editarPreco);
+        painelEast.add(editarDisponibilidade);
+        painelEast.add(adicionar);
 
         painelEast.setBackground(new Color(124, 98, 171));
 
         ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
         Container contentPane = frameMusic.getContentPane();
         contentPane.setLayout(new BorderLayout());
-
 
         add(painelSuperior, BorderLayout.NORTH);
         add(painelEast, BorderLayout.EAST);
@@ -133,23 +144,27 @@ public class MusicoMusicas extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == editar){
+        if (e.getSource() == editarNome) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow != -1 || selectedRow == -1) {
-                frameMusic.showMusicoEditar();
-            }
-            else {
-                JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
-            }
-        }
-        else if(e.getSource() == adicionar){
-            JOptionPane.showMessageDialog(MusicoMusicas.this, "Botão 'Criar' pressionado.");
-        }
-    }
+            if (selectedRow == -1) new AlterarNome(frameMusic); //alterar para (selectedRow != -1) para funcionar corretamente
+            else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
 
-    public static void main(String[] args) {
+        } else if (e.getSource() == adicionar) {
+            new AdicionarMusica(frameMusic);
 
+        } else if (e.getSource() == editarPreco) {
+            // Lógica para exibir detalhes da música selecionada
+            int selectedRow = tabela.getSelectedRow();
+            if (selectedRow == -1) new AlterarPreco(frameMusic);
+            else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+
+        } else if (e.getSource() == editarDisponibilidade) {
+            // Lógica para exibir detalhes da música selecionada
+            int selectedRow = tabela.getSelectedRow();
+            if (selectedRow == -1) new AlterarDisponibilidade(frameMusic);
+            else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+        }
     }
 }
 

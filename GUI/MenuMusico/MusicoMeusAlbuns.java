@@ -1,5 +1,7 @@
 package GUI.MenuMusico;
 
+import GUI.MenuMusico.PopUps.CriarAlbum;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -144,7 +146,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
             }
         }
         else if(e.getSource() == criar){
-            JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Botão 'Criar' pressionado.");
+            new CriarAlbum(frameMusic);
         }
     }
 }

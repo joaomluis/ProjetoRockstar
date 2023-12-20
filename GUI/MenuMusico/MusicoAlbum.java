@@ -1,6 +1,7 @@
 package GUI.MenuMusico;
 
 import BackEnd.Musica;
+import GUI.MenuMusico.PopUps.AdicionarMusica;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -128,7 +129,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == adicionar){
-            JOptionPane.showMessageDialog(MusicoAlbum.this, "Botão 'Adicionar' pressionado.");
+            new AdicionarMusica(frameMusic);
         }
     }
 }

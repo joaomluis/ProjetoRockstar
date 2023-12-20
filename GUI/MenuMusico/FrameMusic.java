@@ -115,7 +115,6 @@ public class FrameMusic extends JFrame implements ActionListener {
                 cardLayout.show(panelCont, "MusicoMusicas");
                 setPainelAtual(musicoMusicas);   //atualiza o painel atual
             }
-
         }
     }
 
