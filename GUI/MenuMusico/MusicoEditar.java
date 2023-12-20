@@ -5,17 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MainMusic extends JPanel implements ActionListener {
-    private JButton musicas;
-    private JButton meusAlbuns;
+public class MusicoEditar extends JPanel implements ActionListener {
+    private JButton alterarNome;
+    private JButton alterarPreco;
     private FrameMusic frameMusic;
     private JButton botaoPesquisa;
     private JPanel painelSuperior;
     private JPanel painelCentral;
-    private JButton estatistica;
+    private JButton alterarDisponibilidade;
     private JTextField pesquisa;
 
-    public MainMusic(FrameMusic frameMusic) {
+    public MusicoEditar(FrameMusic frameMusic) {
         this.frameMusic = frameMusic;
         setLayout(new BorderLayout());
         setBackground(new Color(124, 98, 171));
@@ -26,16 +26,16 @@ public class MainMusic extends JPanel implements ActionListener {
         painelCentral.setLayout(null);
 
         //Criar elementos Painel Central
-        meusAlbuns = new JButton("Meus Albuns");
-        musicas = new JButton("Musicas");
-        estatistica = new JButton("Estatistica");
+        alterarPreco = new JButton("Alterar preço");
+        alterarNome = new JButton("Alterar nome");
+        alterarDisponibilidade = new JButton("Alterar disponibilidade");
         //Add elementos ao Painel Central
-        painelCentral.add(meusAlbuns).setBounds(250,100,300,40);
-        meusAlbuns.addActionListener(this);
-        painelCentral.add(musicas).setBounds(meusAlbuns.getX(), meusAlbuns.getY()+ meusAlbuns.getHeight()+10,300,40);
-        musicas.addActionListener(this);
-        painelCentral.add(estatistica).setBounds(musicas.getX(), musicas.getY()+ musicas.getHeight()+150,300,40);
-        estatistica.addActionListener(this);
+        painelCentral.add(alterarPreco).setBounds(250,100,300,40);
+        alterarPreco.addActionListener(this);
+        painelCentral.add(alterarNome).setBounds(alterarPreco.getX(), alterarPreco.getY()+ alterarPreco.getHeight()+10,300,40);
+        alterarNome.addActionListener(this);
+        painelCentral.add(alterarDisponibilidade).setBounds(alterarNome.getX(), alterarNome.getY()+ alterarNome.getHeight()+10,300,40);
+        alterarDisponibilidade.addActionListener(this);
 
         painelCentral.setBackground(new Color(124, 98, 171));
 
@@ -46,14 +46,11 @@ public class MainMusic extends JPanel implements ActionListener {
         painelSuperior.setBackground(new Color(124, 98, 171));
         painelSuperior.setPreferredSize(new Dimension(0, 40)); //Altura do painel Superior
         painelSuperior.setLayout(null);
-
         //Criar elementos Painel superior
-        pesquisa = new JTextField();
-        botaoPesquisa = new JButton("\uD83D\uDD0D"); //"Símbolo de Lupa" e tem o código Unicode U+1F50D
+        JLabel titulo = new JLabel("Editar Musica");  //Subsituir o Nome do usuario
         //Add elementos ao Painel superior
-        painelSuperior.add(pesquisa).setBounds(250,0,300,40); // Adiciona a barra de pesquisa ao painel superior
-        painelSuperior.add(botaoPesquisa).setBounds(pesquisa.getX()+pesquisa.getWidth()+10,pesquisa.getY(),30,pesquisa.getHeight());
-//
+        painelSuperior.add(titulo).setBounds(380,0,120,20);
+
 //        ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
         Container contentPane = frameMusic.getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -70,13 +67,15 @@ public class MainMusic extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == meusAlbuns) {
-            frameMusic.showMusicoMeusAlbuns();
+        if (e.getSource() == alterarPreco) {
+            JOptionPane.showMessageDialog(MusicoEditar.this, "Botão 'Alterar Preço' pressionado.");
         }
-        else if (e.getSource() == musicas) {
-            frameMusic.showMusicoMusicas();
+        else if (e.getSource() == alterarNome) {
+            JOptionPane.showMessageDialog(MusicoEditar.this, "Botão 'Alterar Nome' pressionado.");
         }
-        else if (e.getSource() == estatistica) {
+        else if (e.getSource() == alterarDisponibilidade) {
+            JOptionPane.showMessageDialog(MusicoEditar.this, "Botão 'Alterar disponibilidade' pressionado.");
+
         }
     }
 

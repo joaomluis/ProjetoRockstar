@@ -1,5 +1,7 @@
 package GUI.MenuMusico;
 
+import BackEnd.Musica;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,20 +12,19 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class MusicoMeusAlbuns extends JPanel implements ActionListener {
+public class MusicoAlbum extends JPanel implements ActionListener {
     private DefaultTableModel tabelaDefault;
     private FrameMusic frameMusic;
     private JTable tabela;
-    private JButton ver;
-    private JButton criar;
-    private ArrayList<Album> albuns;
+    private JButton adicionar;
+    private ArrayList<Musica> musicas;
     private int sortByNameOrder = 1;
 
 
-    public MusicoMeusAlbuns(FrameMusic frameMusic) {
+    public MusicoAlbum(FrameMusic frameMusic) {
         this.frameMusic = frameMusic;
         setLayout(new BorderLayout());
-        this.albuns = new ArrayList<>();
+        this.musicas = new ArrayList<>(); //ler o ficheiro
 
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
         JPanel painelSuperior = new JPanel(); // Inicializa o painel superior
@@ -32,7 +33,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
-        JLabel titulo = new JLabel("Meus Albuns");  //Subsituir o Nome do usuario
+        JLabel titulo = new JLabel("Album");  //Subsituir o Nome do usuario
         //Add elementos ao Painel superior
         painelSuperior.add(titulo).setBounds(380,0,120,20);
         ////////////////////////////////////////PAINEL CENTRAL////////////////////////////////////////////////////////
@@ -45,13 +46,14 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         };
 
         // Define as colunas da tabela
-        tabelaDefault.addColumn("Nome");
-        tabelaDefault.addColumn("Gênero");
-        tabelaDefault.addColumn("Produtor");
+        tabelaDefault.addColumn("Titulo");
+        tabelaDefault.addColumn("Artista");
+        tabelaDefault.addColumn("Preço");
+
 
         // Adiciona as músicas ao modelo de tabela
-        for (Album album : albuns) {
-            Object[] musicaObjeto = {album.getNome(), album.getGenero(), album.getProdutor()};
+        for (Musica musica : musicas) {
+            Object[] musicaObjeto = {musica.getTittle(), musica.getArtist()}; //falta preço
             tabelaDefault.addRow(musicaObjeto);
         }
 
@@ -81,13 +83,10 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         painelEast.setPreferredSize(new Dimension(100, 0));
 
         //Criar elementos Painel EAST
-        ver = new JButton("Ver");
-        ver.addActionListener(this);    //adicionar o botão ao actionListener
-        criar = new JButton("Criar");
-        criar.addActionListener(this);  //adicionar o botão ao actionListener
+        adicionar = new JButton("Adicionar");
+        adicionar.addActionListener(this);  //adicionar o botão ao actionListener
         //Add elementos ao Painel Central
-        painelEast.add(ver).setBounds(0,0,300,40);
-        painelEast.add(criar).setBounds(ver.getX(), ver.getY()+ ver.getHeight()+10,300,40);
+        painelEast.add(adicionar).setBounds(0,0,300,40);
 
         painelEast.setBackground(new Color(124, 98, 171));
 
@@ -107,10 +106,10 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         setVisible(true);
     }
     private void ordenarNome() {
-        Collections.sort(albuns, new Comparator<Album>() {
+        Collections.sort(musicas, new Comparator<Musica>() {
             @Override
-            public int compare(Album album1, Album album2) {
-                int result = album1.getNome().compareTo(album2.getNome());
+            public int compare(Musica musica1, Musica musica2) {
+                int result = musica1.getTittle().compareTo(musica2.getTittle());
                 return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
             }
         });
@@ -120,31 +119,16 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         tabelaDefault.setRowCount(0);
 
         // Adiciona as músicas ordenadas ao modelo de tabela
-        for (Album album : albuns) {
-            Object[] rowData = {album.getNome(), album.getGenero(), album.getProdutor()};
+        for (Musica musica : musicas) {
+            Object[] rowData = {musica.getTittle(), musica.getArtist()};
             tabelaDefault.addRow(rowData);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == ver){
-            // Lógica para exibir detalhes da música selecionada
-            int selectedRow = tabela.getSelectedRow();
-            if (selectedRow != -1) {
-                String nome = (String) tabela.getValueAt(selectedRow, 0);
-                String genero = (String) tabela.getValueAt(selectedRow, 1);
-                String produtor = (String) tabela.getValueAt(selectedRow, 2);
-                //JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Detalhes do Album:\nNome: " + nome + "\nGênero: " + genero + "\nProdutor: " + produtor);
-
-                frameMusic.showMusicoAlbum();
-            }
-            else {
-                JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Nenhum album selecionado.");
-            }
-        }
-        else if(e.getSource() == criar){
-            JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Botão 'Criar' pressionado.");
+        if(e.getSource() == adicionar){
+            JOptionPane.showMessageDialog(MusicoAlbum.this, "Botão 'Adicionar' pressionado.");
         }
     }
 }
