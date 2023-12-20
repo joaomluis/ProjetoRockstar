@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class MenuInicial extends JPanel implements ActionListener {
 
@@ -16,9 +15,11 @@ public class MenuInicial extends JPanel implements ActionListener {
     private JButton store;
     private JLabel tittle;
     private JLabel usernameLabel;
+    private FrameCliente frameCliente;
 
-    protected void mainPanel() {
+    protected MenuInicial(FrameCliente frameCliente) {
 
+        this.frameCliente = frameCliente;
 
         setLayout(null);
         setBackground(new Color(20,64,88));
@@ -46,11 +47,7 @@ public class MenuInicial extends JPanel implements ActionListener {
         myMusic.setFont(new Font("Arial", Font.BOLD, 15));
         myMusic.setText("Minhas músicas");
         myMusic.setFocusable(false);
-        myMusic.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
+        myMusic.addActionListener(this);
 
         //botão para aceder ao menu das playlists do cliente
         myPlaylists = new JButton();
@@ -96,6 +93,8 @@ public class MenuInicial extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == myMusic) {
+            frameCliente.showMyMusicPanel();
+        }
     }
 }

@@ -4,9 +4,12 @@ import BackEnd.Musica;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyMusic extends JPanel {
+public class MyMusic extends JPanel implements ActionListener {
 
+    private FrameCliente frameCliente;
     private JList<Musica> musicList;
     private JButton returnButton;
     private JButton removeMusic;
@@ -14,15 +17,17 @@ public class MyMusic extends JPanel {
     private JLabel username;
     private JLabel panelTittle;
 
-    protected void myMusicPanel(JFrame frame) {
+    public MyMusic(FrameCliente frameCliente) {
+
+        this.frameCliente = frameCliente;
 
         setLayout(null);
-        setBackground(new Color(20,64,88));
+        setBackground(new Color(20, 64, 88));
 
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(this);
-        frame.revalidate();
-        frame.repaint();
     }
-    
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }

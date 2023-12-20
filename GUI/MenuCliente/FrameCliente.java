@@ -7,6 +7,13 @@ public class FrameCliente extends JFrame {
 
     private JButton homeButton;
     private JPanel homeButtonPanel;
+    private JPanel panelContainer;
+    private CardLayout cardLayout;
+    private MenuInicial menuInicial;
+    private MyMusic myMusic;
+    private JPanel currentPanel;
+    
+
     public void interfaceClient() {
 
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
@@ -16,7 +23,6 @@ public class FrameCliente extends JFrame {
         setSize(700, 550);
         setTitle("RockStar.Inc - Client");
         setIconImage(logoRockStar.getImage());
-        setLayout(null);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -30,22 +36,30 @@ public class FrameCliente extends JFrame {
         homeButtonPanel.setBounds(0, 0, 50, 50);
         homeButtonPanel.add(homeButton);
 
+        panelContainer = new JPanel();
+        cardLayout = new CardLayout();
+        panelContainer.setLayout(cardLayout);
 
-        addPanelToFrame();
+        menuInicial = new MenuInicial(this);
+        myMusic = new MyMusic(this);
+
+
+        panelContainer.add(menuInicial, "Menu Inicial");
+        panelContainer.add(myMusic, "MyMusic");
+
         add(homeButtonPanel);
+        add(panelContainer);
 
         revalidate();
     }
 
-    //Método que cria uma instancia do painel principal e adiciona ao frame do cliente
-    protected void addPanelToFrame() {
-        MenuInicial menuInicial = new MenuInicial();
-        menuInicial.mainPanel();
-        setContentPane(menuInicial);
-    }
     protected void showMyMusicPanel() {
-        MyMusic myMusic1 = new MyMusic();
-        myMusic1.myMusicPanel(this);
+        setCurrentPanel(myMusic);
+        cardLayout.show(panelContainer, "MyMusic");
+    }
+
+    private void setCurrentPanel(JPanel currentPanel) {
+        this.currentPanel = currentPanel;
     }
 
     public static void main(String[] args) {
