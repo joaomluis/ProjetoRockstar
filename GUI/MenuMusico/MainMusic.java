@@ -37,6 +37,8 @@ public class MainMusic extends JPanel implements ActionListener {
         painelCentral.add(estatistica).setBounds(musicas.getX(), musicas.getY()+ musicas.getHeight()+150,300,40);
         estatistica.addActionListener(this);
 
+        painelCentral.setBackground(new Color(124, 98, 171));
+
         add(painelCentral,BorderLayout.CENTER);
 //
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
@@ -55,10 +57,12 @@ public class MainMusic extends JPanel implements ActionListener {
 //        ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
         Container contentPane = frameMusic.getContentPane();
         contentPane.setLayout(new BorderLayout());
-
         contentPane.setBackground(new Color(124, 98, 171));
+
+
         add(painelCentral, BorderLayout.CENTER);
         add(painelSuperior, BorderLayout.NORTH);
+
         //instrução da localização no layout
         setVisible(true);
     }
