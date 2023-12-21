@@ -15,9 +15,12 @@ public class FrameCliente extends JFrame implements ActionListener {
     private JPanel homeButtonPanel;
     private JPanel panelContainer;
     private CardLayout cardLayout;
-    private MenuInicial menuInicial;
+    private MainMenu menuInicial;
     private MyMusic myMusic;
     private MyPlaylists myPlaylists;
+    private PurchaseHistory purchaseHistory;
+    private Store myStore;
+    private ShoppingCart shoppingCart;
     private JPanel currentPanel;
 
 
@@ -41,14 +44,21 @@ public class FrameCliente extends JFrame implements ActionListener {
         panelContainer.setLayout(cardLayout);
 
         //Inicialização dos vários paineis
-        menuInicial = new MenuInicial(this);
+        menuInicial = new MainMenu(this);
         myMusic = new MyMusic(this);
         myPlaylists = new MyPlaylists(this);
+        purchaseHistory = new PurchaseHistory(this);
+        myStore = new Store(this);
+        shoppingCart = new ShoppingCart(this);
+
 
         //Junção dos paines ao card layout
         panelContainer.add(menuInicial, "Menu Inicial");
         panelContainer.add(myMusic, "MyMusic");
         panelContainer.add(myPlaylists, "MyPlaylists");
+        panelContainer.add(purchaseHistory, "Purchase History");
+        panelContainer.add(myStore, "Store");
+        panelContainer.add(shoppingCart, "Cart");
 
         //Painel que fica no topo com os botões
         homeButtonPanel = new JPanel();
@@ -59,21 +69,24 @@ public class FrameCliente extends JFrame implements ActionListener {
         //Botão retroceder
         backButton = new JButton();
         backButton.setBounds(10, 5, 60,25);
-        backButton.setText("<-");
+        backButton.setText("←");
+        backButton.setFont(new Font("Arial", Font.BOLD, 26));
         backButton.setFocusable(false);
 
         //Botão home
         homeButton = new JButton();
         homeButton.setBounds(backButton.getX() + 70, backButton.getY(), 60, 25);
-        homeButton.setText("Home");
+        homeButton.setText("⌂");
+        homeButton.setFont(new Font("Arial", Font.BOLD, 26));
         homeButton.setFocusable(false);
         homeButton.addActionListener(this);
 
         //Botão carrinho de compras
         cartButton = new JButton();
         cartButton.setBounds(620, 5, 60, 25);
-        cartButton.setText("Carrinho");
+        cartButton.setText("\uD83D\uDED2");
         cartButton.setFocusable(false);
+        cartButton.addActionListener(this);
 
         //Label saldo
         balance = new JLabel();
@@ -116,6 +129,19 @@ public class FrameCliente extends JFrame implements ActionListener {
         cardLayout.show(panelContainer, "MyPlaylists");
     }
 
+    protected void showPurchaseHistory() {
+        setCurrentPanel(purchaseHistory);
+        cardLayout.show(panelContainer, "Purchase History");
+    }
+    protected void showStore() {
+        setCurrentPanel(myStore);
+        cardLayout.show(panelContainer, "Store");
+    }
+    protected void showShoppingCart() {
+        setCurrentPanel(shoppingCart);
+        cardLayout.show(panelContainer, "Cart");
+    }
+
     private void setCurrentPanel(JPanel currentPanel) {
         this.currentPanel = currentPanel;
     }
@@ -125,6 +151,10 @@ public class FrameCliente extends JFrame implements ActionListener {
         if (e.getSource() == homeButton) {
             cardLayout.show(panelContainer, "Menu Inicial");
             setCurrentPanel(menuInicial);
+        }
+        if (e.getSource() == cartButton) {
+            cardLayout.show(panelContainer, "Cart");
+            setCurrentPanel(shoppingCart);
         }
     }
 

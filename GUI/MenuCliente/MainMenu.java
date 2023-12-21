@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuInicial extends JPanel implements ActionListener {
+public class MainMenu extends JPanel implements ActionListener {
 
     private JButton myMusic;
     private JButton myPlaylists;
@@ -19,7 +19,7 @@ public class MenuInicial extends JPanel implements ActionListener {
     private JLabel usernameLabel;
     private FrameCliente frameCliente;
 
-    protected MenuInicial(FrameCliente frameCliente) {
+    protected MainMenu(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
 
@@ -67,6 +67,7 @@ public class MenuInicial extends JPanel implements ActionListener {
         purchaseHistory.setFont(new Font("Arial", Font.BOLD, 15));
         purchaseHistory.setText("Histórico de compras");
         purchaseHistory.setFocusable(false);
+        purchaseHistory.addActionListener(this);
 
         //Botão para aceder à loja
         store = new JButton();
@@ -75,6 +76,7 @@ public class MenuInicial extends JPanel implements ActionListener {
         store.setText("Loja");
         store.setFont(new Font("Arial", Font.BOLD, 15));
         store.setForeground(Color.black);
+        store.addActionListener(this);
 
         //botão para fazer log out
         logOut = new JButton();
@@ -102,6 +104,12 @@ public class MenuInicial extends JPanel implements ActionListener {
         }
         if (e.getSource() == myPlaylists) {
             frameCliente.showMyPlaylistsPanel();
+        }
+        if (e.getSource() == purchaseHistory) {
+            frameCliente.showPurchaseHistory();
+        }
+        if (e.getSource() == store) {
+            frameCliente.showStore();
         }
         if (e.getSource()== logOut) {
             frameCliente.dispose();

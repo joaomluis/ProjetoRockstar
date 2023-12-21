@@ -1,30 +1,27 @@
 package GUI.MenuCliente;
 
-import BackEnd.Musica;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MyPlaylists extends JPanel {
+public class Store extends JPanel {
 
     private FrameCliente frameCliente;
     private JPanel topPanel;
     private JPanel eastPanel;
-    private JTable playlistTable;
+    private JTable storeTable;
     private DefaultTableModel tableModel;
-    private JButton seePlaylist;
-    private JButton createPlaylist;
-    private JButton deletePlaylist;
+    private JButton buySong;
+    private JButton addBalance;
     private JLabel panelTitle;
-    private ArrayList<Musica> musicas; //alterar para playlists
 
-    public MyPlaylists(FrameCliente frameCliente) {
+    public Store (FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
         setLayout(new BorderLayout());
         setBackground(new Color(20, 64, 88));
+
 
         ///////////Painel Superior\\\\\\\\\\\\\\\\\\\\\\\\\\\
         topPanel = new JPanel();
@@ -34,7 +31,7 @@ public class MyPlaylists extends JPanel {
 
         //Titulo do Painel
         panelTitle = new JLabel();
-        panelTitle.setText("Minhas Playlists");
+        panelTitle.setText("Loja");
         panelTitle.setFont(new Font("Arial", Font.BOLD, 22));
         panelTitle.setForeground(new Color(198,107,61));
         panelTitle.setBounds(250, 5, 250, 30);
@@ -52,18 +49,18 @@ public class MyPlaylists extends JPanel {
             }
         };
 
-        tableModel.addColumn("Nome");
+        tableModel.addColumn("Titulo");
         tableModel.addColumn("Artista");
-        tableModel.addColumn("Género");
+        tableModel.addColumn("Preço");
 
-        playlistTable = new JTable(tableModel);
-        playlistTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-        playlistTable.getColumnModel().getColumn(1).setPreferredWidth(200);
-        playlistTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+        storeTable = new JTable(tableModel);
+        storeTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+        storeTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        storeTable.getColumnModel().getColumn(2).setPreferredWidth(200);
         // Impede a movimentação das colunas.
-        playlistTable.getTableHeader().setReorderingAllowed(false);
+        storeTable.getTableHeader().setReorderingAllowed(false);
 
-        JScrollPane scrollPane = new JScrollPane(playlistTable);
+        JScrollPane scrollPane = new JScrollPane(storeTable);
 
         // ADD scroll ao Panel
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
@@ -77,29 +74,21 @@ public class MyPlaylists extends JPanel {
         eastPanel.setPreferredSize(new Dimension(150, 0));
         eastPanel.setLayout(null);
 
-        //botão para criar nova playlist vazia
-        createPlaylist = new JButton();
-        createPlaylist.setText("Criar Playlist");
-        createPlaylist.setBounds(0, 150, 120, 35);
-        createPlaylist.setFocusable(false);
+        //botão para comprar músicas
+        buySong = new JButton();
+        buySong.setText("Comprar");
+        buySong.setBounds(0, 150, 120, 35);
+        buySong.setFocusable(false);
 
-        //botão para abrir playlist selecionada
-        seePlaylist = new JButton();
-        seePlaylist.setText("Ver");
-        seePlaylist.setBounds(0, createPlaylist.getY() + 50, 120, 35);
-        seePlaylist.setFocusable(false);
+        //botão para adicionar saldo
+        addBalance = new JButton();
+        addBalance.setText("Adicionar Saldo");
+        addBalance.setBounds(0, buySong.getY() + 50, 120, 35);
+        addBalance.setFocusable(false);
 
-        //botão para apagar playlist
-        deletePlaylist = new JButton();
-        deletePlaylist.setText("Remover");
-        deletePlaylist.setBounds(0, seePlaylist.getY() + 50, 120, 35);
-        deletePlaylist.setFocusable(false);
-
-        eastPanel.add(createPlaylist);
-        eastPanel.add(seePlaylist);
-        eastPanel.add(deletePlaylist);
+        eastPanel.add(buySong);
+        eastPanel.add(addBalance);
 
         add(eastPanel, BorderLayout.EAST);
     }
-
 }
