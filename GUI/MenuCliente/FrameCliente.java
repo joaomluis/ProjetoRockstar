@@ -17,8 +17,9 @@ public class FrameCliente extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private MenuInicial menuInicial;
     private MyMusic myMusic;
+    private MyPlaylists myPlaylists;
     private JPanel currentPanel;
-    
+
 
     public void interfaceClient() {
 
@@ -27,7 +28,7 @@ public class FrameCliente extends JFrame implements ActionListener {
         //especificações básicas do frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 550);
-        setTitle("RockStar.Inc - Client");
+        setTitle("RockStar.Inc - Cliente");
         setIconImage(logoRockStar.getImage());
         setLocationRelativeTo(null);
         setResizable(false);
@@ -42,10 +43,12 @@ public class FrameCliente extends JFrame implements ActionListener {
         //Inicialização dos vários paineis
         menuInicial = new MenuInicial(this);
         myMusic = new MyMusic(this);
+        myPlaylists = new MyPlaylists(this);
 
         //Junção dos paines ao card layout
         panelContainer.add(menuInicial, "Menu Inicial");
         panelContainer.add(myMusic, "MyMusic");
+        panelContainer.add(myPlaylists, "MyPlaylists");
 
         //Painel que fica no topo com os botões
         homeButtonPanel = new JPanel();
@@ -107,6 +110,10 @@ public class FrameCliente extends JFrame implements ActionListener {
     protected void showMyMusicPanel() {
         setCurrentPanel(myMusic);
         cardLayout.show(panelContainer, "MyMusic");
+    }
+    protected void showMyPlaylistsPanel() {
+        setCurrentPanel(myPlaylists);
+        cardLayout.show(panelContainer, "MyPlaylists");
     }
 
     private void setCurrentPanel(JPanel currentPanel) {

@@ -50,6 +50,7 @@ public class MenuInicial extends JPanel implements ActionListener {
         myPlaylists.setFont(new Font("Arial", Font.BOLD, 15));
         myPlaylists.setText("Minhas playlists");
         myPlaylists.setFocusable(false);
+        myPlaylists.addActionListener(this);
 
         // botão para mostrar pop up que vai gerar playlist
         createPlaylist = new JButton();
@@ -67,22 +68,22 @@ public class MenuInicial extends JPanel implements ActionListener {
         purchaseHistory.setText("Histórico de compras");
         purchaseHistory.setFocusable(false);
 
+        //Botão para aceder à loja
+        store = new JButton();
+        store.setFocusable(false);
+        store.setBounds(purchaseHistory.getX(), purchaseHistory.getY() + 50, 280, 35);
+        store.setText("Loja");
+        store.setFont(new Font("Arial", Font.BOLD, 15));
+        store.setForeground(Color.black);
+
         //botão para fazer log out
         logOut = new JButton();
-        logOut.setBounds(purchaseHistory.getX(), purchaseHistory.getY() + 50, 280, 35);
+        logOut.setBounds(store.getX(), store.getY() + 50, 280, 35);
         logOut.setForeground(Color.black);
         logOut.setFont(new Font("Arial", Font.BOLD, 15));
         logOut.setText("Log out");
         logOut.setFocusable(false);
         logOut.addActionListener(this);
-
-        //Botão para aceder à loja
-        store = new JButton();
-        store.setFocusable(false);
-        store.setBounds(logOut.getX(), logOut.getY() + 50, 280, 35);
-        store.setText("Loja");
-        store.setFont(new Font("Arial", Font.BOLD, 15));
-        store.setForeground(Color.black);
 
         add(tittle);
         add(store);
@@ -98,6 +99,9 @@ public class MenuInicial extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == myMusic) {
             frameCliente.showMyMusicPanel();
+        }
+        if (e.getSource() == myPlaylists) {
+            frameCliente.showMyPlaylistsPanel();
         }
         if (e.getSource()== logOut) {
             frameCliente.dispose();

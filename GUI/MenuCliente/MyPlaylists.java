@@ -1,33 +1,26 @@
 package GUI.MenuCliente;
 
-import BackEnd.Musica;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-public class MyMusic extends JPanel implements ActionListener {
+public class MyPlaylists extends JPanel {
 
     private FrameCliente frameCliente;
     private JPanel topPanel;
     private JPanel eastPanel;
-    private JTable musicTable;
+    private JTable playlistTable;
     private DefaultTableModel tableModel;
-    private JButton removeMusic;
-    private JButton rateMusic;
+    private JButton seePlaylist;
+    private JButton createPlaylist;
+    private JButton deletePlaylist;
     private JLabel panelTitle;
-    private ArrayList<Musica> musicas;
 
-    public MyMusic(FrameCliente frameCliente) {
+    public MyPlaylists(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
         setLayout(new BorderLayout());
         setBackground(new Color(20, 64, 88));
-
-        this.musicas = new ArrayList<>();
 
         ///////////Painel Superior\\\\\\\\\\\\\\\\\\\\\\\\\\\
         topPanel = new JPanel();
@@ -37,7 +30,7 @@ public class MyMusic extends JPanel implements ActionListener {
 
         //Titulo do Painel
         panelTitle = new JLabel();
-        panelTitle.setText("Minhas Músicas");
+        panelTitle.setText("Minhas Playlists");
         panelTitle.setFont(new Font("Arial", Font.BOLD, 22));
         panelTitle.setForeground(new Color(198,107,61));
         panelTitle.setBounds(250, 5, 250, 30);
@@ -55,18 +48,18 @@ public class MyMusic extends JPanel implements ActionListener {
             }
         };
 
-        tableModel.addColumn("Titulo");
+        tableModel.addColumn("Nome");
         tableModel.addColumn("Artista");
         tableModel.addColumn("Género");
 
-        musicTable = new JTable(tableModel);
-        musicTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-        musicTable.getColumnModel().getColumn(1).setPreferredWidth(200);
-        musicTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+        playlistTable = new JTable(tableModel);
+        playlistTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+        playlistTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        playlistTable.getColumnModel().getColumn(2).setPreferredWidth(200);
         // Impede a movimentação das colunas.
-        musicTable.getTableHeader().setReorderingAllowed(false);
+        playlistTable.getTableHeader().setReorderingAllowed(false);
 
-        JScrollPane scrollPane = new JScrollPane(musicTable);
+        JScrollPane scrollPane = new JScrollPane(playlistTable);
 
         // ADD scroll ao Panel
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
@@ -80,28 +73,29 @@ public class MyMusic extends JPanel implements ActionListener {
         eastPanel.setPreferredSize(new Dimension(150, 0));
         eastPanel.setLayout(null);
 
-        //botão de avaliar músicas
-        rateMusic = new JButton();
-        rateMusic.setText("Avaliar Música");
-        rateMusic.setBounds(0, 150, 120, 35);
-        rateMusic.setFocusable(false);
+        //botão para criar nova playlist vazia
+        createPlaylist = new JButton();
+        createPlaylist.setText("Criar Playlist");
+        createPlaylist.setBounds(0, 150, 120, 35);
+        createPlaylist.setFocusable(false);
 
-        //botão de remover músicas das adquiridas
-        removeMusic = new JButton();
-        removeMusic.setText("Remover");
-        removeMusic.setBounds(0, rateMusic.getY() + 50, 120, 35);
-        removeMusic.setFocusable(false);
+        //botão para abrir playlist selecionada
+        seePlaylist = new JButton();
+        seePlaylist.setText("Ver");
+        seePlaylist.setBounds(0, createPlaylist.getY() + 50, 120, 35);
+        seePlaylist.setFocusable(false);
 
-        eastPanel.add(rateMusic);
-        eastPanel.add(removeMusic);
+        //botão para apagar playlist
+        deletePlaylist = new JButton();
+        deletePlaylist.setText("Remover");
+        deletePlaylist.setBounds(0, seePlaylist.getY() + 50, 120, 35);
+        deletePlaylist.setFocusable(false);
+
+        eastPanel.add(createPlaylist);
+        eastPanel.add(seePlaylist);
+        eastPanel.add(deletePlaylist);
 
         add(eastPanel, BorderLayout.EAST);
-
-
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
