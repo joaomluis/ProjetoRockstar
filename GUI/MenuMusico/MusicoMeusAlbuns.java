@@ -32,14 +32,14 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
 
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
         painelSuperior = new JPanel(); // Inicializa o painel superior
-        painelSuperior.setBackground(new Color(124, 98, 171));
+        painelSuperior.setBackground(new Color(77, 24, 28));
         painelSuperior.setPreferredSize(new Dimension(0, 40)); //Altura do painel Superior
         painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
         titulo = new JLabel("Meus Albuns");
         titulo.setFont(new Font("Arial", Font.BOLD, 22));
-        titulo.setForeground(new Color(198,107,61));
+        titulo.setForeground(new Color(255,255,255));
         painelSuperior.add(titulo).setBounds(250, 5, 250, 30);
         add(painelSuperior, BorderLayout.NORTH);
 
@@ -74,7 +74,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         scrollPane = new JScrollPane(tabela);
         // ADD scroll ao Panel
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
-        scrollPane.setBackground(new Color(124, 98, 171));
+        scrollPane.setBackground(new Color(77, 24, 28));
 
         add(scrollPane, BorderLayout.CENTER);
 
@@ -92,7 +92,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         painelEast.add(ver).setBounds(0,125,120,35);
         painelEast.add(criar).setBounds(ver.getX(), ver.getY() + 50,120,35);
 
-        painelEast.setBackground(new Color(124, 98, 171));
+        painelEast.setBackground(new Color(77, 24, 28));
 
         add(painelSuperior, BorderLayout.NORTH);
         add(painelEast, BorderLayout.EAST);

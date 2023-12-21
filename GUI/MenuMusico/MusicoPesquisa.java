@@ -3,41 +3,43 @@ package GUI.MenuMusico;
 import BackEnd.Musica;
 import GUI.MenuMusico.PopUps.AdicionarMusica;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
-public class MusicoAlbum extends JPanel implements ActionListener {
+public class MusicoPesquisa extends JPanel implements ActionListener {
+    private JTextField barraPesquisa;
+    private JComboBox<String> dropdown;
+    private JPanel painelCentralSuperior;
+    private JPanel painelCentral;
     private JPanel painelEast;
     private JScrollPane scrollPane;
     private JPanel painelSuperior;
     private DefaultTableModel tabelaDefault;
     private FrameMusico frameMusico;
     private JTable tabela;
-    private JButton adicionar;
+    private JButton pesquisar;
     private ArrayList<Musica> musicas;
     private int sortByNameOrder = 1;
 
 
-    public MusicoAlbum(FrameMusico frameMusico) {
+    public MusicoPesquisa(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
         setLayout(new BorderLayout());
         this.musicas = new ArrayList<>(); //ler o ficheiro
 
-
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
-        painelSuperior = new JPanel(); // Inicializa o painel superior
+        painelSuperior = new JPanel(null); // Inicializa o painel superior
         painelSuperior.setBackground(new Color(77, 24, 28));
         painelSuperior.setPreferredSize(new Dimension(0, 40)); //Altura do painel Superior
-        painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
-        JLabel titulo = new JLabel("Album");
+        JLabel titulo = new JLabel("Pesquisa");
         titulo.setFont(new Font("Arial", Font.BOLD, 22));
         titulo.setForeground(new Color(255,255,255));
         painelSuperior.add(titulo).setBounds(250, 5, 250, 30);
@@ -45,6 +47,17 @@ public class MusicoAlbum extends JPanel implements ActionListener {
 
         ////////////////////////////////////////PAINEL CENTRAL////////////////////////////////////////////////////////
         // Impede alterações na tabela
+        painelCentral = new JPanel(new BorderLayout());
+        painelCentralSuperior = new JPanel(null);
+        painelCentralSuperior.setPreferredSize(new Dimension(0, 50));
+        painelCentralSuperior.setBackground(new Color(77, 24, 28));
+        dropdown = new JComboBox<>(new String[]{"Nome", "Genero"});
+        dropdown.addActionListener(this);
+        barraPesquisa = new JTextField();
+        dropdown.addActionListener(this);
+        painelCentralSuperior.add(dropdown).setBounds(30,0,200,35);
+        painelCentralSuperior.add(barraPesquisa).setBounds(dropdown.getX()+dropdown.getWidth()+15,0,280,35);
+
         tabelaDefault = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -75,50 +88,49 @@ public class MusicoAlbum extends JPanel implements ActionListener {
         // ADD scroll ao Panel
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
         scrollPane.setBackground(new Color(77, 24, 28));
-        add(scrollPane, BorderLayout.CENTER);
+
+        painelCentral.add(scrollPane, BorderLayout.CENTER);
+        painelCentral.add(painelCentralSuperior, BorderLayout.NORTH);
+        add(painelCentral,BorderLayout.CENTER);
 
         ////////////////////////////////////////PAINEL EAST////////////////////////////////////////////////////////
-        painelEast = new JPanel();    //Inicializa o painel central
-        painelEast.setLayout(null);
-        //Largura do painel East
+        painelEast = new JPanel(null);    //Inicializa o painel central
         painelEast.setPreferredSize(new Dimension(150, 0));
 
         //Criar elementos Painel EAST
-        adicionar = new JButton("Adicionar");
-        adicionar.addActionListener(this);  //adicionar o botão ao actionListener
+        pesquisar = new JButton("Pesquisar");
+        pesquisar.addActionListener(this);  //adicionar o botão ao actionListener
         //Add elementos ao Painel Central
-        painelEast.add(adicionar).setBounds(0,125,120,35);
-
+        painelEast.add(pesquisar).setBounds(0,0,120,35);
         painelEast.setBackground(new Color(77, 24, 28));
-
         add(painelEast, BorderLayout.EAST);
 
         setVisible(true);
     }
-    private void ordenarNome() {
-        Collections.sort(musicas, new Comparator<Musica>() {
-            @Override
-            public int compare(Musica musica1, Musica musica2) {
-                int result = musica1.getTittle().compareTo(musica2.getTittle());
-                return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
-            }
-        });
-        sortByNameOrder *= -1; // Inverte o valor da variável de controle para a próxima ordenação
-
-        // Limpa o modelo de tabela
-        tabelaDefault.setRowCount(0);
-
-        // Adiciona as músicas ordenadas ao modelo de tabela
-        for (Musica musica : musicas) {
-            Object[] rowData = {musica.getTittle(), musica.getArtist()};
-            tabelaDefault.addRow(rowData);
-        }
-    }
-
+//    private void ordenarNome() {
+//        Collections.sort(musicas, new Comparator<Musica>() {
+//            @Override
+//            public int compare(Musica musica1, Musica musica2) {
+//                int result = musica1.getTittle().compareTo(musica2.getTittle());
+//                return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
+//            }
+//        });
+//        sortByNameOrder *= -1; // Inverte o valor da variável de controle para a próxima ordenação
+//
+//        // Limpa o modelo de tabela
+//        tabelaDefault.setRowCount(0);
+//
+//        // Adiciona as músicas ordenadas ao modelo de tabela
+//        for (Musica musica : musicas) {
+//            Object[] rowData = {musica.getTittle(), musica.getArtist()};
+//            tabelaDefault.addRow(rowData);
+//        }
+//    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == adicionar){
-            new AdicionarMusica(frameMusico);
+        if(e.getSource() == pesquisar) {
+            String catgoriaAPesquisar = (String) dropdown.getSelectedItem();
+            String strAPesquisar = barraPesquisa.getText();
         }
     }
 }

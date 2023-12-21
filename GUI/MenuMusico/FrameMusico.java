@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 
 public class FrameMusico extends JFrame implements ActionListener {
 
-    private MusicoEditar musicoEditar;
+    private MusicoFrame musicoFrame;
+    private MusicoPesquisa musicoPesquisa;
+    private JPanel northPanel;
     private MusicoAlbum musicoAlbum;
     private MusicoMusicas musicoMusicas;
-    private MenuInicialMusico menuInicialMusico;
+    private MusicoMenuInicial musicoMenuInicial;
     private MusicoMeusAlbuns musicoMeusAlbuns;
     private JLabel username;
     private JButton back;
@@ -18,9 +20,13 @@ public class FrameMusico extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private JPanel panelCont;
     private JPanel painelAtual;
+    private Color fundo;
+    private Color letras;
 
     public FrameMusico(){
 
+        Color fundo = new Color(77, 24, 28);
+        Color letras = new Color(255,255,255);
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
 
         //especificações básicas do frame
@@ -37,36 +43,40 @@ public class FrameMusico extends JFrame implements ActionListener {
         panelCont.setLayout(cardLayout);
 
         // Cria os painéis que serão exibidos no cardLayout (todos os paineis serão criados aqui)
-        menuInicialMusico = new MenuInicialMusico(this);
+        musicoMenuInicial = new MusicoMenuInicial(this);
         musicoMeusAlbuns = new MusicoMeusAlbuns(this);
         musicoMusicas = new MusicoMusicas(this);
         musicoAlbum = new MusicoAlbum(this);
-        musicoEditar = new MusicoEditar(this);
+        musicoPesquisa = new MusicoPesquisa(this);
+        musicoFrame = new MusicoFrame(this);
 
         // Adicione os painéis ao painel de conteúdo (todos os paineis serão adicionados aqui)
-        panelCont.add(menuInicialMusico, "MainMusic");
+        panelCont.add(musicoMenuInicial, "MainMusic");
         panelCont.add(musicoMeusAlbuns, "MeusAlbuns");
         panelCont.add(musicoMusicas, "MusicoMusicas");
         panelCont.add(musicoAlbum, "MusicoAlbum");
-        panelCont.add(musicoEditar, "MusicoEditar");
-
+        panelCont.add(musicoPesquisa, "MusicoPesquisa");
+        panelCont.add(musicoFrame,"Estatistica");
 
         // Adicione os paineis de conteúdo ao frame. Os inseridos anteriormente.
         add(panelCont);
 
         //NESTA FRAME //////////////////////////////////////////////////////////////////////////////////////////////////
         // Cria botões sempre visiveis nesta frame
-        home = new JButton("Home");
+        home = new JButton("⌂");
+        home.setFont(new Font("Arial", Font.BOLD, 26));
         home.setFocusable(false);
-        back = new JButton("<-");
+        back = new JButton("←");
+        back.setFont(new Font("Arial", Font.BOLD, 26));
         back.setFocusable(false);
         username = new JLabel("username");
         username.setFont(new Font("Arial", Font.BOLD, 12));
+        username.setForeground(new Color(255,255,255));
         home.addActionListener(this);
         back.addActionListener(this);
 
         // Crie um painel para os botões e adicione-os ao frame
-        JPanel northPanel = new JPanel();
+        northPanel = new JPanel();
         northPanel.setLayout(null);
         northPanel.setPreferredSize(new Dimension(0, 40));
 
@@ -78,7 +88,7 @@ public class FrameMusico extends JFrame implements ActionListener {
 
         // Adicione o painel de botões ao frame
         add(northPanel, BorderLayout.NORTH);
-        northPanel.setBackground(new Color(124, 98, 171));
+        northPanel.setBackground(fundo);
         setVisible(true);
     }
 
@@ -87,25 +97,29 @@ public class FrameMusico extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==home){
             cardLayout.show(panelCont, "MainMusic");
-            setPainelAtual(menuInicialMusico);
+            setPainelAtual(musicoMenuInicial);
         }
         else if(e.getSource()==back){
             if(painelAtual == musicoMeusAlbuns){
                 cardLayout.show(panelCont, "MainMusic");
-                setPainelAtual(menuInicialMusico);          //atualiza o painel atual
+                setPainelAtual(musicoMenuInicial);
 
             }
             else if(painelAtual == musicoMusicas) {
                 cardLayout.show(panelCont, "MainMusic");
-                setPainelAtual(menuInicialMusico);          //atualiza o painel atual
+                setPainelAtual(musicoMenuInicial);
             }
             else if(painelAtual == musicoAlbum) {
                 cardLayout.show(panelCont, "MeusAlbuns");
-                setPainelAtual(musicoMeusAlbuns);   //atualiza o painel atual
+                setPainelAtual(musicoMeusAlbuns);
             }
-            else if(painelAtual == musicoEditar) {
-                cardLayout.show(panelCont, "MusicoMusicas");
-                setPainelAtual(musicoMusicas);   //atualiza o painel atual
+            else if(painelAtual == musicoPesquisa) {
+                cardLayout.show(panelCont, "MainMusic");
+                setPainelAtual(musicoMenuInicial);
+            }
+            else if(painelAtual == musicoFrame) {
+                cardLayout.show(panelCont, "MainMusic");
+                setPainelAtual(musicoMenuInicial);
             }
         }
     }
@@ -114,11 +128,11 @@ public class FrameMusico extends JFrame implements ActionListener {
      * Métodos show, são compostos por um setPainelAtual para atualizar o painel, e por um show do cardLayout para mostrar o painel.
      */
     public void showMainMusic(){
-        setPainelAtual(menuInicialMusico);
+        setPainelAtual(musicoMenuInicial);
         cardLayout.show(panelCont, "MainMusic");
     }
     public void showMusicoMeusAlbuns(){
-        setPainelAtual(musicoMeusAlbuns);     //atualiza o painel atual
+        setPainelAtual(musicoMeusAlbuns);
         cardLayout.show(panelCont, "MeusAlbuns");
     }
     public void showMusicoMusicas(){
@@ -129,9 +143,13 @@ public class FrameMusico extends JFrame implements ActionListener {
         setPainelAtual(musicoMusicas);
         cardLayout.show(panelCont,"MusicoMusicas");
     }
-    public void showMusicoEditar(){
-        setPainelAtual(musicoEditar);
-        cardLayout.show(panelCont,"MusicoEditar");
+    public void showMusicoPesquisa() {
+        setPainelAtual(musicoPesquisa);
+        cardLayout.show(panelCont,"MusicoPesquisa");
+    }
+    public void showEstatistica() {
+        setPainelAtual(musicoFrame);
+        cardLayout.show(panelCont,"Estatistica");
     }
 
 
@@ -143,8 +161,17 @@ public class FrameMusico extends JFrame implements ActionListener {
         this.painelAtual = painelAtual;
     }
 
+    public Color getFundo() {
+        return fundo;
+    }
+
+    public Color getLetras() {
+        return letras;
+    }
+
     public static void main(String[] args) {
         new FrameMusico();
     }
+
 }
 

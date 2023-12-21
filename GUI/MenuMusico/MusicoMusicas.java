@@ -35,20 +35,20 @@ public class MusicoMusicas extends JPanel implements ActionListener {
 
         this.frameMusico = frameMusico;
         setLayout(new BorderLayout());
-        setBackground(new Color(124, 98, 171));
+        setBackground(new Color(77, 24, 28));
 
         this.musicas = new ArrayList<>(); //ler o ficheiro
 
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
         painelSuperior = new JPanel(); // Inicializa o painel superior
-        painelSuperior.setBackground(new Color(124, 98, 171));
+        painelSuperior.setBackground(new Color(77, 24, 28));
         painelSuperior.setPreferredSize(new Dimension(0, 40)); //Altura do painel Superior
         painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
         titulo = new JLabel("Minhas Músicas");
         titulo.setFont(new Font("Arial", Font.BOLD, 22));
-        titulo.setForeground(new Color(198,107,61));
+        titulo.setForeground(new Color(255,255,255));
         painelSuperior.add(titulo).setBounds(250, 5, 250, 30);
         add(painelSuperior, BorderLayout.NORTH);
         ////////////////////////////////////////PAINEL CENTRAL////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ public class MusicoMusicas extends JPanel implements ActionListener {
 
         // ADD scroll ao Panel
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
-        scrollPane.setBackground(new Color(124, 98, 171));
+        scrollPane.setBackground(new Color(77, 24, 28));
         add(scrollPane, BorderLayout.CENTER);
 
         ////////////////////////////////////////PAINEL EAST////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         painelEast.add(editarPreco).setBounds(adicionar.getX(),editarNome.getY() + 50, 120, 35);
         painelEast.add(editarDisponibilidade).setBounds(adicionar.getX(),editarPreco.getY() + 50, 120, 35);
 
-        painelEast.setBackground(new Color(124, 98, 171));
+        painelEast.setBackground(new Color(77, 24, 28));
 
         add(painelEast, BorderLayout.EAST);
 

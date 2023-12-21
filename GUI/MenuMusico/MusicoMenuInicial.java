@@ -5,28 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MenuInicialMusico extends JPanel implements ActionListener {
+public class MusicoMenuInicial extends JPanel implements ActionListener {
     private JLabel tittle;
     private JButton musicas;
     private JButton meusAlbuns;
     private FrameMusico frameMusico;
-    private JButton botaoPesquisa;
+    private JButton pesquisa;
     private JPanel painelSuperior;
     private JPanel painelCentral;
     private JButton estatistica;
-    private JTextField pesquisa;
 
-    public MenuInicialMusico(FrameMusico frameMusico) {
+    public MusicoMenuInicial(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
 
         setLayout(null);
-        setBackground(new Color(124, 98, 171));
+        setBackground(new Color(77, 24, 28));
 
         painelCentral = new JPanel();
         painelCentral.setLayout(null);
         //Label principal do painel
         tittle = new JLabel("Welcome to RockStar");
-        tittle.setForeground(new Color(198,107,61));
+        tittle.setForeground(new Color(255,255,255));
         tittle.setFont(new Font("Arial", Font.BOLD, 33));
         tittle.setBounds(180, 55, 400, 40);
 
@@ -54,24 +53,19 @@ public class MenuInicialMusico extends JPanel implements ActionListener {
         estatistica.setFocusable(false);
         estatistica.addActionListener(this);
 
-        painelCentral.setBackground(new Color(124, 98, 171));
+        pesquisa = new JButton("Pesquisar \uD83D\uDD0D"); //"Símbolo de Lupa" e tem o código Unicode U+1F50D
+        pesquisa.setBounds(meusAlbuns.getX(), meusAlbuns.getY() + 50, 280, 35);
+        pesquisa.setForeground(Color.black);
+        pesquisa.setFont(new Font("Arial", Font.BOLD, 15));
+        pesquisa.setFocusable(false);
+        pesquisa.addActionListener(this);
+        painelCentral.setBackground(new Color(77, 24, 28));
 
         add(tittle);
         add(musicas);
         add(meusAlbuns);
+        add(pesquisa);
         add(estatistica);
-//
-        //Criar elementos Painel superior
-        pesquisa = new JTextField();
-        botaoPesquisa = new JButton("\uD83D\uDD0D"); //"Símbolo de Lupa" e tem o código Unicode U+1F50D
-        //Add elementos ao Painel superior
-        add(pesquisa).setBounds(200,0,300,40); // Adiciona a barra de pesquisa ao painel superior
-        add(botaoPesquisa).setBounds(pesquisa.getX()+pesquisa.getWidth()+10,pesquisa.getY(),30,pesquisa.getHeight());
-//
-//        ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
-        Container contentPane = frameMusico.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.setBackground(new Color(124, 98, 171));
 
         setVisible(true);
     }
@@ -85,7 +79,11 @@ public class MenuInicialMusico extends JPanel implements ActionListener {
         else if (e.getSource() == musicas) {
             frameMusico.showMusicoMusicas();
         }
+        else if (e.getSource() == pesquisa) {
+            frameMusico.showMusicoPesquisa();
+        }
         else if (e.getSource() == estatistica) {
+            frameMusico.showEstatistica();
         }
     }
 }
