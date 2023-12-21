@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class FrameMusico extends JFrame implements ActionListener {
 
-    private MusicoFrame musicoFrame;
+    private MusicoEstatistica musicoEstatistica;
     private MusicoPesquisa musicoPesquisa;
     private JPanel northPanel;
     private MusicoAlbum musicoAlbum;
@@ -20,8 +20,6 @@ public class FrameMusico extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private JPanel panelCont;
     private JPanel painelAtual;
-    private Color fundo;
-    private Color letras;
 
     public FrameMusico(){
 
@@ -48,7 +46,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         musicoMusicas = new MusicoMusicas(this);
         musicoAlbum = new MusicoAlbum(this);
         musicoPesquisa = new MusicoPesquisa(this);
-        musicoFrame = new MusicoFrame(this);
+        musicoEstatistica = new MusicoEstatistica(this);
 
         // Adicione os painéis ao painel de conteúdo (todos os paineis serão adicionados aqui)
         panelCont.add(musicoMenuInicial, "MainMusic");
@@ -56,7 +54,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         panelCont.add(musicoMusicas, "MusicoMusicas");
         panelCont.add(musicoAlbum, "MusicoAlbum");
         panelCont.add(musicoPesquisa, "MusicoPesquisa");
-        panelCont.add(musicoFrame,"Estatistica");
+        panelCont.add(musicoEstatistica,"Estatistica");
 
         // Adicione os paineis de conteúdo ao frame. Os inseridos anteriormente.
         add(panelCont);
@@ -117,7 +115,7 @@ public class FrameMusico extends JFrame implements ActionListener {
                 cardLayout.show(panelCont, "MainMusic");
                 setPainelAtual(musicoMenuInicial);
             }
-            else if(painelAtual == musicoFrame) {
+            else if(painelAtual == musicoEstatistica) {
                 cardLayout.show(panelCont, "MainMusic");
                 setPainelAtual(musicoMenuInicial);
             }
@@ -148,7 +146,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         cardLayout.show(panelCont,"MusicoPesquisa");
     }
     public void showEstatistica() {
-        setPainelAtual(musicoFrame);
+        setPainelAtual(musicoEstatistica);
         cardLayout.show(panelCont,"Estatistica");
     }
 
@@ -160,15 +158,6 @@ public class FrameMusico extends JFrame implements ActionListener {
     public void setPainelAtual(JPanel painelAtual) {
         this.painelAtual = painelAtual;
     }
-
-    public Color getFundo() {
-        return fundo;
-    }
-
-    public Color getLetras() {
-        return letras;
-    }
-
     public static void main(String[] args) {
         new FrameMusico();
     }

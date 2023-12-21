@@ -21,9 +21,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
     private JTable tabela;
     private JButton ver;
     private JButton criar;
-    private ArrayList<Album> albuns;
-    private int sortByNameOrder = 1;
-
+    private ArrayList<String> albuns;
 
     public MusicoMeusAlbuns(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
@@ -100,25 +98,6 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
 
         setVisible(true);
     }
-    private void ordenarNome() {
-        Collections.sort(albuns, new Comparator<Album>() {
-            @Override
-            public int compare(Album album1, Album album2) {
-                int result = album1.getNome().compareTo(album2.getNome());
-                return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
-            }
-        });
-        sortByNameOrder *= -1; // Inverte o valor da variável de controle para a próxima ordenação
-
-        // Limpa o modelo de tabela
-        tabelaDefault.setRowCount(0);
-
-        // Adiciona as músicas ordenadas ao modelo de tabela
-        for (Album album : albuns) {
-            Object[] rowData = {album.getNome(), album.getGenero(), album.getProdutor()};
-            tabelaDefault.addRow(rowData);
-        }
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -129,7 +108,6 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
                 String nome = (String) tabela.getValueAt(selectedRow, 0);
                 String genero = (String) tabela.getValueAt(selectedRow, 1);
                 String produtor = (String) tabela.getValueAt(selectedRow, 2);
-                //JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Detalhes do Album:\nNome: " + nome + "\nGênero: " + genero + "\nProdutor: " + produtor);
 
                 frameMusico.showMusicoAlbum();
             }

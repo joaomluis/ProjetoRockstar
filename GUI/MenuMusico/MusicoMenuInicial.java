@@ -1,17 +1,19 @@
 package GUI.MenuMusico;
 
+import GUI.GUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class MusicoMenuInicial extends JPanel implements ActionListener {
+    private JButton logOut;
     private JLabel tittle;
     private JButton musicas;
     private JButton meusAlbuns;
     private FrameMusico frameMusico;
     private JButton pesquisa;
-    private JPanel painelSuperior;
     private JPanel painelCentral;
     private JButton estatistica;
 
@@ -45,14 +47,6 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
         meusAlbuns.setFocusable(false);
         meusAlbuns.addActionListener(this);
 
-        //botão para mostrar as estatisticas
-        estatistica = new JButton("Estatistica");
-        estatistica.setBounds(meusAlbuns.getX(), meusAlbuns.getY() + 150, 280, 35);
-        estatistica.setForeground(Color.black);
-        estatistica.setFont(new Font("Arial", Font.BOLD, 15));
-        estatistica.setFocusable(false);
-        estatistica.addActionListener(this);
-
         pesquisa = new JButton("Pesquisar \uD83D\uDD0D"); //"Símbolo de Lupa" e tem o código Unicode U+1F50D
         pesquisa.setBounds(meusAlbuns.getX(), meusAlbuns.getY() + 50, 280, 35);
         pesquisa.setForeground(Color.black);
@@ -61,11 +55,29 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
         pesquisa.addActionListener(this);
         painelCentral.setBackground(new Color(77, 24, 28));
 
+        //botão para mostrar as estatisticas
+        estatistica = new JButton("Estatistica");
+        estatistica.setBounds(meusAlbuns.getX(), pesquisa.getY() + 50, 280, 35);
+        estatistica.setForeground(Color.black);
+        estatistica.setFont(new Font("Arial", Font.BOLD, 15));
+        estatistica.setFocusable(false);
+        estatistica.addActionListener(this);
+
+        //botão para mostrar as estatisticas
+        logOut = new JButton("Log Out");
+        logOut.setBounds(meusAlbuns.getX(), estatistica.getY() + 50, 280, 35);
+        logOut.setForeground(Color.black);
+        logOut.setFont(new Font("Arial", Font.BOLD, 15));
+        logOut.setFocusable(false);
+        logOut.addActionListener(this);
+
+
         add(tittle);
         add(musicas);
         add(meusAlbuns);
         add(pesquisa);
         add(estatistica);
+        add(logOut);
 
         setVisible(true);
     }
@@ -84,6 +96,10 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
         }
         else if (e.getSource() == estatistica) {
             frameMusico.showEstatistica();
+        }
+        else if(e.getSource() == logOut){
+            frameMusico.dispose();
+            new GUI();
         }
     }
 }
