@@ -5,9 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MusicoFrame extends JPanel implements ActionListener {
+public class MusicoEstatistica extends JPanel implements ActionListener {
     private JLabel totalAlbunsGeneroCont;
-    private String escolhaGenero;
     private JComboBox<String> genero;
     private int valorTotalMusicasVendidasInt;
     private String valorTotalMusicasVendidasString;
@@ -15,9 +14,7 @@ public class MusicoFrame extends JPanel implements ActionListener {
     private int valorTotalMusicasInt;
     private String valorTotalMusicasString;
     private JLabel valorTotalMusicas;
-    private int totalAlbunsIntGenero;
     private JLabel totalAlbunsGenero;
-    private String numeroAlbunsStringGenero;
     private int totalAlbunsInt;
     private String numeroAlbunsString;
     private JLabel totalAlbuns;
@@ -32,7 +29,7 @@ public class MusicoFrame extends JPanel implements ActionListener {
     private JLabel totalUser;
     private FrameMusico frameMusico;
 
-    public MusicoFrame(FrameMusico frameMusico) {
+    public MusicoEstatistica(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
         setLayout(null);
 
@@ -41,7 +38,7 @@ public class MusicoFrame extends JPanel implements ActionListener {
         titulo.setForeground(new Color(255,255,255));
         add(titulo).setBounds(290, 5, 250, 30);
 
-        ////TOTAL DE UTILIZZADORES//////////////////////////////////////////////////////////////////////////////////////////
+    ////TOTAL DE UTILIZZADORES//////////////////////////////////////////////////////////////////////////////////////////
         totalUserInt = 10; //igualar ao numero total de users
         numeroUserString = String.valueOf(totalUserInt);
         totalUser = new JLabel("Total de utilizadores: "+numeroUserString);
@@ -57,7 +54,7 @@ public class MusicoFrame extends JPanel implements ActionListener {
         add(totalMusicos).setBounds(totalUser.getX(),totalUser.getY()+20,500,35);
     ////TOTAL DE MUSICAS////////////////////////////////////////////////////////////////////////////////////////////////
         totalMusicasInt = 10; //igualar ao numero total de musicas
-        numeroMusicasString = String.valueOf(totalUserInt);
+        numeroMusicasString = String.valueOf(totalMusicasInt);
         totalMusicas = new JLabel("Total de músicas: "+numeroMusicasString);
         totalMusicas.setForeground(new Color(255,255,255));
         totalMusicas.setFont(new Font("Arial", Font.BOLD, 15));
@@ -96,9 +93,7 @@ public class MusicoFrame extends JPanel implements ActionListener {
         valorTotalMusicasVendidas.setForeground(new Color(255,255,255));
         valorTotalMusicasVendidas.setFont(new Font("Arial", Font.BOLD, 15));
         add(valorTotalMusicasVendidas).setBounds(totalUser.getX(),valorTotalMusicas.getY()+20,500,35);
-    ////TOTAL DE MUSICAS////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+    ////JANELA//////////////////////////////////////////////////////////////////////////////////////////////////////////
         setBackground(new Color(77, 24, 28));
         setVisible(true);
     }

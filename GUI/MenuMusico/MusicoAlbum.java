@@ -21,14 +21,12 @@ public class MusicoAlbum extends JPanel implements ActionListener {
     private JTable tabela;
     private JButton adicionar;
     private ArrayList<Musica> musicas;
-    private int sortByNameOrder = 1;
 
 
     public MusicoAlbum(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
         setLayout(new BorderLayout());
         this.musicas = new ArrayList<>(); //ler o ficheiro
-
 
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
         painelSuperior = new JPanel(); // Inicializa o painel superior
@@ -95,25 +93,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
 
         setVisible(true);
     }
-    private void ordenarNome() {
-        Collections.sort(musicas, new Comparator<Musica>() {
-            @Override
-            public int compare(Musica musica1, Musica musica2) {
-                int result = musica1.getTittle().compareTo(musica2.getTittle());
-                return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
-            }
-        });
-        sortByNameOrder *= -1; // Inverte o valor da variável de controle para a próxima ordenação
 
-        // Limpa o modelo de tabela
-        tabelaDefault.setRowCount(0);
-
-        // Adiciona as músicas ordenadas ao modelo de tabela
-        for (Musica musica : musicas) {
-            Object[] rowData = {musica.getTittle(), musica.getArtist()};
-            tabelaDefault.addRow(rowData);
-        }
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
