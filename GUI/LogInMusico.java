@@ -1,7 +1,6 @@
 package GUI;
 import BackEnd.Musico;
-import BackEnd.User;
-import GUI.MenuMusico.FrameMusic;
+import GUI.MenuMusico.FrameMusico;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,7 +102,7 @@ public class LogInMusico {
                     // Credenciais válidas
                     JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                     frame.dispose();
-                    FrameMusic frameMusic = new FrameMusic();
+                    FrameMusico frameMusico = new FrameMusico();
 
                 } else {
                     // Credenciais inválidas

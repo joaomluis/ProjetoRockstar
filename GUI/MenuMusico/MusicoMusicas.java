@@ -16,32 +16,41 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class MusicoMusicas extends JPanel implements ActionListener {
+    private JScrollPane scrollPane;
+    private JTable tabela;
+    private DefaultTableModel tabelaDefault;
+    private JLabel titulo;
+    private JPanel painelEast;
+    private JPanel painelSuperior;
     private JButton editarDisponibilidade;
     private JButton editarPreco;
-    private DefaultTableModel tabelaDefault;
-    private FrameMusic frameMusic;
-    private JTable tabela;
+    private FrameMusico frameMusico;
     private JButton editarNome;
     private JButton adicionar;
     private ArrayList<Musica> musicas;
     private int sortByNameOrder = 1;
 
 
-    public MusicoMusicas(FrameMusic frameMusic) {
-        this.frameMusic = frameMusic;
+    public MusicoMusicas(FrameMusico frameMusico) {
+
+        this.frameMusico = frameMusico;
         setLayout(new BorderLayout());
+        setBackground(new Color(124, 98, 171));
+
         this.musicas = new ArrayList<>(); //ler o ficheiro
 
 //        ////////////////////////////////////////PAINEL SUPERIOR////////////////////////////////////////////////////////
-        JPanel painelSuperior = new JPanel(); // Inicializa o painel superior
+        painelSuperior = new JPanel(); // Inicializa o painel superior
         painelSuperior.setBackground(new Color(124, 98, 171));
-        painelSuperior.setPreferredSize(new Dimension(0, 20)); //Altura do painel Superior
+        painelSuperior.setPreferredSize(new Dimension(0, 40)); //Altura do painel Superior
         painelSuperior.setLayout(null);
 
         //Criar elementos Painel superior
-        JLabel titulo = new JLabel("Músicas");  //Subsituir o Nome do usuario
-        //Add elementos ao Painel superior
-        painelSuperior.add(titulo).setBounds(380,0,120,20);
+        titulo = new JLabel("Minhas Músicas");
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        titulo.setForeground(new Color(198,107,61));
+        painelSuperior.add(titulo).setBounds(250, 5, 250, 30);
+        add(painelSuperior, BorderLayout.NORTH);
         ////////////////////////////////////////PAINEL CENTRAL////////////////////////////////////////////////////////
         // Impede alterações na tabela
         tabelaDefault = new DefaultTableModel() {
@@ -51,74 +60,49 @@ public class MusicoMusicas extends JPanel implements ActionListener {
             }
         };
 
-        // Define as colunas da tabela
         tabelaDefault.addColumn("Titulo");
         tabelaDefault.addColumn("Artista");
-        tabelaDefault.addColumn("Preço");
+        tabelaDefault.addColumn("Género");
 
-
-        // Adiciona as músicas ao modelo de tabela
-        for (Musica musica : musicas) {
-            Object[] musicaObjeto = {musica.getTittle(), musica.getArtist()}; //falta preço
-            tabelaDefault.addRow(musicaObjeto);
-        }
-
-        // Cria a tabela com o modelo
         tabela = new JTable(tabelaDefault);
-
-        // Define o tamanho das colunas
         tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(200);
         tabela.getColumnModel().getColumn(2).setPreferredWidth(200);
         // Impede a movimentação das colunas.
         tabela.getTableHeader().setReorderingAllowed(false);
 
-        // SCROLL
-        JScrollPane scrollPane = new JScrollPane(tabela);
+        scrollPane = new JScrollPane(tabela);
 
         // ADD scroll ao Panel
-        add(scrollPane, BorderLayout.CENTER);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Define as margens
-        scrollPane.setBackground(Color.BLUE);
         scrollPane.setBackground(new Color(124, 98, 171));
+        add(scrollPane, BorderLayout.CENTER);
 
         ////////////////////////////////////////PAINEL EAST////////////////////////////////////////////////////////
-        JPanel painelEast = new JPanel();    //Inicializa o painel central
-        painelEast.setLayout(new GridLayout(15,1));
-        //Largura do painel East
-        painelEast.setPreferredSize(new Dimension(100, 0));
+        painelEast = new JPanel();    //Inicializa o painel central
+        painelEast.setLayout(null);
+        painelEast.setPreferredSize(new Dimension(150, 0));
 
         //Criar elementos Painel EAST
-
-        editarNome = new JButton("Editar nome");
-        editarPreco = new JButton("Editar preço");
-        editarDisponibilidade = new JButton("Editar disponibilidade");
         adicionar = new JButton("Adicionar");
+        editarNome = new JButton("\u270E Nome");
+        editarPreco = new JButton("\u270E Preço");
+        editarDisponibilidade = new JButton("\u270E Disponibilidade");
 
+        adicionar.addActionListener(this);  //adicionar o botão ao actionListener
         editarNome.addActionListener(this);    //adicionar o botão ao actionListener
         editarPreco.addActionListener(this);    //adicionar o botão ao actionListener
         editarDisponibilidade.addActionListener(this);    //adicionar o botão ao actionListener
-        adicionar.addActionListener(this);  //adicionar o botão ao actionListener
 
         //Add ao painel
-        painelEast.add(editarNome);
-        painelEast.add(editarPreco);
-        painelEast.add(editarDisponibilidade);
-        painelEast.add(adicionar);
+        painelEast.add(adicionar).setBounds(0, 125, 120, 35);
+        painelEast.add(editarNome).setBounds(adicionar.getX(), adicionar.getY() + 50, 120, 35);
+        painelEast.add(editarPreco).setBounds(adicionar.getX(),editarNome.getY() + 50, 120, 35);
+        painelEast.add(editarDisponibilidade).setBounds(adicionar.getX(),editarPreco.getY() + 50, 120, 35);
 
         painelEast.setBackground(new Color(124, 98, 171));
 
-        ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
-        Container contentPane = frameMusic.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-
-        add(painelSuperior, BorderLayout.NORTH);
         add(painelEast, BorderLayout.EAST);
-        add(scrollPane, BorderLayout.CENTER);
-
-
-        //instrução da localização no layout
-        contentPane.setBackground(new Color(124, 98, 171));
 
         setVisible(true);
     }
@@ -147,22 +131,22 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         if (e.getSource() == editarNome) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarNome(frameMusic); //alterar para (selectedRow != -1) para funcionar corretamente
+            if (selectedRow == -1) new AlterarNome(frameMusico); //alterar para (selectedRow != -1) para funcionar corretamente
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
 
         } else if (e.getSource() == adicionar) {
-            new AdicionarMusica(frameMusic);
+            new AdicionarMusica(frameMusico);
 
         } else if (e.getSource() == editarPreco) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarPreco(frameMusic);
+            if (selectedRow == -1) new AlterarPreco(frameMusico);
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
 
         } else if (e.getSource() == editarDisponibilidade) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarDisponibilidade(frameMusic);
+            if (selectedRow == -1) new AlterarDisponibilidade(frameMusico);
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
         }
     }

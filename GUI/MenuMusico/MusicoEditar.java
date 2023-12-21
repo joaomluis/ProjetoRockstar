@@ -8,15 +8,15 @@ import javax.swing.*;
 public class MusicoEditar extends JPanel implements ActionListener {
     private JButton alterarNome;
     private JButton alterarPreco;
-    private FrameMusic frameMusic;
+    private FrameMusico frameMusico;
     private JButton botaoPesquisa;
     private JPanel painelSuperior;
     private JPanel painelCentral;
     private JButton alterarDisponibilidade;
     private JTextField pesquisa;
 
-    public MusicoEditar(FrameMusic frameMusic) {
-        this.frameMusic = frameMusic;
+    public MusicoEditar(FrameMusico frameMusico) {
+        this.frameMusico = frameMusico;
         setLayout(new BorderLayout());
         setBackground(new Color(124, 98, 171));
 
@@ -52,7 +52,7 @@ public class MusicoEditar extends JPanel implements ActionListener {
         painelSuperior.add(titulo).setBounds(380,0,120,20);
 
 //        ////////////////////////////////////////CONTAINER////////////////////////////////////////////////////////
-        Container contentPane = frameMusic.getContentPane();
+        Container contentPane = frameMusico.getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.setBackground(new Color(124, 98, 171));
 
