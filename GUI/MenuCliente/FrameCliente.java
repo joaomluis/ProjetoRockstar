@@ -72,6 +72,7 @@ public class FrameCliente extends JFrame implements ActionListener {
         backButton.setText("←");
         backButton.setFont(new Font("Arial", Font.BOLD, 26));
         backButton.setFocusable(false);
+        backButton.addActionListener(this);
 
         //Botão home
         homeButton = new JButton();
@@ -151,10 +152,14 @@ public class FrameCliente extends JFrame implements ActionListener {
         if (e.getSource() == homeButton) {
             cardLayout.show(panelContainer, "Menu Inicial");
             setCurrentPanel(menuInicial);
-        }
-        if (e.getSource() == cartButton) {
+        } else if (e.getSource() == cartButton) {
             cardLayout.show(panelContainer, "Cart");
             setCurrentPanel(shoppingCart);
+        } else if (e.getSource() == backButton) {
+            if (currentPanel == myMusic){
+                cardLayout.show(panelContainer, "Menu Inicial");
+                setCurrentPanel(menuInicial);
+            }
         }
     }
 

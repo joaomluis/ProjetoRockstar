@@ -21,6 +21,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
     private JTable tabela;
     private JButton adicionar;
     private ArrayList<Musica> musicas;
+    private int sortByNameOrder = 1;
 
 
     public MusicoAlbum(FrameMusico frameMusico) {
@@ -93,9 +94,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
 
         setVisible(true);
     }
-<<<<<<< Updated upstream
 
-=======
     private void ordenarNome() {
         Collections.sort(musicas, new Comparator<Musica>() {
             @Override
@@ -115,7 +114,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
             tabelaDefault.addRow(rowData);
         }
     }
->>>>>>> Stashed changes
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
