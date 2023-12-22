@@ -22,6 +22,7 @@ public class MyMusic extends JPanel implements ActionListener {
     private DefaultTableModel tableModel;
     private JButton removeMusic;
     private JButton rateMusic;
+    private JButton addToPlaylist;
     private JLabel panelTitle;
     private ArrayList<Musica> musicas;
 
@@ -125,8 +126,16 @@ public class MyMusic extends JPanel implements ActionListener {
         removeMusic.setFocusable(false);
         removeMusic.addActionListener(this);
 
+        //botão para adicionar música a uma playlist;
+        addToPlaylist = new JButton();
+        addToPlaylist.setText("Adicionar");
+        addToPlaylist.setBounds(0, removeMusic.getY() + 50, 120, 35);
+        addToPlaylist.setFocusable(false);
+        addToPlaylist.addActionListener(this);
+
         eastPanel.add(rateMusic);
         eastPanel.add(removeMusic);
+        eastPanel.add(addToPlaylist);
 
         add(eastPanel, BorderLayout.EAST);
 

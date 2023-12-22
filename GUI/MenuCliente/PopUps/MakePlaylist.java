@@ -11,6 +11,7 @@ public class MakePlaylist extends JDialog implements ActionListener {
     private JPanel panelSouth;
     private JLabel playlistName;
     private JTextField nameField;
+    private JCheckBox visibilidadePlaylist;
     private JButton okButton;
     private JButton cancelButton;
 
@@ -18,7 +19,7 @@ public class MakePlaylist extends JDialog implements ActionListener {
         super(frame, "Criar Playlist", true);
 
         ////Especificações da janela\\\\\
-        setSize(400, 150);
+        setSize(400, 160);
         setLayout(new BorderLayout());
         setResizable(false);
 
@@ -33,8 +34,14 @@ public class MakePlaylist extends JDialog implements ActionListener {
         nameField = new JTextField();
         nameField.setBounds(playlistName.getX() + 80, 20, 120, 25);
 
+        visibilidadePlaylist = new JCheckBox();
+        visibilidadePlaylist.setText("Privado");
+        visibilidadePlaylist.setBounds(playlistName.getX() + 60, playlistName.getY() + 30, 90, 20);
+        visibilidadePlaylist.setFocusable(false);
+
         panelCenter.add(playlistName);
         panelCenter.add(nameField);
+        panelCenter.add(visibilidadePlaylist);
 
         //////Painel sul\\\\\\\\\\\
         panelSouth = new JPanel(new FlowLayout(FlowLayout.CENTER));

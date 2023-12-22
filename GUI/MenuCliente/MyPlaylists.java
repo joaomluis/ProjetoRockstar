@@ -131,6 +131,7 @@ public class MyPlaylists extends JPanel implements ActionListener {
         deletePlaylist.setText("Remover");
         deletePlaylist.setBounds(0, seePlaylist.getY() + 50, 120, 35);
         deletePlaylist.setFocusable(false);
+        deletePlaylist.addActionListener(this);
 
         eastPanel.add(createPlaylist);
         eastPanel.add(seePlaylist);
@@ -154,6 +155,16 @@ public class MyPlaylists extends JPanel implements ActionListener {
             }
         } else if (e.getSource() == createPlaylist) {
             new MakePlaylist(frameCliente);
+        } else if (e.getSource() == deletePlaylist) {
+            int selectedRow = playlistTable.getSelectedRow();
+            if (selectedRow != -1) {
+                // Remove da tabela
+                tableModel.removeRow(selectedRow);
+                createPlaylist.setEnabled(true); // faz com que o botão de avaliar não fique disabled após remover uma música
+                deletePlaylist.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma playlist para remover.");
+            }
         }
     }
 }

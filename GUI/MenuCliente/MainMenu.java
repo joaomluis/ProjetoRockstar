@@ -1,6 +1,7 @@
 package GUI.MenuCliente;
 
 import GUI.GUI;
+import GUI.MenuCliente.PopUps.GeneratePlaylist;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,7 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton purchaseHistory;
     private JButton logOut;
     private JButton store;
-    private JLabel tittle;
+    private JLabel title;
     private JLabel usernameLabel;
     private FrameCliente frameCliente;
 
@@ -27,16 +28,16 @@ public class MainMenu extends JPanel implements ActionListener {
         setBackground(new Color(20,64,88));
 
         //Label principal do painel
-        tittle = new JLabel();
-        tittle.setText("Welcome to RockStar");
-        tittle.setForeground(new Color(198,107,61));
-        tittle.setFont(new Font("Arial", Font.BOLD, 33));
-        tittle.setBounds(110, 55, 400, 40);
+        title = new JLabel();
+        title.setText("Welcome to RockStar");
+        title.setForeground(new Color(198,107,61));
+        title.setFont(new Font("Arial", Font.BOLD, 33));
+        title.setBounds(180, 55, 400, 40);
 
 
         //botão para aceder ao menu das músicas do cliente
         myMusic = new JButton();
-        myMusic.setBounds(213, tittle.getY() + 85, 280, 35);
+        myMusic.setBounds(213, title.getY() + 85, 280, 35);
         myMusic.setForeground(Color.black);
         myMusic.setFont(new Font("Arial", Font.BOLD, 15));
         myMusic.setText("Minhas músicas");
@@ -59,6 +60,7 @@ public class MainMenu extends JPanel implements ActionListener {
         createPlaylist.setFont(new Font("Arial", Font.BOLD, 15));
         createPlaylist.setText("Gerar playlist");
         createPlaylist.setFocusable(false);
+        createPlaylist.addActionListener(this);
 
         //botão para aceder ao histórico de compras
         purchaseHistory = new JButton();
@@ -87,7 +89,7 @@ public class MainMenu extends JPanel implements ActionListener {
         logOut.setFocusable(false);
         logOut.addActionListener(this);
 
-        add(tittle);
+        add(title);
         add(store);
         add(myMusic);
         add(myPlaylists);
@@ -114,6 +116,9 @@ public class MainMenu extends JPanel implements ActionListener {
         if (e.getSource()== logOut) {
             frameCliente.dispose();
             GUI gui = new GUI();
+        }
+        if (e.getSource() == createPlaylist) {
+            new GeneratePlaylist(frameCliente);
         }
     }
 }
