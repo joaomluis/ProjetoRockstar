@@ -1,9 +1,13 @@
 package GUI.MenuCliente;
 
 import BackEnd.Musica;
+import GUI.MenuCliente.PopUps.RateSong;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +32,11 @@ public class MyMusic extends JPanel implements ActionListener {
         setBackground(new Color(20, 64, 88));
 
         this.musicas = new ArrayList<>();
+        musicas.add(new Musica("Bohemian Rhapsody", "Queen", "Rock"));
+        musicas.add(new Musica("Smells Like Teen Spirit", "Nirvana", "Grunge"));
+        musicas.add(new Musica("Imagine", "John Lennon", "Pop"));
+        musicas.add(new Musica("Hotel California", "Eagles", "Rock"));
+        musicas.add(new Musica("Shape of You", "Ed Sheeran", "Pop"));
 
         ///////////Painel Superior\\\\\\\\\\\\\\\\\\\\\\\\\\\
         topPanel = new JPanel();
@@ -39,7 +48,7 @@ public class MyMusic extends JPanel implements ActionListener {
         panelTitle = new JLabel();
         panelTitle.setText("Minhas Músicas");
         panelTitle.setFont(new Font("Arial", Font.BOLD, 22));
-        panelTitle.setForeground(new Color(198,107,61));
+        panelTitle.setForeground(new Color(198, 107, 61));
         panelTitle.setBounds(250, 5, 250, 30);
 
         topPanel.add(panelTitle);
@@ -59,12 +68,34 @@ public class MyMusic extends JPanel implements ActionListener {
         tableModel.addColumn("Artista");
         tableModel.addColumn("Género");
 
+        //adiciona as musicas da array list à table, tem que ser trocado por um método mais tarde
+        for (Musica musica : musicas) {
+            Object[] row = {musica.getTitle(), musica.getArtist(), musica.getGenre()};
+            tableModel.addRow(row);
+        }
+
+
         musicTable = new JTable(tableModel);
         musicTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         musicTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         musicTable.getColumnModel().getColumn(2).setPreferredWidth(200);
         // Impede a movimentação das colunas.
         musicTable.getTableHeader().setReorderingAllowed(false);
+
+        // Adicionando TableRowSorter à JTable - ordena a tabela
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        musicTable.setRowSorter(sorter);
+
+        musicTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) { // Para evitar eventos duplicados
+                    boolean isRowSelected = musicTable.getSelectedRow() != -1;
+                    rateMusic.setEnabled(isRowSelected); // Habilita ou desabilita o botão com base na seleção
+                }
+            }
+        });
+
 
         JScrollPane scrollPane = new JScrollPane(musicTable);
 
@@ -85,12 +116,14 @@ public class MyMusic extends JPanel implements ActionListener {
         rateMusic.setText("Avaliar Música");
         rateMusic.setBounds(0, 150, 120, 35);
         rateMusic.setFocusable(false);
+        rateMusic.addActionListener(this);
 
         //botão de remover músicas das adquiridas
         removeMusic = new JButton();
         removeMusic.setText("Remover");
         removeMusic.setBounds(0, rateMusic.getY() + 50, 120, 35);
         removeMusic.setFocusable(false);
+        removeMusic.addActionListener(this);
 
         eastPanel.add(rateMusic);
         eastPanel.add(removeMusic);
@@ -102,6 +135,28 @@ public class MyMusic extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == rateMusic) {
+            int selectedRow = musicTable.getSelectedRow();
+            if (selectedRow != -1) {
+                // Obtenha os detalhes da música selecionada
+                String title = (String) tableModel.getValueAt(selectedRow, 0);
+                String artist = (String) tableModel.getValueAt(selectedRow, 1);
+                String genre = (String) tableModel.getValueAt(selectedRow, 2);
+                new RateSong(frameCliente);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma música para avaliar.");
+            }
+        } else if (e.getSource() == removeMusic) {
+            int selectedRow = musicTable.getSelectedRow();
+            if (selectedRow != -1) {
+                // Remove da tabela
+                tableModel.removeRow(selectedRow);
+                // Remove da lista de músicas
+                musicas.remove(selectedRow);
+                rateMusic.setEnabled(true); // faz com que o botão de avaliar não fique disabled após remover uma música
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma música para remover.");
+            }
+        }
     }
 }
