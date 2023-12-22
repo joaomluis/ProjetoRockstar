@@ -4,6 +4,7 @@ public class Musica {
     private String title;
     private String artist;
     private String genre;
+    private double preco;
 
     public Musica(String tittle, String artist, String genre) {
         this.title = tittle;
@@ -28,5 +29,9 @@ public class Musica {
 
     public void setArtist(String artist) {
         this.artist = artist;
+    }
+
+    public double getPreco() {
+        return preco;
     }
 }
