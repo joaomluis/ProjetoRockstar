@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class MyMusic extends JPanel implements ActionListener {
+public class CurrentPlaylist extends JPanel implements ActionListener {
 
     private FrameCliente frameCliente;
     private JPanel topPanel;
@@ -25,7 +25,7 @@ public class MyMusic extends JPanel implements ActionListener {
     private JLabel panelTitle;
     private ArrayList<Musica> musicas;
 
-    public MyMusic(FrameCliente frameCliente) {
+    public CurrentPlaylist(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
         setLayout(new BorderLayout());

@@ -106,6 +106,27 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         setVisible(true);
     }
 
+    private void ordenarNome() {
+        Collections.sort(musicas, new Comparator<Musica>() {
+            @Override
+            public int compare(Musica musica1, Musica musica2) {
+                int result = musica1.getTitle().compareTo(musica2.getTitle());
+                return result * sortByNameOrder; // Multiplica pelo valor da variável de controle para inverter a ordem se necessário
+            }
+        });
+        sortByNameOrder *= -1; // Inverte o valor da variável de controle para a próxima ordenação
+
+        // Limpa o modelo de tabela
+        tabelaDefault.setRowCount(0);
+
+        // Adiciona as músicas ordenadas ao modelo de tabela
+        for (Musica musica : musicas) {
+            Object[] rowData = {musica.getTitle(), musica.getArtist()};
+            tabelaDefault.addRow(rowData);
+        }
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == editarNome) {
