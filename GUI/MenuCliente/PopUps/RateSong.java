@@ -15,7 +15,7 @@ public class RateSong extends JDialog implements ActionListener {
     private JButton cancelButton;
 
     public RateSong(JFrame frame) {
-        super(frame, "Avaliar música", false);
+        super(frame, "Avaliar música", true);
 
         ////Especificações da janela\\\\\
         setSize(400, 150);

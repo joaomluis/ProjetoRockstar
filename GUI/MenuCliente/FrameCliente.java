@@ -21,6 +21,7 @@ public class FrameCliente extends JFrame implements ActionListener {
     private PurchaseHistory purchaseHistory;
     private Store myStore;
     private ShoppingCart shoppingCart;
+    private CurrentPlaylist currentPlaylist;
     private JPanel currentPanel;
 
 
@@ -50,6 +51,7 @@ public class FrameCliente extends JFrame implements ActionListener {
         purchaseHistory = new PurchaseHistory(this);
         myStore = new Store(this);
         shoppingCart = new ShoppingCart(this);
+        currentPlaylist = new CurrentPlaylist(this);
 
 
         //Junção dos paines ao card layout
@@ -59,6 +61,7 @@ public class FrameCliente extends JFrame implements ActionListener {
         panelContainer.add(purchaseHistory, "Purchase History");
         panelContainer.add(myStore, "Store");
         panelContainer.add(shoppingCart, "Cart");
+        panelContainer.add(currentPlaylist, "CurrentPlaylist");
 
         //Painel que fica no topo com os botões
         homeButtonPanel = new JPanel();
@@ -143,6 +146,11 @@ public class FrameCliente extends JFrame implements ActionListener {
         cardLayout.show(panelContainer, "Cart");
     }
 
+    protected void showCurrentPlaylist() {
+        setCurrentPanel(currentPlaylist);
+        cardLayout.show(panelContainer, "CurrentPlaylist");
+    }
+
     private void setCurrentPanel(JPanel currentPanel) {
         this.currentPanel = currentPanel;
     }
@@ -157,6 +165,21 @@ public class FrameCliente extends JFrame implements ActionListener {
             setCurrentPanel(shoppingCart);
         } else if (e.getSource() == backButton) {
             if (currentPanel == myMusic){
+                cardLayout.show(panelContainer, "Menu Inicial");
+                setCurrentPanel(menuInicial);
+            } else if (currentPanel == myPlaylists) {
+                cardLayout.show(panelContainer, "Menu Inicial");
+                setCurrentPanel(menuInicial);
+            } else if (currentPanel == currentPlaylist) {
+                cardLayout.show(panelContainer, "MyPlaylists");
+                setCurrentPanel(myPlaylists);
+            } else if (currentPanel == purchaseHistory) {
+                cardLayout.show(panelContainer, "Menu Inicial");
+                setCurrentPanel(menuInicial);
+            } else if (currentPanel == shoppingCart) {
+                cardLayout.show(panelContainer, "Menu Inicial");
+                setCurrentPanel(menuInicial);
+            } else if (currentPanel == myStore) {
                 cardLayout.show(panelContainer, "Menu Inicial");
                 setCurrentPanel(menuInicial);
             }

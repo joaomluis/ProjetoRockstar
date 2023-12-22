@@ -22,6 +22,7 @@ public class CurrentPlaylist extends JPanel implements ActionListener {
     private DefaultTableModel tableModel;
     private JButton removeMusic;
     private JButton rateMusic;
+    private JCheckBox visibilidadePlaylist;
     private JLabel panelTitle;
     private ArrayList<Musica> musicas;
 
@@ -46,7 +47,7 @@ public class CurrentPlaylist extends JPanel implements ActionListener {
 
         //Titulo do Painel
         panelTitle = new JLabel();
-        panelTitle.setText("Minhas Músicas");
+        panelTitle.setText("Nome da playlist");
         panelTitle.setFont(new Font("Arial", Font.BOLD, 22));
         panelTitle.setForeground(new Color(198, 107, 61));
         panelTitle.setBounds(250, 5, 250, 30);
@@ -96,7 +97,6 @@ public class CurrentPlaylist extends JPanel implements ActionListener {
             }
         });
 
-
         JScrollPane scrollPane = new JScrollPane(musicTable);
 
         // ADD scroll ao Panel
@@ -125,11 +125,19 @@ public class CurrentPlaylist extends JPanel implements ActionListener {
         removeMusic.setFocusable(false);
         removeMusic.addActionListener(this);
 
+        //checkbox para definir a visibildade da playlist
+        visibilidadePlaylist = new JCheckBox();
+        visibilidadePlaylist.setText("Privado");
+        visibilidadePlaylist.setBounds(removeMusic.getX() + 30, removeMusic.getY() + 45, 90, 20);
+        visibilidadePlaylist.setBackground(new Color(20, 64, 88));
+        visibilidadePlaylist.setForeground(new Color(198, 107, 61));
+        visibilidadePlaylist.setFocusable(false);
+
         eastPanel.add(rateMusic);
         eastPanel.add(removeMusic);
+        eastPanel.add(visibilidadePlaylist);
 
         add(eastPanel, BorderLayout.EAST);
-
 
     }
 
