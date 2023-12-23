@@ -1,6 +1,7 @@
 package GUI.MenuCliente;
 
 import BackEnd.Musica;
+import GUI.MenuCliente.PopUps.AddToPlaylist;
 import GUI.MenuCliente.PopUps.RateSong;
 
 import javax.swing.*;
@@ -33,11 +34,11 @@ public class MyMusic extends JPanel implements ActionListener {
         setBackground(new Color(20, 64, 88));
 
         this.musicas = new ArrayList<>();
-        musicas.add(new Musica("Bohemian Rhapsody", "Queen", "Rock"));
-        musicas.add(new Musica("Smells Like Teen Spirit", "Nirvana", "Grunge"));
-        musicas.add(new Musica("Imagine", "John Lennon", "Pop"));
-        musicas.add(new Musica("Hotel California", "Eagles", "Rock"));
-        musicas.add(new Musica("Shape of You", "Ed Sheeran", "Pop"));
+        musicas.add(new Musica("Bohemian Rhapsody", "Queen", "Rock", 2.99));
+        musicas.add(new Musica("Smells Like Teen Spirit", "Nirvana", "Grunge",1.89));
+        musicas.add(new Musica("Imagine", "John Lennon", "Pop",1.89));
+        musicas.add(new Musica("Hotel California", "Eagles", "Rock",1.99));
+        musicas.add(new Musica("Shape of You", "Ed Sheeran", "Pop",2.59));
 
         ///////////Painel Superior\\\\\\\\\\\\\\\\\\\\\\\\\\\
         topPanel = new JPanel();
@@ -165,6 +166,17 @@ public class MyMusic extends JPanel implements ActionListener {
                 rateMusic.setEnabled(true); // faz com que o botão de avaliar não fique disabled após remover uma música
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma música para remover.");
+            }
+        } else if (e.getSource() == addToPlaylist) {
+            int selectedRow = musicTable.getSelectedRow();
+            if (selectedRow != -1) {
+                // Obtenha os detalhes da música selecionada
+                String title = (String) tableModel.getValueAt(selectedRow, 0);
+                String artist = (String) tableModel.getValueAt(selectedRow, 1);
+                String genre = (String) tableModel.getValueAt(selectedRow, 2);
+                new AddToPlaylist(frameCliente);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma música para adicionar.");
             }
         }
     }

@@ -1,5 +1,7 @@
 package GUI.MenuCliente;
 
+import BackEnd.Cliente;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,7 @@ public class FrameCliente extends JFrame implements ActionListener {
     private ShoppingCart shoppingCart;
     private CurrentPlaylist currentPlaylist;
     private JPanel currentPanel;
+    private Cliente activeClient;
 
 
     public void interfaceClient() {
@@ -95,14 +98,14 @@ public class FrameCliente extends JFrame implements ActionListener {
         //Label saldo
         balance = new JLabel();
         balance.setBounds(570, 5, 60, 25);
-        balance.setText("110,99€");
+        balance.setText(String.valueOf(activeClient.getSaldo()) + "€");
         balance.setFont(new Font("Arial", Font.BOLD, 12));
         balance.setForeground(new Color(198,107,61));
 
         //label do username
         username = new JLabel();
         username.setBounds(150, 5, 200, 25);
-        username.setText("username");
+        username.setText(activeClient.getUsername());
         username.setFont(new Font("Arial", Font.BOLD, 12));
         username.setForeground(new Color(198,107,61));
 
@@ -186,10 +189,7 @@ public class FrameCliente extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-
-        FrameCliente frameCliente = new FrameCliente();
-        frameCliente.interfaceClient();
-
+    public void setActiveClient(Cliente activeClient) {
+        this.activeClient = activeClient;
     }
 }

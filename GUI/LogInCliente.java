@@ -1,6 +1,8 @@
 package GUI;
+import BackEnd.Cliente;
 import BackEnd.User;
 import GUI.MenuCliente.FrameCliente;
+import GUI.MenuCliente.MainMenu;
 
 
 import javax.swing.*;
@@ -19,15 +21,15 @@ public class LogInCliente{
     private  JPasswordField passwordField;
     private JButton logInButton;
     private JButton cancelButton;
-    private User[] users;
+    private Cliente[] clientes;
 
     protected void painelLogInCliente(JFrame frame, GUI gui) {
 
-        users = new User[] {
-                new User("user1", "password1"),
-                new User("user2", "password2"),
-                new User("user3", "password3"),
-                new User("1", "1")
+        clientes = new Cliente[] {
+                new Cliente("user1", "password1"),
+                new Cliente("user2", "password2"),
+                new Cliente("user3", "password3"),
+                new Cliente("1", "1")
         };
 
         logInPanel = new JPanel();
@@ -87,11 +89,15 @@ public class LogInCliente{
 
                 if (validateCredentials(username, password)) {
                     // Credenciais válidas
-                    //JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
-                    // Realizar ação após o login ser bem-sucedido
+                    Cliente cliente = getClienteByUsername(username);
+
+                    FrameCliente frameCliente = new FrameCliente();
+                    MainMenu menuPrincipal = new MainMenu(frameCliente);
+                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
+                    frameCliente.setActiveClient(cliente);
+
                     frame.dispose();
-                    FrameCliente menuPrincipal = new FrameCliente();
-                    menuPrincipal.interfaceClient();
+                    frameCliente.interfaceClient();
                 } else {
                     // Credenciais inválidas
                     JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
@@ -128,11 +134,20 @@ public class LogInCliente{
         frame.repaint();
     }
     private boolean validateCredentials(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getUsername().equals(username) && cliente.getPassword().equals(password)) {
                 return true; // Credenciais válidas
             }
         }
         return false; // Credenciais inválidas
+    }
+
+    private Cliente getClienteByUsername(String username) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getUsername().equals(username)) {
+                return cliente;
+            }
+        }
+        return null;
     }
 }

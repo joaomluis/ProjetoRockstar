@@ -1,20 +1,23 @@
 package GUI.MenuCliente;
 
 import BackEnd.Musica;
+import GUI.MenuCliente.PopUps.ConfirmPurchase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ShoppingCart extends JPanel {
+public class ShoppingCart extends JPanel implements ActionListener {
 
     private FrameCliente frameCliente;
     private JPanel topPanel;
     private JPanel eastPanel;
     private JTable purchaseTable;
     private DefaultTableModel tableModel;
-    private JButton seePurchase;
+    private JButton confirmPurchase;
     private JLabel panelTitle;
     private ArrayList<Musica> musicas; //alterar para compras
 
@@ -78,13 +81,21 @@ public class ShoppingCart extends JPanel {
         eastPanel.setLayout(null);
 
         //botão de remover músicas das adquiridas
-        seePurchase = new JButton();
-        seePurchase.setText("Comprar"); //colocar um pop up a dizer o preço total e confirmar compra?
-        seePurchase.setBounds(0, 150, 120, 35);
-        seePurchase.setFocusable(false);
+        confirmPurchase = new JButton();
+        confirmPurchase.setText("Comprar"); //colocar um pop up a dizer o preço total e confirmar compra?
+        confirmPurchase.setBounds(0, 150, 120, 35);
+        confirmPurchase.setFocusable(false);
+        confirmPurchase.addActionListener(this);
 
-        eastPanel.add(seePurchase);
+        eastPanel.add(confirmPurchase);
 
         add(eastPanel, BorderLayout.EAST);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == confirmPurchase) {
+            new ConfirmPurchase(frameCliente);
+        }
     }
 }

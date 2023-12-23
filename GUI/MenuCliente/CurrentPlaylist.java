@@ -33,11 +33,11 @@ public class CurrentPlaylist extends JPanel implements ActionListener {
         setBackground(new Color(20, 64, 88));
 
         this.musicas = new ArrayList<>();
-        musicas.add(new Musica("Bohemian Rhapsody", "Queen", "Rock"));
-        musicas.add(new Musica("Smells Like Teen Spirit", "Nirvana", "Grunge"));
-        musicas.add(new Musica("Imagine", "John Lennon", "Pop"));
-        musicas.add(new Musica("Hotel California", "Eagles", "Rock"));
-        musicas.add(new Musica("Shape of You", "Ed Sheeran", "Pop"));
+        musicas.add(new Musica("Bohemian Rhapsody", "Queen", "Rock", 2.99));
+        musicas.add(new Musica("Smells Like Teen Spirit", "Nirvana", "Grunge",1.89));
+        musicas.add(new Musica("Imagine", "John Lennon", "Pop",1.89));
+        musicas.add(new Musica("Hotel California", "Eagles", "Rock",1.99));
+        musicas.add(new Musica("Shape of You", "Ed Sheeran", "Pop",2.59));
 
         ///////////Painel Superior\\\\\\\\\\\\\\\\\\\\\\\\\\\
         topPanel = new JPanel();

@@ -6,10 +6,11 @@ public class Musica {
     private String genre;
     private double preco;
 
-    public Musica(String tittle, String artist, String genre) {
+    public Musica(String tittle, String artist, String genre, double preco) {
         this.title = tittle;
         this.artist = artist;
         this.genre = genre;
+        this.preco = preco;
     }
 
     public String getTitle() {

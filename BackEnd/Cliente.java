@@ -3,7 +3,7 @@ package BackEnd;
 import java.util.ArrayList;
 
 public class Cliente extends User{
-    private ArrayList<Musica> historicoCompras;
+    private ArrayList<Musica> historicoCompras; // isto é uma lista de commpras não de musicas
     private ArrayList<Playlist> playlists;
     private ArrayList<Musica> carrinhoCompras;
     private double saldo;
@@ -13,7 +13,13 @@ public class Cliente extends User{
         historicoCompras = new ArrayList<>();
         playlists = new ArrayList<>();
         carrinhoCompras = new ArrayList<>();
+        saldo = 0.00;
     }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
     /**
      * Cria uma playlist aleatória especificando o gênero musical e o número de musicas. E retorna a nova PlayList.
      * @return true se a playlist foi criada, false caso contrário.

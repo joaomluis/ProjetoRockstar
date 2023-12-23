@@ -1,5 +1,6 @@
 package GUI.MenuCliente;
 
+import BackEnd.Cliente;
 import GUI.GUI;
 import GUI.MenuCliente.PopUps.GeneratePlaylist;
 
@@ -17,12 +18,13 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton logOut;
     private JButton store;
     private JLabel title;
-    private JLabel usernameLabel;
     private FrameCliente frameCliente;
+    protected Cliente activeClient;
 
-    protected MainMenu(FrameCliente frameCliente) {
+    public MainMenu(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
+        this.activeClient = activeClient;
 
         setLayout(null);
         setBackground(new Color(20,64,88));
@@ -120,5 +122,8 @@ public class MainMenu extends JPanel implements ActionListener {
         if (e.getSource() == createPlaylist) {
             new GeneratePlaylist(frameCliente);
         }
+    }
+    public void setActiveClient(Cliente activeClient) {
+        this.activeClient = activeClient;
     }
 }
