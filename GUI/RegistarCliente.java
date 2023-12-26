@@ -1,11 +1,13 @@
 package GUI;
 
+import BackEnd.Tipo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static BackEnd.RockStar.createClient;
+import static BackEnd.RockStar.createUser;
 
 public class RegistarCliente {
 
@@ -17,6 +19,8 @@ public class RegistarCliente {
     private JLabel passwordLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private String inputUsername;
+    private String inputPassword;
 
     protected void createClientPanel(JFrame frame, GUI gui) {
 
@@ -39,6 +43,7 @@ public class RegistarCliente {
         passwordField = new JPasswordField();
         passwordField.setBounds(230, usernameField.getY() + 45, 150, 28);
         passwordField.setFont(new Font("Arial", Font.BOLD, 13));
+
 
         // label do Username
         usernameLabel = new JLabel();
@@ -64,7 +69,20 @@ public class RegistarCliente {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createClient(usernameField, passwordField, frame);
+
+                inputUsername = usernameField.getText();
+                char[] passwordChar = passwordField.getPassword();
+                inputPassword = new String(passwordChar);
+
+                if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 1) {
+                    JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
+                } else if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 2) {
+                    JOptionPane.showMessageDialog(frame, "Username já está em uso.");
+                } else if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 3) {
+                    JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
+                }
             }
         });
 

@@ -23,22 +23,30 @@ public class RockStar {
      * Cria um objeto novo do tipo Cliente através do input colocado nas JTextFields da interface,
      * posteriormente chama o método addCliente para adicionar à ArrayLista da classe e por fim
      * chama o método saveClient para guardar na base de dados.
-     * @param usernameField
-     * @param passwordField
+     * @param username
+     * @param password
      * @return O objeto do novo Cliente
      */
-    public static Cliente createClient(JTextField usernameField, JTextField passwordField, JFrame frame) {
+    public static int createUser(String username, String password, String pin, Tipo tipo) {
 
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-
-        Cliente novoCliente = new Cliente(username, password);
-
-        addCliente(novoCliente);
-        salvarClientesNoArquivo("baseDadosRockstar.ser");
-
-        return novoCliente;
+        if (verificaCampoVazio(username, password, pin)) { // se houver um campo vazio
+            return 3;
+        } else {
+            if (!verificaUsername(username)) { // se não há nome igual
+                if (tipo == Tipo.CLIENTE) {
+                    Cliente novoCliente = new Cliente(username, password);
+                    addCliente(novoCliente);
+                    salvarClientesNoArquivo("baseDadosRockstar.ser");
+                    return 1;
+                } else if (tipo == Tipo.MUSICO) {
+                    Musico novoMusico = new Musico(username, password, pin);
+                    return 1;
+                }
+            } else {
+                return 2;
+            }
+        }
+        return 0;
     }
 
     /**
@@ -98,5 +106,24 @@ public class RockStar {
             e.printStackTrace();
         }
         return clientes;
+    }
+
+    private static boolean verificaUsername(String username) {
+
+        List<Cliente> clientes = getClientList("baseDadosRockstar.ser");
+
+        for (Cliente cliente: clientes) {
+            if(cliente.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean verificaCampoVazio(String username, String password, String pin) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            return true;
+        }
+        return false;
     }
 }
