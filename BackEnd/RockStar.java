@@ -2,18 +2,18 @@ package BackEnd;
 
 import GUI.GUI;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RockStar {
 
-    private static ArrayList<Cliente> baseDadosClientes;
+    private static ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
+    private static User userAtivo;
 
     public RockStar() {
-        baseDadosClientes = new ArrayList<>();
+        baseDadosUsers = new ArrayList<>();
         baseDadosMusicas = new ArrayList<>();
         new GUI();
 
@@ -35,12 +35,18 @@ public class RockStar {
             if (!verificaUsername(username)) { // se não há nome igual
                 if (tipo == Tipo.CLIENTE) {
                     Cliente novoCliente = new Cliente(username, password);
-                    addCliente(novoCliente);
-                    salvarClientesNoArquivo("baseDadosRockstar.ser");
+                    addUser(novoCliente);
+                    salvarUsersNoArquivo("baseDadosRockstar.ser");
                     return 1;
                 } else if (tipo == Tipo.MUSICO) {
-                    Musico novoMusico = new Musico(username, password, pin);
-                    return 1;
+                    if (contemDigitos(pin)) { // se o pin é só digitos de 0 a 9
+                        Musico novoMusico = new Musico(username, password, pin);
+                        addUser(novoMusico);
+                        salvarUsersNoArquivo("baseDadosRockstar.ser");
+                        return 1;
+                    } else {
+                        return 4;
+                    }
                 }
             } else {
                 return 2;
@@ -50,31 +56,31 @@ public class RockStar {
     }
 
     /**
-     * Adiciona o novo cliente à ArrayList da classe
-     * @param cliente
+     * Adiciona o novo user à ArrayList da classe
+     * @param user
      */
-    private static void addCliente(Cliente cliente) {
-        baseDadosClientes.add(cliente);
+    private static void addUser(User user) {
+        baseDadosUsers.add(user);
     }
 
         /**
-         * Guarda o novo objeto de tipo Cliente na base de dados da plataforma
-         * @param clientes
+         * Guarda o novo objeto de tipo User na base de dados da plataforma
+         * @param users
          * @param ficheiro
          */
-    private static void saveClients(List<Cliente> clientes, String ficheiro) {
+    private static void saveUsers(List<User> users, String ficheiro) {
 
-        List<Cliente> clientesExistentes = getClientList(ficheiro);
+        List<User> clientesExistentes = getUserList(ficheiro);
 
         if(clientesExistentes != null) {
-            clientesExistentes.addAll(clientes);
-            clientes = clientesExistentes;
+            clientesExistentes.addAll(users);
+            users = clientesExistentes;
         }
 
         try {
             FileOutputStream fos = new FileOutputStream(ficheiro);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(clientes);
+            oos.writeObject(users);
             oos.close();
             fos.close();
             System.out.println(ficheiro + " serialized");
@@ -83,8 +89,8 @@ public class RockStar {
         }
     }
 
-    private static void salvarClientesNoArquivo(String ficheiro) {
-        saveClients(baseDadosClientes, ficheiro);
+    private static void salvarUsersNoArquivo(String ficheiro) {
+        saveUsers(baseDadosUsers, ficheiro);
     }
 
     /**
@@ -93,36 +99,93 @@ public class RockStar {
      * @param ficheiro
      * @return
      */
-    private static List<Cliente> getClientList(String ficheiro) {
-        List<Cliente> clientes = new ArrayList<>();
+    private static List<User> getUserList(String ficheiro) {
+        List<User> users = new ArrayList<>();
 
         try {
             FileInputStream fos = new FileInputStream(ficheiro);
             ObjectInputStream ois = new ObjectInputStream(fos);
-            clientes = (List<Cliente>) ois.readObject();
+            users = (List<User>) ois.readObject();
         } catch (EOFException e) {
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return clientes;
+        return users;
     }
 
+    /**
+     * Metodo chamado durante o registo de conta que vai verificar no ficheiro se já existe
+     * algum objeto do tipo User com o username insirdo no JTextField de username.
+     * @param username
+     * @return
+     */
     private static boolean verificaUsername(String username) {
 
-        List<Cliente> clientes = getClientList("baseDadosRockstar.ser");
+        List<User> users = getUserList("baseDadosRockstar.ser");
 
-        for (Cliente cliente: clientes) {
-            if(cliente.getUsername().equals(username)) {
+        for (User user: users) {
+            if(user.getUsername().equals(username)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Metodo chamado durante o registo de conta que verifica se algum dos campos de input estão vazios
+     * impedindo o utilizador de registar conta sem preencher tudo.
+     * @param username
+     * @param password
+     * @param pin
+     * @return
+     */
     private static boolean verificaCampoVazio(String username, String password, String pin) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * Método chamado no registo de conta de um Músico que verifica se o campo do pin
+     * só contém digitos de 0 a 9.
+     * @param input
+     * @return
+     */
+    private static boolean contemDigitos(String input) {
+        for (char c : input.toCharArray()) {
+            if(!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean estaLogado() {
+        if (userAtivo != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean fazerLogIn(String username, String password, String pin) {
+
+        List<User> usersList = getUserList("baseDadosRockstar.ser");
+
+        if (!estaLogado()) {
+            for (User user : usersList) {
+                if (user instanceof Cliente) {
+                    if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                        userAtivo = (Cliente) user;
+                        return true;
+                    }
+                } else if (user instanceof Musico) {
+                    if (user.getUsername().equals(username) && user.getPassword().equals(password) && ((Musico) user).getPin().equals(pin)) {
+                        userAtivo = (Musico) user;
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }

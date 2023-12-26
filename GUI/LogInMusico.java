@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static BackEnd.RockStar.fazerLogIn;
+
 public class LogInMusico {
 
     private JPanel logInPanel;
@@ -20,15 +22,9 @@ public class LogInMusico {
     private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
-    private Musico[] musicos;
 
     protected void painelLogInMusico(JFrame frame, GUI gui) {
 
-        musicos = new Musico[] {
-                new Musico("musico1", "password1", "1"),
-                new Musico("musico2", "password2", "2"),
-                new Musico("3", "3", "3")
-        };
 
         logInPanel = new JPanel();
         logInPanel.setLayout(null);
@@ -98,7 +94,7 @@ public class LogInMusico {
                 String password = String.valueOf(passwordField.getPassword());
                 String pin = String.valueOf(pinField.getPassword());
 
-                if (validateCredentials(username, password, pin)) {
+                if (fazerLogIn(username, password, pin)) {
                     // Credenciais válidas
                     JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                     frame.dispose();
@@ -106,7 +102,7 @@ public class LogInMusico {
 
                 } else {
                     // Credenciais inválidas
-                    JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
+                    JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
                 }
             }
         });
@@ -141,12 +137,12 @@ public class LogInMusico {
         frame.revalidate();
         frame.repaint();
     }
-    private boolean validateCredentials(String username, String password, String pin) {
-        for (Musico musico: musicos) {
-            if (musico.getUsername().equals(username) && musico.getPassword().equals(password) && musico.getPin().equals(pin)) {
-                return true; // Credenciais válidas
-            }
-        }
-        return false; // Credenciais inválidas
-    }
+//    private boolean validateCredentials(String username, String password, String pin) {
+//        for (Musico musico: musicos) {
+//            if (musico.getUsername().equals(username) && musico.getPassword().equals(password) && musico.getPin().equals(pin)) {
+//                return true; // Credenciais válidas
+//            }
+//        }
+//        return false; // Credenciais inválidas
+//    }
 }

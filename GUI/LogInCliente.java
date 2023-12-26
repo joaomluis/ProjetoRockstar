@@ -1,6 +1,4 @@
 package GUI;
-import BackEnd.Cliente;
-import BackEnd.User;
 import GUI.MenuCliente.FrameCliente;
 import GUI.MenuCliente.MainMenu;
 
@@ -9,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static BackEnd.RockStar.fazerLogIn;
 
 public class LogInCliente{
 
@@ -21,16 +21,11 @@ public class LogInCliente{
     private  JPasswordField passwordField;
     private JButton logInButton;
     private JButton cancelButton;
-    private Cliente[] clientes;
+    private String inputUsername;
+    private String inputPassword;
 
     protected void painelLogInCliente(JFrame frame, GUI gui) {
 
-        clientes = new Cliente[] {
-                new Cliente("user1", "password1"),
-                new Cliente("user2", "password2"),
-                new Cliente("user3", "password3"),
-                new Cliente("1", "1")
-        };
 
         logInPanel = new JPanel();
         logInPanel.setLayout(null);
@@ -84,17 +79,19 @@ public class LogInCliente{
         logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = String.valueOf(passwordField.getPassword());
+                inputUsername = usernameField.getText();
+                char[] passwordChar = passwordField.getPassword();
+                inputPassword = new String(passwordChar);
 
-                if (validateCredentials(username, password)) {
+                if (fazerLogIn(inputUsername, inputPassword, "0000")) {
                     // Credenciais válidas
-                    Cliente cliente = getClienteByUsername(username);
+//                    Cliente cliente = getClienteByUsername(username);
 
+                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
                     FrameCliente frameCliente = new FrameCliente();
                     MainMenu menuPrincipal = new MainMenu(frameCliente);
-                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
-                    frameCliente.setActiveClient(cliente);
+//                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
+//                    frameCliente.setActiveClient(cliente);
 
                     frame.dispose();
                     frameCliente.interfaceClient();
@@ -133,21 +130,13 @@ public class LogInCliente{
         frame.revalidate();
         frame.repaint();
     }
-    private boolean validateCredentials(String username, String password) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getUsername().equals(username) && cliente.getPassword().equals(password)) {
-                return true; // Credenciais válidas
-            }
-        }
-        return false; // Credenciais inválidas
-    }
 
-    private Cliente getClienteByUsername(String username) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getUsername().equals(username)) {
-                return cliente;
-            }
-        }
-        return null;
-    }
+//    private Cliente getClienteByUsername(String username) {
+//        for (Cliente cliente : clientes) {
+//            if (cliente.getUsername().equals(username)) {
+//                return cliente;
+//            }
+//        }
+//        return null;
+//    }
 }
