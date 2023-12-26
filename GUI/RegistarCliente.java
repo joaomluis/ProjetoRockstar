@@ -5,12 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static BackEnd.RockStar.createClient;
+
 public class RegistarCliente {
 
     private JPanel createClientPanel;
     private JButton cancelButton;
     private JButton createButton;
-    private JLabel tittleLabel;
+    private JLabel titleLabel;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JTextField usernameField;
@@ -22,11 +24,11 @@ public class RegistarCliente {
         createClientPanel.setLayout(null);
         createClientPanel.setBackground(new Color(77, 24, 28));
 
-        tittleLabel = new JLabel();
-        tittleLabel.setText("Criar uma conta");
-        tittleLabel.setBounds(138, 50, 223, 40);
-        tittleLabel.setFont(new Font("Arial", Font.BOLD, 28));
-        tittleLabel.setForeground(new Color(229, 141, 46));
+        titleLabel = new JLabel();
+        titleLabel.setText("Criar uma conta");
+        titleLabel.setBounds(138, 50, 223, 40);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+        titleLabel.setForeground(new Color(229, 141, 46));
 
         // caixa de texto para o username
         usernameField = new JTextField();
@@ -59,6 +61,12 @@ public class RegistarCliente {
         createButton.setFocusable(false);
         createButton.setFont(new Font("Arial", Font.BOLD, 15));
         createButton.setForeground(Color.black);
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createClient(usernameField, passwordField, frame);
+            }
+        });
 
         //botão de cancelar e retrocede para o painel anterior
         cancelButton = new JButton();
@@ -76,7 +84,7 @@ public class RegistarCliente {
 
         createClientPanel.add(cancelButton);
         createClientPanel.add(createButton);
-        createClientPanel.add(tittleLabel);
+        createClientPanel.add(titleLabel);
         createClientPanel.add(usernameField);
         createClientPanel.add(passwordField);
         createClientPanel.add(usernameLabel);

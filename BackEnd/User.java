@@ -1,15 +1,21 @@
 package BackEnd;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class User {
+public abstract class User implements Serializable {
     private String username;
     private String password;
-    private ArrayList<Playlist> playlists ;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User() {
+        this.username = "";
+        this.password = "";
+
     }
 
     // Getters para username e password

@@ -17,6 +17,14 @@ public class Cliente extends User implements Serializable {
         saldo = 0.00;
     }
 
+    public Cliente() {
+        super();
+        this.saldo = 0;
+        historicoCompras = new ArrayList<>();
+        playlists = new ArrayList<>();
+        carrinhoCompras = new ArrayList<>();
+    }
+
     public double getSaldo() {
         return saldo;
     }
