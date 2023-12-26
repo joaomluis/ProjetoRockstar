@@ -1,6 +1,8 @@
 package BackEnd;
 
-public class Musico extends User{
+import java.io.Serializable;
+
+public class Musico extends User implements Serializable {
     private String pin;
     public Musico(String username, String password, String pin) {
         super(username, password);

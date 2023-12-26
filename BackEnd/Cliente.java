@@ -1,9 +1,10 @@
 package BackEnd;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente extends User{
-    private ArrayList<Musica> historicoCompras; // isto é uma lista de commpras não de musicas
+public class Cliente extends User implements Serializable {
+    private ArrayList<Compra> historicoCompras; // isto é uma lista de commpras não de musicas VERFICADO:::::::::::::::
     private ArrayList<Playlist> playlists;
     private ArrayList<Musica> carrinhoCompras;
     private double saldo;
@@ -24,6 +25,37 @@ public class Cliente extends User{
      * Cria uma playlist aleatória especificando o gênero musical e o número de musicas. E retorna a nova PlayList.
      * @return true se a playlist foi criada, false caso contrário.
      */
+    public ArrayList<Musica> criarPlaylist(String genero, int numMusicas){
+        ArrayList<Musica> novaPlaylist = new ArrayList<>();
+        ArrayList<Musica> musicasDoGenero = new ArrayList<>();
+        //Verifica quantas músicas o usuario tem daquele genero
+        for(int i=0; i<historicoCompras.size(); i++){
+            //Se o genero da música for igual ao do historico
+            if(historicoCompras.get(i).getMusica().getGenre().equals(genero)){
+                musicasDoGenero.add(historicoCompras.get(i).getMusica());
+            }
+        }
+        //Em caso de o número de músicas daquele genero for menor que o especificado, atualizamos o numero para esse número.
+        if(musicasDoGenero.size() < numMusicas) numMusicas = musicasDoGenero.size();
+
+        //Percorre as músicas do cliente e adiciona-as na playlist com o genero especificado.
+        while(novaPlaylist.size() < numMusicas){
+            for(int i=0; i<historicoCompras.size(); i++){
+                if(historicoCompras.get(i).getMusica().getGenre().equals(genero)){
+                    novaPlaylist.add(historicoCompras.get(i).getMusica());
+                }
+            }
+        }
+        //Adiciona a nova Playlist à lista de playlists do Cliente.
+        playlists.add(new Playlist("Playlist de "+genero, novaPlaylist, this));
+        //Retorna a nova playlist
+        return novaPlaylist;
+    }
+    /**
+     * Cria uma Playlist vazia com o nome pertendido.
+     * @param nomePlaylist
+     * @return true se a playlist foi criada com sucesso e false caso contrário.
+     */
     public boolean criarPlaylist(String nomePlaylist) {
         //Verifica se o nome da playlist ja existe na lista de playlists.
         for (Playlist pl : playlists) {
@@ -34,35 +66,11 @@ public class Cliente extends User{
         }
         return true;
     }
-    public ArrayList<Musica> criarPlaylist(String genero, int numMusicas){
-        ArrayList<Musica> novaPlaylist = new ArrayList<>();
-        ArrayList<Musica> musicasDoGenero = new ArrayList<>();
-        //Verifica quantas músicas o usuario tem daquele genero
-        for(Musica m : historicoCompras){
-            if(m.getGenre().equals(genero) && !musicasDoGenero.contains(m) && musicasDoGenero.size()<=numMusicas){
-                musicasDoGenero.add(m);
-            }
-        }
-        //Em caso de o número de músicas daquele genero for menor que o especificado, atualizamos o numero para esse número.
-        if(musicasDoGenero.size() < numMusicas) numMusicas = musicasDoGenero.size();
-        //Percorre as músicas do cliente e adiciona-as na playlist com o genero especificado.
-        while(novaPlaylist.size() < numMusicas){
-            for (Musica m : historicoCompras) {
-                if(m.getGenre().equals(genero) && !novaPlaylist.contains(m)){
-                    novaPlaylist.add(m);
-                }
-            }
-        }
-        //Adiciona a nova Playlist à lista de playlists do Cliente.
-        playlists.add(new Playlist("Playlist de "+genero, novaPlaylist, this));
-        //Retorna a nova playlist
-        return novaPlaylist;
-    }
     /**
      * Retorna o historico de compras do cliente (músicas do cliente).
      * @return historicoCompras
      */
-    public ArrayList<Musica> musicas() {
+    public ArrayList<Compra> musicas() {
         return historicoCompras;
     }
     /**
@@ -72,10 +80,6 @@ public class Cliente extends User{
     public ArrayList<Playlist> getPlaylists() {
         return playlists;
     }
-    /**
-     * Cria uma Playlist vazia com o nome pertendido.
-     * @param nomePlaylist
-     */
     /**
      * Remove uma playlist do cliente.
      * @param nomePlaylist
@@ -121,7 +125,7 @@ public class Cliente extends User{
     }
     /**
      * Finaliza a compra das musicas presentes no carrinho.
-     * @return true se a divida for menor que o saldo e false caso contrário
+     * @return true se a divida for menor que o saldo executando a compra e false caso contrário
      */
     public boolean finalizaCompra(){
         double divida =0;
@@ -133,12 +137,27 @@ public class Cliente extends User{
             //Se a divida for maior que o saldo, retorna falso.
             return false;
         }else {
-            //Se a divida for menor ou igual ao saldo, finaliza a compra e retorna true.
-            historicoCompras.addAll(carrinhoCompras);
+            //Se a divida for menor ou igual ao saldo, finaliza a compra e retorna true adicionado todas as músicas ao historico.
+           for(Musica m : carrinhoCompras){
+               historicoCompras.add(new Compra(m, this));
+           }
+            saldo -= divida;
             carrinhoCompras.clear();
             return true;
         }
     }
+    /**
+     * Alterar a visibilidade da playlist do cliente para uma visibilidade especifica.
+     * @param nomePlaylist
+     * @param visibilidade
+     */
+    public void alterarVisibilidadePlaylist(Playlist nomePlaylist, boolean visibilidade){
+        nomePlaylist.alterarVisibilidadePlaylist(visibilidade);
+    }
+    /**
+     * Alterar a visibilidade da playlist do cliente.
+     * @param nomePlaylist
+     */
     public void alterarVisibilidadePlaylist(Playlist nomePlaylist){
         nomePlaylist.alterarVisibilidade();
     }
