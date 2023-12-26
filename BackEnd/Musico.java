@@ -9,6 +9,11 @@ public class Musico extends User implements Serializable {
         this.pin = pin;
     }
 
+    public Musico() {
+        super();
+        this.pin = "";
+    }
+
     public String getPin() {
         return pin;
     }

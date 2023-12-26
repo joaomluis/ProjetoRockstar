@@ -1,9 +1,13 @@
 package GUI;
 
+import BackEnd.Tipo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static BackEnd.RockStar.createUser;
 
 public class RegistarMusico {
 
@@ -17,6 +21,9 @@ public class RegistarMusico {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JPasswordField pinField;
+    private String inputUsername;
+    private String inputPassword;
+    private String inputPin;
 
     protected void createMusicianPanel (JFrame frame, GUI gui) {
 
@@ -74,6 +81,29 @@ public class RegistarMusico {
         createButton.setFocusable(false);
         createButton.setFont(new Font("Arial", Font.BOLD, 15));
         createButton.setForeground(Color.black);
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                inputUsername = usernameField.getText();
+                char[] passwordChar = passwordField.getPassword();
+                inputPassword = new String(passwordChar);
+                char[] pinChar = pinField.getPassword();
+                inputPin = new String(pinChar);
+                
+                if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
+                    JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
+                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
+                    JOptionPane.showMessageDialog(frame, "Username já está em uso.");
+                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 3) {
+                    JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
+                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 4) {
+                    JOptionPane.showMessageDialog(frame, "O pin só pode conter digitos de 0 a 9.");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
+                }
+            }
+        });
 
         // botão que cancela tarefa e volta para o painel anterior
         cancelButton = new JButton();

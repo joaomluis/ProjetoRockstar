@@ -2,18 +2,17 @@ package BackEnd;
 
 import GUI.GUI;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RockStar {
 
-    private static ArrayList<Cliente> baseDadosClientes;
+    private static ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
 
     public RockStar() {
-        baseDadosClientes = new ArrayList<>();
+        baseDadosUsers = new ArrayList<>();
         baseDadosMusicas = new ArrayList<>();
         new GUI();
 
@@ -35,12 +34,18 @@ public class RockStar {
             if (!verificaUsername(username)) { // se não há nome igual
                 if (tipo == Tipo.CLIENTE) {
                     Cliente novoCliente = new Cliente(username, password);
-                    addCliente(novoCliente);
-                    salvarClientesNoArquivo("baseDadosRockstar.ser");
+                    addUser(novoCliente);
+                    salvarUsersNoArquivo("baseDadosRockstar.ser");
                     return 1;
                 } else if (tipo == Tipo.MUSICO) {
-                    Musico novoMusico = new Musico(username, password, pin);
-                    return 1;
+                    if (contemDigitos(pin)) { // se o pin é só digitos de 0 a 9
+                        Musico novoMusico = new Musico(username, password, pin);
+                        addUser(novoMusico);
+                        salvarUsersNoArquivo("baseDadosRockstar.ser");
+                        return 1;
+                    } else {
+                        return 4;
+                    }
                 }
             } else {
                 return 2;
@@ -51,30 +56,30 @@ public class RockStar {
 
     /**
      * Adiciona o novo cliente à ArrayList da classe
-     * @param cliente
+     * @param user
      */
-    private static void addCliente(Cliente cliente) {
-        baseDadosClientes.add(cliente);
+    private static void addUser(User user) {
+        baseDadosUsers.add(user);
     }
 
         /**
-         * Guarda o novo objeto de tipo Cliente na base de dados da plataforma
-         * @param clientes
+         * Guarda o novo objeto de tipo User na base de dados da plataforma
+         * @param users
          * @param ficheiro
          */
-    private static void saveClients(List<Cliente> clientes, String ficheiro) {
+    private static void saveUsers(List<User> users, String ficheiro) {
 
-        List<Cliente> clientesExistentes = getClientList(ficheiro);
+        List<User> clientesExistentes = getClientList(ficheiro);
 
         if(clientesExistentes != null) {
-            clientesExistentes.addAll(clientes);
-            clientes = clientesExistentes;
+            clientesExistentes.addAll(users);
+            users = clientesExistentes;
         }
 
         try {
             FileOutputStream fos = new FileOutputStream(ficheiro);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(clientes);
+            oos.writeObject(users);
             oos.close();
             fos.close();
             System.out.println(ficheiro + " serialized");
@@ -83,8 +88,8 @@ public class RockStar {
         }
     }
 
-    private static void salvarClientesNoArquivo(String ficheiro) {
-        saveClients(baseDadosClientes, ficheiro);
+    private static void salvarUsersNoArquivo(String ficheiro) {
+        saveUsers(baseDadosUsers, ficheiro);
     }
 
     /**
@@ -93,27 +98,27 @@ public class RockStar {
      * @param ficheiro
      * @return
      */
-    private static List<Cliente> getClientList(String ficheiro) {
-        List<Cliente> clientes = new ArrayList<>();
+    private static List<User> getClientList(String ficheiro) {
+        List<User> users = new ArrayList<>();
 
         try {
             FileInputStream fos = new FileInputStream(ficheiro);
             ObjectInputStream ois = new ObjectInputStream(fos);
-            clientes = (List<Cliente>) ois.readObject();
+            users = (List<User>) ois.readObject();
         } catch (EOFException e) {
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return clientes;
+        return users;
     }
 
     private static boolean verificaUsername(String username) {
 
-        List<Cliente> clientes = getClientList("baseDadosRockstar.ser");
+        List<User> users = getClientList("baseDadosRockstar.ser");
 
-        for (Cliente cliente: clientes) {
-            if(cliente.getUsername().equals(username)) {
+        for (User user: users) {
+            if(user.getUsername().equals(username)) {
                 return true;
             }
         }
@@ -125,5 +130,14 @@ public class RockStar {
             return true;
         }
         return false;
+    }
+
+    private static boolean contemDigitos(String input) {
+        for (char c : input.toCharArray()) {
+            if(!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
