@@ -10,6 +10,7 @@ public class RockStar {
 
     private static ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
+    private static User userAtivo;
 
     public RockStar() {
         baseDadosUsers = new ArrayList<>();
@@ -55,7 +56,7 @@ public class RockStar {
     }
 
     /**
-     * Adiciona o novo cliente à ArrayList da classe
+     * Adiciona o novo user à ArrayList da classe
      * @param user
      */
     private static void addUser(User user) {
@@ -69,7 +70,7 @@ public class RockStar {
          */
     private static void saveUsers(List<User> users, String ficheiro) {
 
-        List<User> clientesExistentes = getClientList(ficheiro);
+        List<User> clientesExistentes = getUserList(ficheiro);
 
         if(clientesExistentes != null) {
             clientesExistentes.addAll(users);
@@ -98,7 +99,7 @@ public class RockStar {
      * @param ficheiro
      * @return
      */
-    private static List<User> getClientList(String ficheiro) {
+    private static List<User> getUserList(String ficheiro) {
         List<User> users = new ArrayList<>();
 
         try {
@@ -113,9 +114,15 @@ public class RockStar {
         return users;
     }
 
+    /**
+     * Metodo chamado durante o registo de conta que vai verificar no ficheiro se já existe
+     * algum objeto do tipo User com o username insirdo no JTextField de username.
+     * @param username
+     * @return
+     */
     private static boolean verificaUsername(String username) {
 
-        List<User> users = getClientList("baseDadosRockstar.ser");
+        List<User> users = getUserList("baseDadosRockstar.ser");
 
         for (User user: users) {
             if(user.getUsername().equals(username)) {
@@ -125,6 +132,14 @@ public class RockStar {
         return false;
     }
 
+    /**
+     * Metodo chamado durante o registo de conta que verifica se algum dos campos de input estão vazios
+     * impedindo o utilizador de registar conta sem preencher tudo.
+     * @param username
+     * @param password
+     * @param pin
+     * @return
+     */
     private static boolean verificaCampoVazio(String username, String password, String pin) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return true;
@@ -132,6 +147,12 @@ public class RockStar {
         return false;
     }
 
+    /**
+     * Método chamado no registo de conta de um Músico que verifica se o campo do pin
+     * só contém digitos de 0 a 9.
+     * @param input
+     * @return
+     */
     private static boolean contemDigitos(String input) {
         for (char c : input.toCharArray()) {
             if(!Character.isDigit(c)) {
@@ -139,5 +160,33 @@ public class RockStar {
             }
         }
         return true;
+    }
+    private static boolean estaLogado() {
+        if (userAtivo != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean fazerLogIn(String username, String password, String pin) {
+
+        List<User> usersList = getUserList("baseDadosRockstar.ser");
+
+        if (!estaLogado()) {
+            for (User user : usersList) {
+                if (user instanceof Cliente) {
+                    if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                        userAtivo = (Cliente) user;
+                        return true;
+                    }
+                } else if (user instanceof Musico) {
+                    if (user.getUsername().equals(username) && user.getPassword().equals(password) && ((Musico) user).getPin().equals(pin)) {
+                        userAtivo = (Musico) user;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

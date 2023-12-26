@@ -98,14 +98,14 @@ public class FrameCliente extends JFrame implements ActionListener {
         //Label saldo
         balance = new JLabel();
         balance.setBounds(570, 5, 60, 25);
-        balance.setText(String.valueOf(activeClient.getSaldo()) + "€");
+        //balance.setText(String.valueOf(activeClient.getSaldo()) + "€");
         balance.setFont(new Font("Arial", Font.BOLD, 12));
         balance.setForeground(new Color(198,107,61));
 
         //label do username
         username = new JLabel();
         username.setBounds(150, 5, 200, 25);
-        username.setText(activeClient.getUsername());
+        //username.setText(activeClient.getUsername());
         username.setFont(new Font("Arial", Font.BOLD, 12));
         username.setForeground(new Color(198,107,61));
 

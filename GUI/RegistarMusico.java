@@ -90,7 +90,7 @@ public class RegistarMusico {
                 inputPassword = new String(passwordChar);
                 char[] pinChar = pinField.getPassword();
                 inputPin = new String(pinChar);
-                
+
                 if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
                     JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
                 } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
