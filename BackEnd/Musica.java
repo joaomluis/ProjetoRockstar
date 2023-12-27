@@ -7,15 +7,16 @@ public class Musica implements Serializable {
     private String title;
     private Musico artist;
     private String genre;
-    private double preco;
+//    private double preco;
     private ArrayList<Preco> historicoPreco = new ArrayList<>();
     private ArrayList<Avaliacao> avaliacoes = new ArrayList<>(); //<User, Avaliação>
+    private boolean visibilidade;
 
     public Musica(String tittle, Musico artist, String genre, double preco) {
         this.title = tittle;
         this.artist = artist;
         this.genre = genre;
-        this.preco = preco;
+//        this.preco = preco;
     }
 
     public String getTitle() {
@@ -24,17 +25,8 @@ public class Musica implements Serializable {
     public String getGenre() {
         return genre;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Musico getArtist() {
         return artist;
-    }
-
-    public void setArtist(Musico artist) {
-        this.artist = artist;
     }
 
     /**
@@ -42,7 +34,8 @@ public class Musica implements Serializable {
      * @return Preco
      */
     public double getPreco() {
-        return preco;
+//        return preco;
+        return historicoPreco.get(historicoPreco.size()-1).getPreco();
     }
 
     /**
@@ -61,9 +54,9 @@ public class Musica implements Serializable {
      * @return true se a alteração foi bem-sucedida e false caso contrário
      */
     public boolean alterarPreco(Double preco, User artista){
-        if(artista.equals(artist)){
+        if(artista.equals(artist) && preco >= 0){
             historicoPreco.add(new Preco(preco));
-            this.preco = preco;
+//            this.preco = preco;
             return true;
         }
         return false;
@@ -83,5 +76,41 @@ public class Musica implements Serializable {
         }
         avaliacoes.add(avaliacao);
         return true;
+    }
+
+    public boolean isVisibilidade() {
+        return visibilidade;
+    }
+    public void alterarVisibilidade(){
+        this.visibilidade = !visibilidade;
+    }
+    public boolean alterarTitulo(String novoNome){
+        if(novoNome != null && !novoNome.equals(" ")){
+            title = novoNome;
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    /**
+     * Avaliação média da música.
+     * Caso não tenha avaliações, a música terá como default a avaliação de 3 que será intermédia.
+     * Se tiver avaliações, fará a média de todas as avaliações da música.
+     * @return 3 (default) ou a média real da musica
+     */
+    public double avaliacaoMedia(){
+        double soma=0;
+        if(avaliacoes.isEmpty()){
+            return 3;
+        }else{
+            for (Avaliacao a: avaliacoes){
+                soma += a.getAvaliacao();
+            }
+        }
+        return soma/avaliacoes.size();
     }
 }
