@@ -9,9 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RegistarMusico {
+public class RegistarMusico extends JPanel implements ActionListener {
 
-    private JPanel createMusicianPanel;
+
     private JButton cancelButton;
     private JButton createButton;
     private JLabel tittleLabel;
@@ -24,14 +24,16 @@ public class RegistarMusico {
     private String inputUsername;
     private String inputPassword;
     private String inputPin;
+    private GUI gui;
     private RockStar rockStar;
 
-    protected void createMusicianPanel (JFrame frame, GUI gui) {
+    public RegistarMusico(GUI gui, RockStar rockStar) {
 
-        rockStar = new RockStar();
-        createMusicianPanel = new JPanel();
-        createMusicianPanel.setLayout(null);
-        createMusicianPanel.setBackground(new Color(77, 24, 28));
+        this.rockStar = rockStar;
+        this.gui = gui;
+
+        setLayout(null);
+        setBackground(new Color(77, 24, 28));
 
         // titulo principal do painel
         tittleLabel = new JLabel();
@@ -83,29 +85,7 @@ public class RegistarMusico {
         createButton.setFocusable(false);
         createButton.setFont(new Font("Arial", Font.BOLD, 15));
         createButton.setForeground(Color.black);
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                inputUsername = usernameField.getText();
-                char[] passwordChar = passwordField.getPassword();
-                inputPassword = new String(passwordChar);
-                char[] pinChar = pinField.getPassword();
-                inputPin = new String(pinChar);
-
-                if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
-                    JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
-                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
-                    JOptionPane.showMessageDialog(frame, "Username já está em uso.");
-                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 3) {
-                    JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
-                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 4) {
-                    JOptionPane.showMessageDialog(frame, "O pin só pode conter digitos de 0 a 9.");
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
-                }
-            }
-        });
+        createButton.addActionListener(this);
 
         // botão que cancela tarefa e volta para o painel anterior
         cancelButton = new JButton();
@@ -114,27 +94,44 @@ public class RegistarMusico {
         cancelButton.setFocusable(false);
         cancelButton.setFont(new Font("Arial", Font.BOLD, 15));
         cancelButton.setForeground(Color.black);
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        cancelButton.addActionListener(this);
 
-            }
-        });
-        createMusicianPanel.add(cancelButton);
-        createMusicianPanel.add(createButton);
-        createMusicianPanel.add(tittleLabel);
-        createMusicianPanel.add(usernameField);
-        createMusicianPanel.add(passwordField);
-        createMusicianPanel.add(pinField);
-        createMusicianPanel.add(usernameLabel);
-        createMusicianPanel.add(passwordLabel);
-        createMusicianPanel.add(pinLabel);
 
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(createMusicianPanel);
-        frame.revalidate();
-        frame.repaint();
+        add(cancelButton);
+        add(createButton);
+        add(tittleLabel);
+        add(usernameField);
+        add(passwordField);
+        add(pinField);
+        add(usernameLabel);
+        add(passwordLabel);
+        add(pinLabel);
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == createButton) {
+            inputUsername = usernameField.getText();
+            char[] passwordChar = passwordField.getPassword();
+            inputPassword = new String(passwordChar);
+            char[] pinChar = pinField.getPassword();
+            inputPin = new String(pinChar);
+
+            if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
+                JOptionPane.showMessageDialog(gui, "Conta criada com sucesso.");
+            } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
+                JOptionPane.showMessageDialog(gui, "Username já está em uso.");
+            } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 3) {
+                JOptionPane.showMessageDialog(gui, "Deixou um campo vazio.");
+            } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 4) {
+                JOptionPane.showMessageDialog(gui, "O pin só pode conter digitos de 0 a 9.");
+            } else {
+                JOptionPane.showMessageDialog(gui, "Algo correu mal, tente novamente.");
+            }
+        }
+        if (e.getSource() == cancelButton) {
+            gui.showMainMenu();
+        }
+    }
 }

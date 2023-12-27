@@ -25,9 +25,9 @@ public class LogInCliente extends JPanel implements ActionListener{
     private String inputPassword;
     private RockStar rockStar;
 
-    protected void painelLogInCliente(GUI gui) {
+    public LogInCliente(GUI gui, RockStar rockStar) {
 
-        rockStar = new RockStar();
+        this.rockStar = rockStar;
         this.gui = gui;
 
         setLayout(null);
@@ -118,11 +118,14 @@ public class LogInCliente extends JPanel implements ActionListener{
 //                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
 //                    frameCliente.setActiveClient(cliente);
                 gui.dispose();
-                frameCliente.interfaceClient();
+
             } else {
                 // Credenciais inválidas
                 JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
             }
+        }
+        if (e.getSource() == cancelButton) {
+            gui.showMainMenu();
         }
     }
 }

@@ -86,7 +86,14 @@ public class MenuInicial extends JPanel implements ActionListener {
             if (radioButtonMusician.isSelected()) {
                 gui.showMusicianLogIn();
             } else if (radioButtonClient.isSelected()) {
-
+                gui.showClientLogIn();
+            }
+        }
+        if (e.getSource() == createAccButton) {
+            if(radioButtonClient.isSelected()) {
+                gui.showCreateClient();
+            } else if (radioButtonMusician.isSelected()) {
+                gui.showCreateMusician();
             }
         }
     }

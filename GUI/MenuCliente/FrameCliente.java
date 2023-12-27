@@ -28,7 +28,7 @@ public class FrameCliente extends JFrame implements ActionListener {
     private Cliente activeClient;
 
 
-    public void interfaceClient() {
+    public FrameCliente() {
 
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
 

@@ -14,6 +14,9 @@ public class GUI extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private MenuInicial menuInicial;
     private LogInMusico logInMusico;
+    private LogInCliente logInCliente;
+    private RegistarCliente registarCliente;
+    private RegistarMusico registarMusico;
     protected RockStar rockStar;
 
 
@@ -41,10 +44,16 @@ public class GUI extends JFrame implements ActionListener {
         //Inicialização dos vários paineis
         menuInicial = new MenuInicial(this);
         logInMusico = new LogInMusico(this, rockStar);
+        logInCliente = new LogInCliente(this, rockStar);
+        registarCliente = new RegistarCliente(this, rockStar);
+        registarMusico = new RegistarMusico(this, rockStar);
 
         //Junção dos paines ao card layout
         panelContainer.add(menuInicial, "Menu Inicial");
         panelContainer.add(logInMusico, "Log In Musico");
+        panelContainer.add(logInCliente, "Log In Cliente");
+        panelContainer.add(registarCliente, "Registar Cliente");
+        panelContainer.add(registarMusico, "Registar Musico");
 
         add(panelContainer);
         setCurrentPanel(menuInicial);
@@ -59,6 +68,23 @@ public class GUI extends JFrame implements ActionListener {
     protected void showMusicianLogIn() {
         setCurrentPanel(logInMusico);
         cardLayout.show(panelContainer, "Log In Musico");
+    }
+
+    protected void showClientLogIn() {
+        setCurrentPanel(logInCliente);
+        cardLayout.show(panelContainer, "Log In Cliente");
+    }
+    protected void showCreateClient() {
+        setCurrentPanel(registarCliente);
+        cardLayout.show(panelContainer, "Registar Cliente");
+    }
+    protected void showCreateMusician() {
+        setCurrentPanel(registarMusico);
+        cardLayout.show(panelContainer, "Registar Musico");
+    }
+    protected void showMainMenu() {
+        setCurrentPanel(menuInicial);
+        cardLayout.show(panelContainer, "Menu Inicial");
     }
 
     @Override

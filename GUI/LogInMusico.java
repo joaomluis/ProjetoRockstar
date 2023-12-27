@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 public class LogInMusico extends JPanel implements ActionListener {
 
-    private JPanel logInPanel;
     private JLabel title;
     private JLabel subtitle;
     private JLabel usernameLabel;
@@ -131,6 +130,9 @@ public class LogInMusico extends JPanel implements ActionListener {
                 // Credenciais inválidas
                 JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
             }
+        }
+        if (e.getSource() == cancelButton) {
+            gui.showMainMenu();
         }
     }
 }
