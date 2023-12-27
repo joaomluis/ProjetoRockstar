@@ -19,12 +19,10 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton store;
     private JLabel title;
     private FrameCliente frameCliente;
-    protected Cliente activeClient;
 
     public MainMenu(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
-        this.activeClient = activeClient;
 
         setLayout(null);
         setBackground(new Color(20,64,88));
@@ -117,13 +115,10 @@ public class MainMenu extends JPanel implements ActionListener {
         }
         if (e.getSource()== logOut) {
             frameCliente.dispose();
-            GUI gui = new GUI();
+            //GUI gui = new GUI();
         }
         if (e.getSource() == createPlaylist) {
             new GeneratePlaylist(frameCliente);
         }
-    }
-    public void setActiveClient(Cliente activeClient) {
-        this.activeClient = activeClient;
     }
 }

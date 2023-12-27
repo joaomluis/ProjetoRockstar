@@ -10,12 +10,15 @@ public class RockStar {
 
     private static ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
-    private static User userAtivo;
+    private User userAtivo;
+    private GUI gui;
 
     public RockStar() {
+        this.gui = new GUI(this);
+
         baseDadosUsers = new ArrayList<>();
         baseDadosMusicas = new ArrayList<>();
-        new GUI();
+
 
     }
 
@@ -27,7 +30,7 @@ public class RockStar {
      * @param password
      * @return O objeto do novo Cliente
      */
-    public static int createUser(String username, String password, String pin, Tipo tipo) {
+    public int createUser(String username, String password, String pin, Tipo tipo) {
 
         if (verificaCampoVazio(username, password, pin)) { // se houver um campo vazio
             return 3;
@@ -59,7 +62,7 @@ public class RockStar {
      * Adiciona o novo user à ArrayList da classe
      * @param user
      */
-    private static void addUser(User user) {
+    private void addUser(User user) {
         baseDadosUsers.add(user);
     }
 
@@ -68,7 +71,7 @@ public class RockStar {
          * @param users
          * @param ficheiro
          */
-    private static void saveUsers(List<User> users, String ficheiro) {
+    private void saveUsers(List<User> users, String ficheiro) {
 
         List<User> clientesExistentes = getUserList(ficheiro);
 
@@ -89,7 +92,7 @@ public class RockStar {
         }
     }
 
-    private static void salvarUsersNoArquivo(String ficheiro) {
+    private void salvarUsersNoArquivo(String ficheiro) {
         saveUsers(baseDadosUsers, ficheiro);
     }
 
@@ -99,7 +102,7 @@ public class RockStar {
      * @param ficheiro
      * @return
      */
-    private static List<User> getUserList(String ficheiro) {
+    private List<User> getUserList(String ficheiro) {
         List<User> users = new ArrayList<>();
 
         try {
@@ -120,7 +123,7 @@ public class RockStar {
      * @param username
      * @return
      */
-    private static boolean verificaUsername(String username) {
+    private boolean verificaUsername(String username) {
 
         List<User> users = getUserList("baseDadosRockstar.ser");
 
@@ -140,7 +143,7 @@ public class RockStar {
      * @param pin
      * @return
      */
-    private static boolean verificaCampoVazio(String username, String password, String pin) {
+    private boolean verificaCampoVazio(String username, String password, String pin) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             return true;
         }
@@ -153,7 +156,7 @@ public class RockStar {
      * @param input
      * @return
      */
-    private static boolean contemDigitos(String input) {
+    private boolean contemDigitos(String input) {
         for (char c : input.toCharArray()) {
             if(!Character.isDigit(c)) {
                 return false;
@@ -161,14 +164,14 @@ public class RockStar {
         }
         return true;
     }
-    private static boolean estaLogado() {
+    private boolean estaLogado() {
         if (userAtivo != null) {
             return true;
         }
         return false;
     }
 
-    public static boolean fazerLogIn(String username, String password, String pin) {
+    public boolean fazerLogIn(String username, String password, String pin) {
 
         List<User> usersList = getUserList("baseDadosRockstar.ser");
 
@@ -188,5 +191,9 @@ public class RockStar {
             }
         }
         return false;
+    }
+
+    public GUI getGUI() {
+        return gui;
     }
 }

@@ -1,5 +1,6 @@
 package GUI;
 import BackEnd.Musico;
+import BackEnd.RockStar;
 import GUI.MenuMusico.FrameMusico;
 
 import javax.swing.*;
@@ -7,9 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static BackEnd.RockStar.fazerLogIn;
 
-public class LogInMusico {
+public class LogInMusico extends JPanel implements ActionListener {
 
     private JPanel logInPanel;
     private JLabel title;
@@ -18,17 +18,20 @@ public class LogInMusico {
     private JLabel passwordLabel;
     private JLabel pinLabel;
     private JTextField usernameField;
-    private  JPasswordField passwordField;
+    private JPasswordField passwordField;
     private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
+    private GUI gui;
+    private RockStar rockStar;
 
-    protected void painelLogInMusico(JFrame frame, GUI gui) {
+    public LogInMusico(GUI gui, RockStar rockStar) {
+        this.rockStar = rockStar;
+        this.gui = gui;
 
 
-        logInPanel = new JPanel();
-        logInPanel.setLayout(null);
-        logInPanel.setBackground(new Color(77, 24, 28));
+        setLayout(null);
+        setBackground(new Color(77, 24, 28));
 
         // titulo principal do painel
         title = new JLabel();
@@ -87,25 +90,7 @@ public class LogInMusico {
         logInButton.setFocusable(false);
         logInButton.setFont(new Font("Arial", Font.BOLD, 15));
         logInButton.setForeground(Color.black);
-        logInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = String.valueOf(passwordField.getPassword());
-                String pin = String.valueOf(pinField.getPassword());
-
-                if (fazerLogIn(username, password, pin)) {
-                    // Credenciais válidas
-                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
-                    frame.dispose();
-                    FrameMusico frameMusico = new FrameMusico();
-
-                } else {
-                    // Credenciais inválidas
-                    JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
-                }
-            }
-        });
+        logInButton.addActionListener(this);
 
         // botão que cancela tarefa e volta para o painel anterior
         cancelButton = new JButton();
@@ -114,35 +99,38 @@ public class LogInMusico {
         cancelButton.setFocusable(false);
         cancelButton.setFont(new Font("Arial", Font.BOLD, 15));
         cancelButton.setForeground(Color.black);
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.retrocederPainel();
-            }
-        });
+        cancelButton.addActionListener(this);
 
-        logInPanel.add(cancelButton);
-        logInPanel.add(title);
-        logInPanel.add(subtitle);
-        logInPanel.add(usernameField);
-        logInPanel.add(logInButton);
-        logInPanel.add(passwordField);
-        logInPanel.add(pinField);
-        logInPanel.add(usernameLabel);
-        logInPanel.add(passwordLabel);
-        logInPanel.add(pinLabel);
+        add(cancelButton);
+        add(title);
+        add(subtitle);
+        add(usernameField);
+        add(logInButton);
+        add(passwordField);
+        add(pinField);
+        add(usernameLabel);
+        add(passwordLabel);
+        add(pinLabel);
 
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(logInPanel);
-        frame.revalidate();
-        frame.repaint();
     }
-//    private boolean validateCredentials(String username, String password, String pin) {
-//        for (Musico musico: musicos) {
-//            if (musico.getUsername().equals(username) && musico.getPassword().equals(password) && musico.getPin().equals(pin)) {
-//                return true; // Credenciais válidas
-//            }
-//        }
-//        return false; // Credenciais inválidas
-//    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == logInButton) {
+            String username = usernameField.getText();
+            String password = String.valueOf(passwordField.getPassword());
+            String pin = String.valueOf(pinField.getPassword());
+
+            if (rockStar.fazerLogIn(username, password, pin)) {
+                // Credenciais válidas
+                JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
+                gui.dispose();
+                FrameMusico frameMusico = new FrameMusico();
+
+            } else {
+                // Credenciais inválidas
+                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
+            }
+        }
+    }
 }

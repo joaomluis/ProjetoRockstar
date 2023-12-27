@@ -99,7 +99,7 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
         }
         else if(e.getSource() == logOut){
             frameMusico.dispose();
-            new GUI();
+            //GUI gui = new GUI();
         }
     }
 }

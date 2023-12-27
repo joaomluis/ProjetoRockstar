@@ -1,5 +1,6 @@
 package GUI;
 
+import BackEnd.RockStar;
 import BackEnd.Tipo;
 
 import javax.swing.*;
@@ -7,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static BackEnd.RockStar.createUser;
 
 public class RegistarCliente {
 
@@ -21,9 +21,11 @@ public class RegistarCliente {
     private JPasswordField passwordField;
     private String inputUsername;
     private String inputPassword;
+    private RockStar rockStar;
 
     protected void createClientPanel(JFrame frame, GUI gui) {
 
+        rockStar = new RockStar();
         createClientPanel = new JPanel();
         createClientPanel.setLayout(null);
         createClientPanel.setBackground(new Color(77, 24, 28));
@@ -74,11 +76,11 @@ public class RegistarCliente {
                 char[] passwordChar = passwordField.getPassword();
                 inputPassword = new String(passwordChar);
 
-                if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 1) {
+                if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 1) {
                     JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
-                } else if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 2) {
+                } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 2) {
                     JOptionPane.showMessageDialog(frame, "Username já está em uso.");
-                } else if (createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 3) {
+                } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 3) {
                     JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
                 } else {
                     JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
@@ -96,7 +98,7 @@ public class RegistarCliente {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.retrocederPainel();
+
             }
         });
 

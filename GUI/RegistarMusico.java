@@ -1,5 +1,6 @@
 package GUI;
 
+import BackEnd.RockStar;
 import BackEnd.Tipo;
 
 import javax.swing.*;
@@ -7,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static BackEnd.RockStar.createUser;
 
 public class RegistarMusico {
 
@@ -24,9 +24,11 @@ public class RegistarMusico {
     private String inputUsername;
     private String inputPassword;
     private String inputPin;
+    private RockStar rockStar;
 
     protected void createMusicianPanel (JFrame frame, GUI gui) {
 
+        rockStar = new RockStar();
         createMusicianPanel = new JPanel();
         createMusicianPanel.setLayout(null);
         createMusicianPanel.setBackground(new Color(77, 24, 28));
@@ -91,13 +93,13 @@ public class RegistarMusico {
                 char[] pinChar = pinField.getPassword();
                 inputPin = new String(pinChar);
 
-                if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
+                if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 1) {
                     JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
-                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
+                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 2) {
                     JOptionPane.showMessageDialog(frame, "Username já está em uso.");
-                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 3) {
+                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 3) {
                     JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
-                } else if (createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 4) {
+                } else if (rockStar.createUser(inputUsername, inputPassword, inputPin, Tipo.MUSICO) == 4) {
                     JOptionPane.showMessageDialog(frame, "O pin só pode conter digitos de 0 a 9.");
                 } else {
                     JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
@@ -115,7 +117,7 @@ public class RegistarMusico {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.retrocederPainel();
+
             }
         });
         createMusicianPanel.add(cancelButton);
