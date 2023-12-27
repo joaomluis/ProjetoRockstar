@@ -1,6 +1,7 @@
 package GUI.MenuCliente;
 
 import BackEnd.Cliente;
+import BackEnd.RockStar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,10 +26,12 @@ public class FrameCliente extends JFrame implements ActionListener {
     private ShoppingCart shoppingCart;
     private CurrentPlaylist currentPlaylist;
     private JPanel currentPanel;
-    private Cliente activeClient;
+    private RockStar rockStar;
 
 
-    public void interfaceClient() {
+    public FrameCliente(RockStar rockStar) {
+
+        this.rockStar = rockStar;
 
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
 
@@ -98,14 +101,14 @@ public class FrameCliente extends JFrame implements ActionListener {
         //Label saldo
         balance = new JLabel();
         balance.setBounds(570, 5, 60, 25);
-        //balance.setText(String.valueOf(activeClient.getSaldo()) + "€");
+        balance.setText(String.valueOf(rockStar.getUserAtivoCliente().getSaldo()) + "€");
         balance.setFont(new Font("Arial", Font.BOLD, 12));
         balance.setForeground(new Color(198,107,61));
 
         //label do username
         username = new JLabel();
         username.setBounds(150, 5, 200, 25);
-        //username.setText(activeClient.getUsername());
+        username.setText(rockStar.getUserAtivo().getUsername());
         username.setFont(new Font("Arial", Font.BOLD, 12));
         username.setForeground(new Color(198,107,61));
 
@@ -158,6 +161,10 @@ public class FrameCliente extends JFrame implements ActionListener {
         this.currentPanel = currentPanel;
     }
 
+    public RockStar getRockStar() {
+        return rockStar;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == homeButton) {
@@ -187,9 +194,5 @@ public class FrameCliente extends JFrame implements ActionListener {
                 setCurrentPanel(menuInicial);
             }
         }
-    }
-
-    public void setActiveClient(Cliente activeClient) {
-        this.activeClient = activeClient;
     }
 }

@@ -1,6 +1,7 @@
 package GUI.MenuCliente;
 
 import BackEnd.Cliente;
+import BackEnd.RockStar;
 import GUI.GUI;
 import GUI.MenuCliente.PopUps.GeneratePlaylist;
 
@@ -23,6 +24,7 @@ public class MainMenu extends JPanel implements ActionListener {
     public MainMenu(FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
+        RockStar rockStar = frameCliente.getRockStar();
 
         setLayout(null);
         setBackground(new Color(20,64,88));

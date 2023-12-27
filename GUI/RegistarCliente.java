@@ -9,9 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RegistarCliente {
+public class RegistarCliente extends JPanel implements ActionListener {
 
-    private JPanel createClientPanel;
+
     private JButton cancelButton;
     private JButton createButton;
     private JLabel titleLabel;
@@ -21,14 +21,14 @@ public class RegistarCliente {
     private JPasswordField passwordField;
     private String inputUsername;
     private String inputPassword;
-    private RockStar rockStar;
+    private GUI gui;
 
-    protected void createClientPanel(JFrame frame, GUI gui) {
+    public RegistarCliente(GUI gui) {
 
-        rockStar = new RockStar();
-        createClientPanel = new JPanel();
-        createClientPanel.setLayout(null);
-        createClientPanel.setBackground(new Color(77, 24, 28));
+        this.gui = gui;
+
+        setLayout(null);
+        setBackground(new Color(77, 24, 28));
 
         titleLabel = new JLabel();
         titleLabel.setText("Criar uma conta");
@@ -68,25 +68,7 @@ public class RegistarCliente {
         createButton.setFocusable(false);
         createButton.setFont(new Font("Arial", Font.BOLD, 15));
         createButton.setForeground(Color.black);
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                inputUsername = usernameField.getText();
-                char[] passwordChar = passwordField.getPassword();
-                inputPassword = new String(passwordChar);
-
-                if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 1) {
-                    JOptionPane.showMessageDialog(frame, "Conta criada com sucesso.");
-                } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 2) {
-                    JOptionPane.showMessageDialog(frame, "Username já está em uso.");
-                } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 3) {
-                    JOptionPane.showMessageDialog(frame, "Deixou um campo vazio.");
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Algo correu mal, tente novamente.");
-                }
-            }
-        });
+        createButton.addActionListener(this);
 
         //botão de cancelar e retrocede para o painel anterior
         cancelButton = new JButton();
@@ -95,24 +77,39 @@ public class RegistarCliente {
         cancelButton.setFocusable(false);
         cancelButton.setFont(new Font("Arial", Font.BOLD, 15));
         cancelButton.setForeground(Color.black);
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        cancelButton.addActionListener(this);
 
+
+        add(cancelButton);
+        add(createButton);
+        add(titleLabel);
+        add(usernameField);
+        add(passwordField);
+        add(usernameLabel);
+        add(passwordLabel);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = gui.getRockStar();
+
+        if (e.getSource() == createButton) {
+            inputUsername = usernameField.getText();
+            char[] passwordChar = passwordField.getPassword();
+            inputPassword = new String(passwordChar);
+
+            if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 1) {
+                JOptionPane.showMessageDialog(gui, "Conta criada com sucesso.");
+            } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 2) {
+                JOptionPane.showMessageDialog(gui, "Username já está em uso.");
+            } else if (rockStar.createUser(inputUsername, inputPassword, "0000", Tipo.CLIENTE) == 3) {
+                JOptionPane.showMessageDialog(gui, "Deixou um campo vazio.");
+            } else {
+                JOptionPane.showMessageDialog(gui, "Algo correu mal, tente novamente.");
             }
-        });
-
-        createClientPanel.add(cancelButton);
-        createClientPanel.add(createButton);
-        createClientPanel.add(titleLabel);
-        createClientPanel.add(usernameField);
-        createClientPanel.add(passwordField);
-        createClientPanel.add(usernameLabel);
-        createClientPanel.add(passwordLabel);
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(createClientPanel);
-        frame.revalidate();
-        frame.repaint();
+        }
+        if (e.getSource() == cancelButton) {
+            gui.showMainMenu();
+        }
     }
 }

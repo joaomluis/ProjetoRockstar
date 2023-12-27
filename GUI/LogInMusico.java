@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 public class LogInMusico extends JPanel implements ActionListener {
 
-    private JPanel logInPanel;
     private JLabel title;
     private JLabel subtitle;
     private JLabel usernameLabel;
@@ -22,13 +21,14 @@ public class LogInMusico extends JPanel implements ActionListener {
     private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
+    private String inputUsername;
+    private String inputPassword;
+    private String inputPin;
     private GUI gui;
-    private RockStar rockStar;
 
-    public LogInMusico(GUI gui, RockStar rockStar) {
-        this.rockStar = rockStar;
+    public LogInMusico(GUI gui) {
+
         this.gui = gui;
-
 
         setLayout(null);
         setBackground(new Color(77, 24, 28));
@@ -116,21 +116,28 @@ public class LogInMusico extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == logInButton) {
-            String username = usernameField.getText();
-            String password = String.valueOf(passwordField.getPassword());
-            String pin = String.valueOf(pinField.getPassword());
+        RockStar rockStar = gui.getRockStar();
 
-            if (rockStar.fazerLogIn(username, password, pin)) {
-                // Credenciais válidas
+        if (e.getSource() == logInButton) {
+            inputUsername = usernameField.getText();
+            char[] passwordChar = passwordField.getPassword();
+            inputPassword = new String(passwordChar);
+            char[] pinChar = pinField.getPassword();
+            inputPin = new String(pinChar);
+
+            if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 1) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                 gui.dispose();
                 FrameMusico frameMusico = new FrameMusico();
-
-            } else {
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 2){
                 // Credenciais inválidas
-                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
+                JOptionPane.showMessageDialog(gui, "Credenciais inválidas. Tente novamente."); //placeholder
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 3) {
+                JOptionPane.showMessageDialog(gui, "Deixou um campo vazio.");
             }
+        }
+        if (e.getSource() == cancelButton) {
+            gui.showMainMenu();
         }
     }
 }
