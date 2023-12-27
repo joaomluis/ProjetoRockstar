@@ -171,29 +171,45 @@ public class RockStar {
         return false;
     }
 
-    public boolean fazerLogIn(String username, String password, String pin) {
+    public int fazerLogIn(String username, String password, String pin) {
 
         List<User> usersList = getUserList("baseDadosRockstar.ser");
 
-        if (!estaLogado()) {
-            for (User user : usersList) {
-                if (user instanceof Cliente) {
-                    if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                        userAtivo = (Cliente) user;
-                        return true;
-                    }
-                } else if (user instanceof Musico) {
-                    if (user.getUsername().equals(username) && user.getPassword().equals(password) && ((Musico) user).getPin().equals(pin)) {
-                        userAtivo = (Musico) user;
-                        return true;
+        if (verificaCampoVazio(username, password, pin)) {
+            return 3; //há campos vazios
+        } else {
+            if (!estaLogado()) {
+                for (User user : usersList) {
+                    if (user instanceof Cliente) {
+                        if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                            userAtivo = (Cliente) user;
+                            return 1; //sucesso
+                        }
+                    } else if (user instanceof Musico) {
+                        if (user.getUsername().equals(username) && user.getPassword().equals(password) && ((Musico) user).getPin().equals(pin)) {
+                            userAtivo = (Musico) user;
+                            return 1; //sucesso
+                        }
                     }
                 }
             }
         }
-        return false;
+        return 2; //credenciais incorretas
     }
 
-    public GUI getGUI() {
-        return gui;
+    public User getUserAtivo() {
+        return userAtivo;
+    }
+
+    /**
+     * Verifica se o atributo userAtivo é do tipo cliente, se for dá return desse atributo como cliente
+     * para poder ter acesso aos métodos do Cliente
+     * @return Cliente se o atributo userAtivo for do tipo Cliente, senão return null
+     */
+    public Cliente getUserAtivoCliente () {
+        if (userAtivo instanceof Cliente) {
+        return (Cliente) userAtivo;
+        }
+        return null;
     }
 }

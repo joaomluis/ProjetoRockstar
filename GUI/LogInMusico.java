@@ -21,7 +21,10 @@ public class LogInMusico extends JPanel implements ActionListener {
     private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
-    private GUI gui;;
+    private String inputUsername;
+    private String inputPassword;
+    private String inputPin;
+    private GUI gui;
 
     public LogInMusico(GUI gui) {
 
@@ -116,19 +119,21 @@ public class LogInMusico extends JPanel implements ActionListener {
         RockStar rockStar = gui.getRockStar();
 
         if (e.getSource() == logInButton) {
-            String username = usernameField.getText();
-            String password = String.valueOf(passwordField.getPassword());
-            String pin = String.valueOf(pinField.getPassword());
+            inputUsername = usernameField.getText();
+            char[] passwordChar = passwordField.getPassword();
+            inputPassword = new String(passwordChar);
+            char[] pinChar = pinField.getPassword();
+            inputPin = new String(pinChar);
 
-            if (rockStar.fazerLogIn(username, password, pin)) {
-                // Credenciais válidas
+            if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 1) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                 gui.dispose();
                 FrameMusico frameMusico = new FrameMusico();
-
-            } else {
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 2){
                 // Credenciais inválidas
-                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
+                JOptionPane.showMessageDialog(gui, "Credenciais inválidas. Tente novamente."); //placeholder
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 3) {
+                JOptionPane.showMessageDialog(gui, "Deixou um campo vazio.");
             }
         }
         if (e.getSource() == cancelButton) {

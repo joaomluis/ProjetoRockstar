@@ -108,20 +108,16 @@ public class LogInCliente extends JPanel implements ActionListener{
             char[] passwordChar = passwordField.getPassword();
             inputPassword = new String(passwordChar);
 
-            if (rockStar.fazerLogIn(inputUsername, inputPassword, "0000")) {
-                // Credenciais válidas
-//                    Cliente cliente = getClienteByUsername(username);
-
+            if (rockStar.fazerLogIn(inputUsername, inputPassword, "0000") == 1) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                FrameCliente frameCliente = new FrameCliente();
+                FrameCliente frameCliente = new FrameCliente(rockStar);
                 MainMenu menuPrincipal = new MainMenu(frameCliente);
-//                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
-//                    frameCliente.setActiveClient(cliente);
                 gui.dispose();
-
-            } else {
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, "0000") == 2){
                 // Credenciais inválidas
-                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
+                JOptionPane.showMessageDialog(gui, "Credenciais inválidas. Tente novamente."); //placeholder
+            } else if (rockStar.fazerLogIn(inputUsername, inputPassword, "0000") == 3) {
+                JOptionPane.showMessageDialog(gui, "Deixou um campo vazio.");
             }
         }
         if (e.getSource() == cancelButton) {
