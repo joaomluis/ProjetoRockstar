@@ -25,11 +25,9 @@ public class RegistarMusico extends JPanel implements ActionListener {
     private String inputPassword;
     private String inputPin;
     private GUI gui;
-    private RockStar rockStar;
 
-    public RegistarMusico(GUI gui, RockStar rockStar) {
+    public RegistarMusico(GUI gui) {
 
-        this.rockStar = rockStar;
         this.gui = gui;
 
         setLayout(null);
@@ -111,6 +109,8 @@ public class RegistarMusico extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = gui.getRockStar();
+
         if (e.getSource() == createButton) {
             inputUsername = usernameField.getText();
             char[] passwordChar = passwordField.getPassword();

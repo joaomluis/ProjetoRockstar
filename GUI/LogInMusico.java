@@ -21,13 +21,11 @@ public class LogInMusico extends JPanel implements ActionListener {
     private JPasswordField pinField;
     private JButton logInButton;
     private JButton cancelButton;
-    private GUI gui;
-    private RockStar rockStar;
+    private GUI gui;;
 
-    public LogInMusico(GUI gui, RockStar rockStar) {
-        this.rockStar = rockStar;
+    public LogInMusico(GUI gui) {
+
         this.gui = gui;
-
 
         setLayout(null);
         setBackground(new Color(77, 24, 28));
@@ -115,6 +113,8 @@ public class LogInMusico extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = gui.getRockStar();
+
         if (e.getSource() == logInButton) {
             String username = usernameField.getText();
             String password = String.valueOf(passwordField.getPassword());

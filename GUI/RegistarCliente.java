@@ -22,12 +22,9 @@ public class RegistarCliente extends JPanel implements ActionListener {
     private String inputUsername;
     private String inputPassword;
     private GUI gui;
-    private RockStar rockStar;
 
+    public RegistarCliente(GUI gui) {
 
-    public RegistarCliente(GUI gui, RockStar rockStar) {
-
-        this.rockStar = rockStar;
         this.gui = gui;
 
         setLayout(null);
@@ -94,6 +91,8 @@ public class RegistarCliente extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = gui.getRockStar();
+
         if (e.getSource() == createButton) {
             inputUsername = usernameField.getText();
             char[] passwordChar = passwordField.getPassword();

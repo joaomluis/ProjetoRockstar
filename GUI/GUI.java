@@ -43,10 +43,10 @@ public class GUI extends JFrame implements ActionListener {
 
         //Inicialização dos vários paineis
         menuInicial = new MenuInicial(this);
-        logInMusico = new LogInMusico(this, rockStar);
-        logInCliente = new LogInCliente(this, rockStar);
-        registarCliente = new RegistarCliente(this, rockStar);
-        registarMusico = new RegistarMusico(this, rockStar);
+        logInMusico = new LogInMusico(this);
+        logInCliente = new LogInCliente(this);
+        registarCliente = new RegistarCliente(this);
+        registarMusico = new RegistarMusico(this);
 
         //Junção dos paines ao card layout
         panelContainer.add(menuInicial, "Menu Inicial");
@@ -85,6 +85,10 @@ public class GUI extends JFrame implements ActionListener {
     protected void showMainMenu() {
         setCurrentPanel(menuInicial);
         cardLayout.show(panelContainer, "Menu Inicial");
+    }
+
+    public RockStar getRockStar() {
+        return rockStar;
     }
 
     @Override

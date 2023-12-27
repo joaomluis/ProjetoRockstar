@@ -23,11 +23,9 @@ public class LogInCliente extends JPanel implements ActionListener{
     private JButton cancelButton;
     private String inputUsername;
     private String inputPassword;
-    private RockStar rockStar;
 
-    public LogInCliente(GUI gui, RockStar rockStar) {
+    public LogInCliente(GUI gui) {
 
-        this.rockStar = rockStar;
         this.gui = gui;
 
         setLayout(null);
@@ -103,6 +101,8 @@ public class LogInCliente extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = gui.getRockStar();
+
         if (e.getSource() == logInButton) {
             inputUsername = usernameField.getText();
             char[] passwordChar = passwordField.getPassword();
