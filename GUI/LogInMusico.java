@@ -128,7 +128,7 @@ public class LogInMusico extends JPanel implements ActionListener {
             if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 1) {
                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!"); //placeholder
                 gui.dispose();
-                FrameMusico frameMusico = new FrameMusico();
+                FrameMusico frameMusico = new FrameMusico(rockStar);
             } else if (rockStar.fazerLogIn(inputUsername, inputPassword, inputPin) == 2){
                 // Credenciais inválidas
                 JOptionPane.showMessageDialog(gui, "Credenciais inválidas. Tente novamente."); //placeholder

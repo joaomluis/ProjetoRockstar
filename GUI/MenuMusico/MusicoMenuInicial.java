@@ -1,5 +1,6 @@
 package GUI.MenuMusico;
 
+import BackEnd.RockStar;
 import GUI.GUI;
 
 import java.awt.*;
@@ -85,6 +86,8 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        RockStar rockStar = frameMusico.getRockStar();
+
         if (e.getSource() == meusAlbuns) {
             frameMusico.showMusicoMeusAlbuns();
         }
@@ -98,8 +101,9 @@ public class MusicoMenuInicial extends JPanel implements ActionListener {
             frameMusico.showEstatistica();
         }
         else if(e.getSource() == logOut){
+            rockStar.logOut();
             frameMusico.dispose();
-            //GUI gui = new GUI();
+            GUI gui = new GUI(rockStar);
         }
     }
 }
