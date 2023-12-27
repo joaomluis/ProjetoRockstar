@@ -1,4 +1,5 @@
 package GUI;
+import BackEnd.RockStar;
 import GUI.MenuCliente.FrameCliente;
 import GUI.MenuCliente.MainMenu;
 
@@ -8,11 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static BackEnd.RockStar.fazerLogIn;
 
-public class LogInCliente{
+public class LogInCliente extends JPanel implements ActionListener{
 
-    private JPanel logInPanel;
+    private GUI gui;
     private JLabel title;
     private JLabel subtitle;
     private JLabel usernameLabel;
@@ -23,13 +23,15 @@ public class LogInCliente{
     private JButton cancelButton;
     private String inputUsername;
     private String inputPassword;
+    private RockStar rockStar;
 
-    protected void painelLogInCliente(JFrame frame, GUI gui) {
+    protected void painelLogInCliente(GUI gui) {
 
+        rockStar = new RockStar();
+        this.gui = gui;
 
-        logInPanel = new JPanel();
-        logInPanel.setLayout(null);
-        logInPanel.setBackground(new Color(77, 24, 28));
+        setLayout(null);
+        setBackground(new Color(77, 24, 28));
 
         // titulo principal do painel
         title = new JLabel();
@@ -76,31 +78,8 @@ public class LogInCliente{
         logInButton.setFocusable(false);
         logInButton.setFont(new Font("Arial", Font.BOLD, 15));
         logInButton.setForeground(Color.black);
-        logInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                inputUsername = usernameField.getText();
-                char[] passwordChar = passwordField.getPassword();
-                inputPassword = new String(passwordChar);
+        logInButton.addActionListener(this);
 
-                if (fazerLogIn(inputUsername, inputPassword, "0000")) {
-                    // Credenciais válidas
-//                    Cliente cliente = getClienteByUsername(username);
-
-                    JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
-                    FrameCliente frameCliente = new FrameCliente();
-                    MainMenu menuPrincipal = new MainMenu(frameCliente);
-//                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
-//                    frameCliente.setActiveClient(cliente);
-
-                    frame.dispose();
-                    frameCliente.interfaceClient();
-                } else {
-                    // Credenciais inválidas
-                    JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
-                }
-            }
-        });
 
         // botão que cancela tarefa e volta para o painel anterior
         cancelButton = new JButton();
@@ -109,34 +88,41 @@ public class LogInCliente{
         cancelButton.setFocusable(false);
         cancelButton.setFont(new Font("Arial", Font.BOLD, 15));
         cancelButton.setForeground(Color.black);
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.retrocederPainel();
-            }
-        });
+        cancelButton.addActionListener(this);
 
-        logInPanel.add(cancelButton);
-        logInPanel.add(title);
-        logInPanel.add(subtitle);
-        logInPanel.add(usernameField);
-        logInPanel.add(logInButton);
-        logInPanel.add(passwordField);
-        logInPanel.add(usernameLabel);
-        logInPanel.add(passwordLabel);
+        add(cancelButton);
+        add(title);
+        add(subtitle);
+        add(usernameField);
+        add(logInButton);
+        add(passwordField);
+        add(usernameLabel);
+        add(passwordLabel);
 
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(logInPanel);
-        frame.revalidate();
-        frame.repaint();
     }
 
-//    private Cliente getClienteByUsername(String username) {
-//        for (Cliente cliente : clientes) {
-//            if (cliente.getUsername().equals(username)) {
-//                return cliente;
-//            }
-//        }
-//        return null;
-//    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == logInButton) {
+            inputUsername = usernameField.getText();
+            char[] passwordChar = passwordField.getPassword();
+            inputPassword = new String(passwordChar);
+
+            if (rockStar.fazerLogIn(inputUsername, inputPassword, "0000")) {
+                // Credenciais válidas
+//                    Cliente cliente = getClienteByUsername(username);
+
+                JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+                FrameCliente frameCliente = new FrameCliente();
+                MainMenu menuPrincipal = new MainMenu(frameCliente);
+//                    menuPrincipal.setActiveClient(cliente); // Definindo o cliente ativo
+//                    frameCliente.setActiveClient(cliente);
+                gui.dispose();
+                frameCliente.interfaceClient();
+            } else {
+                // Credenciais inválidas
+                JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente."); //placeholder
+            }
+        }
+    }
 }
