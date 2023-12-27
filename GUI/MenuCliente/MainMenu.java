@@ -103,6 +103,8 @@ public class MainMenu extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        RockStar rockStar = frameCliente.getRockStar();
+
         if (e.getSource() == myMusic) {
             frameCliente.showMyMusicPanel();
         }
@@ -116,8 +118,9 @@ public class MainMenu extends JPanel implements ActionListener {
             frameCliente.showStore();
         }
         if (e.getSource()== logOut) {
+            rockStar.logOut();
             frameCliente.dispose();
-            //GUI gui = new GUI();
+            GUI gui = new GUI(rockStar);
         }
         if (e.getSource() == createPlaylist) {
             new GeneratePlaylist(frameCliente);

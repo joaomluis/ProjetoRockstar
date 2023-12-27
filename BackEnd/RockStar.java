@@ -212,4 +212,8 @@ public class RockStar {
         }
         return null;
     }
+    
+    public void logOut() {
+        userAtivo = null;
+    }
 }

@@ -1,5 +1,7 @@
 package GUI.MenuMusico;
 
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,8 +22,11 @@ public class FrameMusico extends JFrame implements ActionListener {
     private CardLayout cardLayout;
     private JPanel panelCont;
     private JPanel painelAtual;
+    private RockStar rockStar;
 
-    public FrameMusico(){
+    public FrameMusico(RockStar rockStar){
+
+        this.rockStar = rockStar;
 
         Color fundo = new Color(77, 24, 28);
         Color letras = new Color(255,255,255);
@@ -69,6 +74,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         back.setFocusable(false);
         username = new JLabel("username");
         username.setFont(new Font("Arial", Font.BOLD, 12));
+        username.setText(rockStar.getUserAtivo().getUsername());
         username.setForeground(new Color(255,255,255));
         home.addActionListener(this);
         back.addActionListener(this);
@@ -88,6 +94,10 @@ public class FrameMusico extends JFrame implements ActionListener {
         add(northPanel, BorderLayout.NORTH);
         northPanel.setBackground(fundo);
         setVisible(true);
+    }
+
+    public RockStar getRockStar() {
+        return rockStar;
     }
 
 
@@ -157,9 +167,6 @@ public class FrameMusico extends JFrame implements ActionListener {
      */
     public void setPainelAtual(JPanel painelAtual) {
         this.painelAtual = painelAtual;
-    }
-    public static void main(String[] args) {
-        new FrameMusico();
     }
 
 }
