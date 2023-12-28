@@ -30,6 +30,13 @@ public abstract class User implements Serializable {
     public void listarMusicas(){
 
     }
+    public boolean adicionaSaldo(double valor){
+
+        return false;
+    }
 
 
+    public double getSaldo() {
+        return 0;
+    }
 }

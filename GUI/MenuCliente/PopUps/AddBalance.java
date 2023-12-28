@@ -1,11 +1,14 @@
 package GUI.MenuCliente.PopUps;
 
+import BackEnd.RockStar;
+import GUI.MenuCliente.FrameCliente;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddBalance extends JDialog implements ActionListener {
+public class AddBalance extends JDialog {
 
     private JPanel panelCenter;
     private JPanel panelSouth;
@@ -14,9 +17,16 @@ public class AddBalance extends JDialog implements ActionListener {
     private JButton okButton;
     private JButton cancelButton;
 
-    public AddBalance(JFrame frame) {
 
-        super(frame, "Adicionar Saldo", true);
+    public AddBalance(FrameCliente frameCliente) {
+
+
+
+        super(frameCliente, "Adicionar Saldo", true);
+
+        RockStar rockstar = frameCliente.getRockStar();
+
+
 
         ////Especificações da janela\\\\\
         setSize(400, 150);
@@ -44,12 +54,38 @@ public class AddBalance extends JDialog implements ActionListener {
         okButton = new JButton();
         okButton.setText("Ok");
         okButton.setFocusable(false);
-        okButton.addActionListener(this);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == okButton) {
+                    String input = balanceField.getText();
+
+                    if (!input.isEmpty()) {
+                        try {
+                            double valor = Double.parseDouble(input);
+                            frameCliente.getClienteLogado().adicionaSaldo(valor);
+                            frameCliente.atualizaSaldo();
+
+                            dispose();
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(frameCliente, "Por favor, insira um valor numérico válido.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(frameCliente, "O campo está vazio, insira um valor.");
+                    }
+                }
+            }
+        });
 
         cancelButton = new JButton();
         cancelButton.setText("Cancelar");
         cancelButton.setFocusable(false);
-        cancelButton.addActionListener(this);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
 
         panelSouth.add(okButton);
         panelSouth.add(cancelButton);
@@ -59,14 +95,14 @@ public class AddBalance extends JDialog implements ActionListener {
         add(panelCenter, BorderLayout.CENTER);
         add(panelSouth, BorderLayout.SOUTH);
 
-        setLocationRelativeTo(frame);
+        setLocationRelativeTo(frameCliente);
         setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == cancelButton) {
-            dispose();
-        }
-    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (e.getSource() == cancelButton) {
+//            dispose();
+//        }
+//    }
 }

@@ -2,6 +2,7 @@ package GUI.MenuCliente;
 
 import BackEnd.Cliente;
 import BackEnd.RockStar;
+import BackEnd.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,11 +28,13 @@ public class FrameCliente extends JFrame implements ActionListener {
     private CurrentPlaylist currentPlaylist;
     private JPanel currentPanel;
     private RockStar rockStar;
+    private User clienteLogado;
 
 
     public FrameCliente(RockStar rockStar) {
 
         this.rockStar = rockStar;
+        this.clienteLogado = rockStar.getUserAtivoCliente();
 
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
 
@@ -130,6 +133,12 @@ public class FrameCliente extends JFrame implements ActionListener {
         revalidate();
     }
 
+
+    public void atualizaSaldo() {
+        double saldoAtual = getClienteLogado().getSaldo();
+        balance.setText(String.valueOf(saldoAtual + "€"));
+    }
+
     protected void showMyMusicPanel() {
         setCurrentPanel(myMusic);
         cardLayout.show(panelContainer, "MyMusic");
@@ -163,6 +172,10 @@ public class FrameCliente extends JFrame implements ActionListener {
 
     public RockStar getRockStar() {
         return rockStar;
+    }
+
+    public User getClienteLogado() {
+        return clienteLogado;
     }
 
     @Override
