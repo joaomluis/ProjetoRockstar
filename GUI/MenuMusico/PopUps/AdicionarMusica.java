@@ -1,5 +1,9 @@
 package GUI.MenuMusico.PopUps;
 
+import BackEnd.Musica;
+import BackEnd.Musico;
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,9 +22,12 @@ public class AdicionarMusica extends JDialog implements ActionListener{
     private JButton cancelButton;
     private int width = 400;
     private int height = 170;
+    private RockStar rockstar;
 
-    public AdicionarMusica(Frame parent) {
+
+    public AdicionarMusica(Frame parent, RockStar rockStar) {
         super(parent, "Adicionar Música", true);
+        this.rockstar = rockStar;
 //SETTINGS DA JANELA////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         setSize(width,height);
@@ -72,7 +79,12 @@ public class AdicionarMusica extends JDialog implements ActionListener{
         else if(e.getSource() == okButton){
          String escolhaGenero = (String) dropdown.getSelectedItem();
          String escolhaNome = nomeText.getText();
-         //
+         String escolhaPreco = precoText.getText();
+         Double preco = Double.parseDouble(escolhaPreco);
+         Musico musico = (Musico) rockstar.getUserAtivo();
+         Musica novaMusica = new Musica(escolhaNome,musico,escolhaGenero,preco);
+         musico.addMusica(novaMusica);
+         rockstar.addMusica(novaMusica);
          dispose(); // Fecha o pop-up.
         }
 

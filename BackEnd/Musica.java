@@ -36,7 +36,9 @@ public class Musica implements Serializable {
      */
     public double getPreco() {
         //return preco;
-        return historicoPreco.get(historicoPreco.size()-1).getPreco();
+        if(!historicoPreco.isEmpty()) {
+            return historicoPreco.get(historicoPreco.size() - 1).getPreco();
+        }else return 0;
     }
 
     /**
@@ -113,5 +115,17 @@ public class Musica implements Serializable {
             }
         }
         return soma/avaliacoes.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Musica{" +
+                "title='" + title + '\'' +
+                ", artista=" + artist +
+                ", genero='" + genre + '\'' +
+                ", preco=" + getPreco() +
+                ", avaliacao=" + avaliacaoMedia() +
+                ", visibilidade=" + visibilidade +
+                '}';
     }
 }

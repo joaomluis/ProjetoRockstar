@@ -1,6 +1,7 @@
 package GUI.MenuMusico;
 
 import BackEnd.Musica;
+import BackEnd.Musico;
 import GUI.MenuMusico.PopUps.AdicionarMusica;
 import GUI.MenuMusico.PopUps.AlterarDisponibilidade;
 import GUI.MenuMusico.PopUps.AlterarNome;
@@ -104,8 +105,36 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         add(painelEast, BorderLayout.EAST);
 
         setVisible(true);
+        carregarMusicasDoMusico();
+        atualizarTabelaMusicas();
     }
+    private void atualizarTabelaMusicas() {
+        // Limpar os dados existentes na tabela
+        tabelaDefault.setRowCount(0);
 
+        // Adicionar as músicas do músico à tabela
+        for (Musica musica : musicas) {
+            Object[] rowData = {musica.getTitle(), musica.getArtist(), musica.getGenre()};
+            tabelaDefault.addRow(rowData);
+        }
+
+        // Atualizar a exibição da tabela
+        tabela.repaint();
+    }
+    public void carregarMusicasDoMusico() {
+        // Limpar a lista de músicas
+        musicas.clear();
+
+        // Obter a lista de músicas do músico a partir do objeto RockStar
+        Musico musico = (Musico) frameMusico.getRockStar().getUserAtivo();
+        ArrayList<Musica> musicasDoMusico = musico.getMusicas();
+
+        // Adicionar as músicas do músico à lista de músicas do MusicoMusicas
+        musicas.addAll(musicasDoMusico);
+
+        // Atualizar a exibição da tabela de músicas
+        atualizarTabelaMusicas();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -114,9 +143,13 @@ public class MusicoMusicas extends JPanel implements ActionListener {
             int selectedRow = tabela.getSelectedRow();
             if (selectedRow == -1) new AlterarNome(frameMusico); //alterar para (selectedRow != -1) para funcionar corretamente
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+            carregarMusicasDoMusico();
+            atualizarTabelaMusicas();
 
         } else if (e.getSource() == adicionar) {
-            new AdicionarMusica(frameMusico);
+            new AdicionarMusica(frameMusico,frameMusico.getRockStar());
+            carregarMusicasDoMusico();
+            atualizarTabelaMusicas();
 
         } else if (e.getSource() == editarPreco) {
             // Lógica para exibir detalhes da música selecionada
@@ -131,6 +164,7 @@ public class MusicoMusicas extends JPanel implements ActionListener {
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
         }
     }
+
 }
 
 

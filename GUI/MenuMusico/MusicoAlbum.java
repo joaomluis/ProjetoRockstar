@@ -98,7 +98,7 @@ public class MusicoAlbum extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == adicionar){
-            new AdicionarMusica(frameMusico);
+            new AdicionarMusica(frameMusico,frameMusico.getRockStar());
         }
     }
 }

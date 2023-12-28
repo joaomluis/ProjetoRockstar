@@ -13,15 +13,17 @@ public class RockStar implements Serializable {
     private ArrayList<Musica> baseDadosMusicas;
     private User userAtivo;
     private GUI gui;
+    private File file;
     private static final long serialVersionUID = 1325672347L;
 
-    public RockStar() {
+    public RockStar(String pathName) {
         this.gui = new GUI(this);
-
         this.baseDadosMusicas = new ArrayList<>();
         this.baseDadosUsers = new ArrayList<>();
 
-        deserializeRockStar("baseDadosRockstar.ser");
+        file = new File(pathName);
+
+        deserializeRockStar(file.getName());
 
 //        Musico musico1 = new Musico("Artista1", "1", "11");
 //        baseDadosUsers.add(new Musico("Artista1", "1", "11"));
@@ -280,5 +282,12 @@ public class RockStar implements Serializable {
 
     public void logOut() {
         userAtivo = null;
+    }
+    public void addMusica(Musica musica){
+        baseDadosMusicas.add(musica);
+        System.out.println("add (RockStar) Musicas na base de dados");
+        for(Musica m: baseDadosMusicas){
+            System.out.println(m);
+        }
     }
 }
