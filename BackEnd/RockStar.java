@@ -2,24 +2,84 @@ package BackEnd;
 
 import GUI.GUI;
 
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RockStar {
+public class RockStar implements Serializable {
 
-    private static ArrayList<User> baseDadosUsers;
+    private ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
     private User userAtivo;
     private GUI gui;
+    private static final long serialVersionUID = 1325672347L;
 
     public RockStar() {
         this.gui = new GUI(this);
 
-        baseDadosUsers = new ArrayList<>();
-        baseDadosMusicas = new ArrayList<>();
+        this.baseDadosMusicas = new ArrayList<>();
+        this.baseDadosUsers = new ArrayList<>();
 
+        deserializeRockStar("baseDadosRockstar.ser");
 
+//        Musico musico1 = new Musico("Artista1", "1", "11");
+//        baseDadosUsers.add(new Musico("Artista1", "1", "11"));
+//        baseDadosMusicas.add(new Musica("Musica1", musico1, "Pop", 2));
+//        baseDadosMusicas.add(new Musica("Musica2", musico1, "Pop", 0));
+//        baseDadosMusicas.add(new Musica("Musica3", musico1, "Pop", 0));
+    }
+
+    public void getAllSongs(DefaultTableModel tableModel) {
+        for (Musica musica : baseDadosMusicas) {
+            boolean alreadyAdded = false;
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                if (musica.getTitle().equals(tableModel.getValueAt(i, 0))) {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+
+            if (!alreadyAdded) {
+                Object[] row = {musica.getTitle(), musica.getArtist().getUsername(), musica.getPreco()};
+                tableModel.addRow(row);
+            }
+        }
+    }
+
+    public void serializeRockStar(String filePath) {
+        try (FileOutputStream fos = new FileOutputStream(filePath);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(this);
+            oos.close();
+            fos.close();
+            System.out.println(filePath + " serialized");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    public void deserializeRockStar(String filePath) {
+        try (FileInputStream fis = new FileInputStream(filePath);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            Object obj = ois.readObject();
+            if (obj instanceof RockStar) {
+                RockStar loadedRockStar = (RockStar) obj;
+
+                // Atualizando os campos da instância atual com os dados desserializados
+                this.baseDadosUsers = loadedRockStar.baseDadosUsers;
+                this.baseDadosMusicas = loadedRockStar.baseDadosMusicas;
+                this.userAtivo = loadedRockStar.userAtivo;
+
+                System.out.println("RockStar deserialized");
+            } else {
+                System.out.println("Failed to deserialize. Invalid data type.");
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -39,13 +99,13 @@ public class RockStar {
                 if (tipo == Tipo.CLIENTE) {
                     Cliente novoCliente = new Cliente(username, password);
                     addUser(novoCliente);
-                    salvarUsersNoArquivo("baseDadosRockstar.ser");
+                    //salvarUsersNoArquivo("baseDadosRockstar.ser");
                     return 1;
                 } else if (tipo == Tipo.MUSICO) {
                     if (contemDigitos(pin)) { // se o pin é só digitos de 0 a 9
                         Musico novoMusico = new Musico(username, password, pin);
                         addUser(novoMusico);
-                        salvarUsersNoArquivo("baseDadosRockstar.ser");
+                        //salvarUsersNoArquivo("baseDadosRockstar.ser");
                         return 1;
                     } else {
                         return 4;
@@ -63,14 +123,14 @@ public class RockStar {
      * @param user
      */
     private void addUser(User user) {
-        baseDadosUsers.add(user);
+        this.baseDadosUsers.add(user);
     }
 
-        /**
-         * Guarda o novo objeto de tipo User na base de dados da plataforma
-         * @param users
-         * @param ficheiro
-         */
+    /**
+     * Guarda o novo objeto de tipo User na base de dados da plataforma
+     * @param users
+     * @param ficheiro
+     */
     private void saveUsers(List<User> users, String ficheiro) {
 
         List<User> clientesExistentes = getUserList(ficheiro);
@@ -116,6 +176,10 @@ public class RockStar {
         }
         return users;
     }
+    private List<User> getAllUsers() {
+        return new ArrayList<>(baseDadosUsers);
+    }
+
 
     /**
      * Metodo chamado durante o registo de conta que vai verificar no ficheiro se já existe
@@ -125,11 +189,12 @@ public class RockStar {
      */
     private boolean verificaUsername(String username) {
 
-        List<User> users = getUserList("baseDadosRockstar.ser");
-
-        for (User user: users) {
-            if(user.getUsername().equals(username)) {
-                return true;
+        //List<User> users = getAllUsers();
+        if(baseDadosUsers != null) {
+            for (User user : baseDadosUsers) {
+                if (user.getUsername().equals(username)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -173,7 +238,7 @@ public class RockStar {
 
     public int fazerLogIn(String username, String password, String pin) {
 
-        List<User> usersList = getUserList("baseDadosRockstar.ser");
+        List<User> usersList = baseDadosUsers;
 
         if (verificaCampoVazio(username, password, pin)) {
             return 3; //há campos vazios
@@ -208,11 +273,11 @@ public class RockStar {
      */
     public Cliente getUserAtivoCliente () {
         if (userAtivo instanceof Cliente) {
-        return (Cliente) userAtivo;
+            return (Cliente) userAtivo;
         }
         return null;
     }
-    
+
     public void logOut() {
         userAtivo = null;
     }

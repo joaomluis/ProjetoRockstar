@@ -8,6 +8,7 @@ public class Cliente extends User implements Serializable {
     private ArrayList<Playlist> playlists;
     private ArrayList<Musica> carrinhoCompras;
     private double saldo;
+    private static final long serialVersionUID = 1325672347L;
 
     public Cliente(String username, String password) {
         super(username, password);
@@ -15,6 +16,8 @@ public class Cliente extends User implements Serializable {
         playlists = new ArrayList<>();
         carrinhoCompras = new ArrayList<>();
         saldo = 0.00;
+
+
     }
 
     public Cliente() {
@@ -115,7 +118,7 @@ public class Cliente extends User implements Serializable {
             saldo += valor;
             return true;
         }
-        else return false;
+        return false;
     }
     /**
      * Adiciona música ao carrinho de compras.

@@ -1,6 +1,7 @@
 package GUI.MenuCliente;
 
 import BackEnd.Musica;
+import BackEnd.RockStar;
 import GUI.MenuCliente.PopUps.AddBalance;
 import GUI.MenuCliente.PopUps.RateSong;
 
@@ -26,6 +27,8 @@ public class Store extends JPanel implements ActionListener {
     public Store (FrameCliente frameCliente) {
 
         this.frameCliente = frameCliente;
+        RockStar rockStar = frameCliente.getRockStar();
+
         setLayout(new BorderLayout());
         setBackground(new Color(20, 64, 88));
 
@@ -64,10 +67,7 @@ public class Store extends JPanel implements ActionListener {
         tableModel.addColumn("Preço");
 
         //adiciona as musicas da array list à table, tem que ser trocado por um método mais tarde
-        for (Musica musica : musicas) {
-            Object[] row = {musica.getTitle(), musica.getArtist(), musica.getPreco()};
-            tableModel.addRow(row);
-        }
+        rockStar.getAllSongs(tableModel);
 
         storeTable = new JTable(tableModel);
         storeTable.getColumnModel().getColumn(0).setPreferredWidth(200);

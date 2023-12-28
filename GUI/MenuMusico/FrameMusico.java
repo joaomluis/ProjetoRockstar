@@ -33,7 +33,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         ImageIcon logoRockStar = new ImageIcon("logo_2.png");
 
         //especificações básicas do frame
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(700, 550);
         setTitle("RockStar.Inc - Musico");
         setIconImage(logoRockStar.getImage());

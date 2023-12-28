@@ -9,6 +9,7 @@ public class Playlist implements Serializable {
     private ArrayList<Musica> musicas;
     private boolean visibilidade;
     private Cliente autor;
+    private static final long serialVersionUID = 1325672347L;
 
     /**
      * Criará uma Playlist para o Cliente, apenas com um nome.

@@ -1,6 +1,6 @@
 package GUI.MenuCliente;
 
-import BackEnd.Cliente;
+
 import BackEnd.RockStar;
 import GUI.GUI;
 import GUI.MenuCliente.PopUps.GeneratePlaylist;

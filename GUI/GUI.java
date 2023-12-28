@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI extends JFrame implements ActionListener {
 
@@ -59,6 +61,13 @@ public class GUI extends JFrame implements ActionListener {
         setCurrentPanel(menuInicial);
         cardLayout.show(panelContainer, "Menu Inicial");
         setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                rockStar.serializeRockStar("baseDadosRockstar.ser");
+            }
+        });
     }
 
     private void setCurrentPanel(JPanel currentPanel) {

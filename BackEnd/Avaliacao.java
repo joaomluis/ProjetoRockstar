@@ -7,6 +7,7 @@ public class Avaliacao implements Serializable {
     private double avaliacao;
     private LocalDate data;
     private Cliente cliente;
+    private static final long serialVersionUID = 1325672347L;
 
     public Avaliacao(double avaliacao, Cliente cliente) {
         this.avaliacao = avaliacao;

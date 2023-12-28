@@ -7,16 +7,17 @@ public class Musica implements Serializable {
     private String title;
     private Musico artist;
     private String genre;
-//    private double preco;
+    //private double preco;
     private ArrayList<Preco> historicoPreco = new ArrayList<>();
     private ArrayList<Avaliacao> avaliacoes = new ArrayList<>(); //<User, Avaliação>
     private boolean visibilidade;
+    private static final long serialVersionUID = 1325672347L;
 
     public Musica(String tittle, Musico artist, String genre, double preco) {
         this.title = tittle;
         this.artist = artist;
         this.genre = genre;
-//        this.preco = preco;
+        //this.preco = preco;
     }
 
     public String getTitle() {
@@ -34,7 +35,7 @@ public class Musica implements Serializable {
      * @return Preco
      */
     public double getPreco() {
-//        return preco;
+        //return preco;
         return historicoPreco.get(historicoPreco.size()-1).getPreco();
     }
 

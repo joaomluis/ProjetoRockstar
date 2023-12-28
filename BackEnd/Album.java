@@ -8,6 +8,7 @@ public class Album implements Serializable {
     private Musico artist;
     private String genre;
     private ArrayList<Musica> musicas;
+    private static final long serialVersionUID = 1325672347L;
 
     public Album(String title, Musico artist, String genre) {
         this.title = title;

@@ -9,6 +9,7 @@ public class Plataforma implements Serializable {
     private ArrayList<Musica> baseDadosMusicas;
     private HashMap<Musica,Integer> baseDadosMusicasVendidas;
     private User userLogado;
+    private static final long serialVersionUID = 1325672347L;
 
     public Plataforma() {
         this.baseDadosUser = new ArrayList<>();
