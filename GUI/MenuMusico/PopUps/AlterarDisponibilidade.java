@@ -1,5 +1,8 @@
 package GUI.MenuMusico.PopUps;
 
+import BackEnd.Musica;
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +19,12 @@ public class AlterarDisponibilidade extends JDialog implements ActionListener{
     private JButton cancelButton;
     private int width = 300;
     private int height = 100;
-    public AlterarDisponibilidade(Frame parent) {
+    private RockStar rockStar;
+    private Musica musica;
+    public AlterarDisponibilidade(Frame parent, RockStar rockStar, Musica musica) {
         super(parent, "Alterar Disponibilidade", true);
+        this.rockStar = rockStar;
+        this.musica = musica;
 //SETTINGS DA JANELA////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         setSize(width,height);
@@ -56,8 +63,13 @@ public class AlterarDisponibilidade extends JDialog implements ActionListener{
             dispose();// Fecha o pop-up.
         }
         else if(e.getSource() == okButton){
-         String escolhaEstado = textField.getText();
-         //
+         String escolhaEstado = (String) disponibilidade.getSelectedItem();
+
+         boolean visibilidade = true;
+
+         if(escolhaEstado.equals("Disponivel"))  visibilidade= true;
+         else if(escolhaEstado.equals("Indisponível")) visibilidade = false;
+         musica.setVisibilidade(visibilidade);
          dispose(); // Fecha o pop-up.
         }
     }

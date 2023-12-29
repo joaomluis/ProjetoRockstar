@@ -1,5 +1,8 @@
 package GUI.MenuMusico.PopUps;
 
+import BackEnd.Musica;
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,8 +17,13 @@ public class AlterarNome extends JDialog implements ActionListener{
     private JButton cancelButton;
     private int width = 300;
     private int height = 100;
-    public AlterarNome(Frame parent) {
+    private RockStar rockstar;
+    private Musica musica;
+
+    public AlterarNome(Frame parent, RockStar rockstar, Musica musica) {
         super(parent, "Alterar Nome", true);
+        this.rockstar = rockstar;
+        this.musica = musica;
 //SETTINGS DA JANELA////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         setSize(width,height);
@@ -52,13 +60,22 @@ public class AlterarNome extends JDialog implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == cancelButton){
+        if (e.getSource() == cancelButton) {
             dispose();// Fecha o pop-up.
+        } else if (e.getSource() == okButton) {
+            String escolhaNome = textField.getText();
+            if (!rockstar.nomeMusicaValido(escolhaNome)) {
+                JOptionPane.showMessageDialog(null, "Não foi possivel alterar o nome da música. Já existe uma música com esse nome. Por favor, escolha outro nome.");
+            } else if (!rockstar.nomeMusicaValido(escolhaNome)) {
+                boolean alteracaoSucesso = musica.alterarTitulo(escolhaNome);
+                if (alteracaoSucesso) {
+                    // O nome da música foi atualizado com sucesso
+                    System.out.println("O nome da música foi atualizado para: " + escolhaNome);
+                }
+            }
         }
-        else if(e.getSource() == okButton){
-         String escolhaNome = textField.getText();
-         //
-         dispose(); // Fecha o pop-up.
-        }
+        dispose(); // Fecha o pop-up.
+
     }
+
 }

@@ -1,5 +1,8 @@
 package GUI.MenuMusico.PopUps;
 
+import BackEnd.Musica;
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,8 +17,12 @@ public class AlterarPreco extends JDialog implements ActionListener{
     private JButton cancelButton;
     private int width = 300;
     private int height = 100;
-    public AlterarPreco(Frame parent) {
+    private RockStar rockStar;
+    private Musica musica;
+    public AlterarPreco(Frame parent, RockStar rockStar, Musica musica) {
         super(parent, "Alterar Preço", true);
+        this.rockStar = rockStar;
+        this.musica = musica;
 //SETTINGS DA JANELA////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         setSize(width,height);
@@ -57,8 +64,20 @@ public class AlterarPreco extends JDialog implements ActionListener{
         }
         else if(e.getSource() == okButton){
          String escolhaPreco = textField.getText();
-         //
-         dispose(); // Fecha o pop-up.
+        Double novoPreco = Double.parseDouble(escolhaPreco);
+            if (musica != null) {
+                boolean alteracaoSucesso = musica.alterarPreco(novoPreco,rockStar.getUserAtivoMusico());
+
+                if (alteracaoSucesso) {
+                    // O preço da música foi atualizado com sucesso
+                    System.out.println("O nome da música foi atualizado para: " + escolhaPreco);
+                } else {
+                    // A alteração do nome falhou
+                    System.out.println("Falha ao atualizar o preço da música.");
+                }
+            }
+            //
+            dispose(); // Fecha o pop-up.
         }
     }
 }

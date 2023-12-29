@@ -1,5 +1,6 @@
 package GUI.MenuMusico;
 
+import BackEnd.Album;
 import BackEnd.RockStar;
 
 import javax.swing.*;
@@ -57,7 +58,7 @@ public class FrameMusico extends JFrame implements ActionListener {
         panelCont.add(musicoMenuInicial, "MainMusic");
         panelCont.add(musicoMeusAlbuns, "MeusAlbuns");
         panelCont.add(musicoMusicas, "MusicoMusicas");
-        panelCont.add(musicoAlbum, "MusicoAlbum");
+        panelCont.add(musicoAlbum,"MusicoAlbum");
         panelCont.add(musicoPesquisa, "MusicoPesquisa");
         panelCont.add(musicoEstatistica,"Estatistica");
 
@@ -147,9 +148,10 @@ public class FrameMusico extends JFrame implements ActionListener {
         setPainelAtual(musicoMusicas);
         cardLayout.show(panelCont,"MusicoMusicas");
     }
-    public void showMusicoAlbum(){
-        setPainelAtual(musicoMusicas);
-        cardLayout.show(panelCont,"MusicoMusicas");
+    public void showMusicoAlbum(Album albumSelecionado){
+        musicoAlbum.setAlbumSelecionado(albumSelecionado);
+        setPainelAtual(musicoAlbum);
+        cardLayout.show(panelCont,"MusicoAlbum");
     }
     public void showMusicoPesquisa() {
         setPainelAtual(musicoPesquisa);

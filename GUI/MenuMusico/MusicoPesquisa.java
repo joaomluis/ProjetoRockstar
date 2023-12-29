@@ -1,6 +1,7 @@
 package GUI.MenuMusico;
 
 import BackEnd.Musica;
+import BackEnd.Musico;
 import GUI.MenuMusico.PopUps.AdicionarMusica;
 
 import javax.swing.*;
@@ -67,7 +68,7 @@ public class MusicoPesquisa extends JPanel implements ActionListener {
         // Define as colunas da tabela
         tabelaDefault.addColumn("Titulo");
         tabelaDefault.addColumn("Gênero");
-        tabelaDefault.addColumn("Produtor");
+        tabelaDefault.addColumn("Preço");
 
 //        // Adiciona as músicas ao modelo de tabela
 //        for (Musica musica : musicas) {
@@ -106,11 +107,55 @@ public class MusicoPesquisa extends JPanel implements ActionListener {
 
         setVisible(true);
     }
+    private void atualizarTabelaMusicas() {
+        // Limpar os dados existentes na tabela
+        tabelaDefault.setRowCount(0);
+
+        // Adicionar as músicas do músico à tabela
+        for (Musica musica : musicas) {
+            Object[] rowData = {musica.getTitle(), musica.getGenre(), musica.getPreco(), musica.isVisibilidade()};
+            tabelaDefault.addRow(rowData);
+        }
+
+        // Atualizar a exibição da tabela
+        tabela.repaint();
+    }
+    public void carregarMusicasProcuradas(String nome, int escolha) {
+        //0 -> Nome
+        //1 -> Genero
+        // Limpar a lista de músicas
+        musicas.clear();
+
+        // Obter a lista de músicas do músico a partir do objeto RockStar
+        Musico musico = (Musico) frameMusico.getRockStar().getUserAtivo();
+        ArrayList<Musica> musicasDoMusico = musico.getMusicas();
+
+            for (Musica m : musicasDoMusico) {
+                if(escolha == 0){
+                    if (m.getTitle().toLowerCase().contains(nome.toLowerCase())) {
+                        musicas.add(m);
+                    }
+                }else if(escolha == 1){
+                    if (m.getGenre().toLowerCase().contains(nome.toLowerCase())) {
+                        musicas.add(m);
+                    }
+                }
+            }
+
+        // Atualizar a exibição da tabela de músicas
+        atualizarTabelaMusicas();
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == pesquisar) {
             String catgoriaAPesquisar = (String) dropdown.getSelectedItem();
             String strAPesquisar = barraPesquisa.getText();
+
+            if(catgoriaAPesquisar.equals("Nome")){
+                carregarMusicasProcuradas(strAPesquisar,0);
+            }else if(catgoriaAPesquisar.equals("Genero")){
+                carregarMusicasProcuradas(strAPesquisar,1);
+            }
         }
     }
 }

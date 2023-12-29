@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AdicionarMusica extends JDialog implements ActionListener{
+    private JComboBox<Object> albumDropdown;
+    private JLabel album;
     private JLabel preco;
     private JTextField precoText;
     private JPanel panelCenter;
@@ -21,7 +23,7 @@ public class AdicionarMusica extends JDialog implements ActionListener{
     private JButton okButton;
     private JButton cancelButton;
     private int width = 400;
-    private int height = 170;
+    private int height = 200;
     private RockStar rockstar;
 
 
@@ -35,7 +37,7 @@ public class AdicionarMusica extends JDialog implements ActionListener{
         setResizable(false);
 //CRIAR BOTÕES//////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        dropdown = new JComboBox<>(new String[]{" ", "Rock", "Hip-Hop", "Jazz"});
+        dropdown = new JComboBox<>(rockStar.getGenerosMusicais());
         nomeText = new JTextField();
         precoText = new JTextField();
         okButton = new JButton("OK");
@@ -43,6 +45,8 @@ public class AdicionarMusica extends JDialog implements ActionListener{
         nome = new JLabel("Nome:");
         genero = new JLabel("Genero:");
         preco = new JLabel("Preço:");
+        album = new JLabel("Album:");
+        albumDropdown = new JComboBox<>(rockStar.albunsDoMusico(rockStar.getUserAtivoMusico()));//vetor com os albuns.
 
 //(PANEL CENTER) CAMPOS LABEL/DROPDOWN/TEXT/////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +56,10 @@ public class AdicionarMusica extends JDialog implements ActionListener{
         panelCenter.add(nomeText).setBounds(nome.getX()+nome.getWidth()+5,nome.getY(),190,25);
         panelCenter.add(genero).setBounds(nome.getX(), nomeText.getY()+ nomeText.getHeight()+5,50,25);
         panelCenter.add(dropdown).setBounds(nomeText.getX(),nome.getY()+nome.getHeight()+5,190,25);
-        panelCenter.add(preco).setBounds(nome.getX(), genero.getY()+ genero.getHeight()+5,50,25);;
+        panelCenter.add(preco).setBounds(nome.getX(), genero.getY()+ genero.getHeight()+5,50,25);
         panelCenter.add(precoText).setBounds(nomeText.getX(), genero.getY()+ genero.getHeight()+5,190,25);
+        panelCenter.add(album).setBounds(nome.getX(),preco.getY()+preco.getHeight()+5,190,25);
+        panelCenter.add(albumDropdown).setBounds(nomeText.getX(),preco.getY()+preco.getHeight()+5,190,25);
 
 //(PANEL SOUTH) BOTÕES OK E CANCELAR////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,13 +86,22 @@ public class AdicionarMusica extends JDialog implements ActionListener{
          String escolhaGenero = (String) dropdown.getSelectedItem();
          String escolhaNome = nomeText.getText();
          String escolhaPreco = precoText.getText();
-         Double preco = Double.parseDouble(escolhaPreco);
-         Musico musico = (Musico) rockstar.getUserAtivo();
-         Musica novaMusica = new Musica(escolhaNome,musico,escolhaGenero,preco);
-         musico.addMusica(novaMusica);
-         rockstar.addMusica(novaMusica);
-         dispose(); // Fecha o pop-up.
-        }
+         if(escolhaPreco.isEmpty()){
+             JOptionPane.showMessageDialog(null, "A sua música tem de ter um preço. Por exemplo: 0.00");
+         }else {
 
+             double preco = Double.parseDouble(escolhaPreco);
+             Musico musico = (Musico) rockstar.getUserAtivo();
+             Musica novaMusica = new Musica(escolhaNome, musico, escolhaGenero, preco);
+
+             if (!rockstar.addMusica(novaMusica)) {
+                 JOptionPane.showMessageDialog(null, "Já existe uma música na sua lista com esse nome. Por favor, escolha outro nome para a sua música.");
+             } else {
+                 musico.addMusica(novaMusica);
+                 rockstar.addMusica(novaMusica);
+                 dispose(); // Fecha o pop-up.
+             }
+         }
+        }
     }
 }

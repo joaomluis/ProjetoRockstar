@@ -11,7 +11,7 @@ public class MusicoEstatistica extends JPanel implements ActionListener {
     private int valorTotalMusicasVendidasInt;
     private String valorTotalMusicasVendidasString;
     private JLabel valorTotalMusicasVendidas;
-    private int valorTotalMusicasInt;
+    private double valorTotalMusicasInt;
     private String valorTotalMusicasString;
     private JLabel valorTotalMusicas;
     private JLabel totalAlbunsGenero;
@@ -39,28 +39,28 @@ public class MusicoEstatistica extends JPanel implements ActionListener {
         add(titulo).setBounds(290, 5, 250, 30);
 
     ////TOTAL DE UTILIZZADORES//////////////////////////////////////////////////////////////////////////////////////////
-        totalUserInt = 10; //igualar ao numero total de users
+        totalUserInt = frameMusico.getRockStar().getTotalUsers(); //igualar ao numero total de users
         numeroUserString = String.valueOf(totalUserInt);
         totalUser = new JLabel("Total de utilizadores: "+numeroUserString);
         totalUser.setForeground(new Color(255,255,255));
         totalUser.setFont(new Font("Arial", Font.BOLD, 15));
         add(totalUser).setBounds(150,100,200,35);
     ////TOTAL DE MUSICOS////////////////////////////////////////////////////////////////////////////////////////////////
-        totalMusicosInt = 10; //igualar ao numero total de musicos
+        totalMusicosInt = frameMusico.getRockStar().getTotalMusicos();; //igualar ao numero total de musicos
         numeroMusicosString = String.valueOf(totalMusicosInt);
         totalMusicos = new JLabel("Total de músicos: "+numeroMusicosString);
         totalMusicos.setForeground(new Color(255,255,255));
         totalMusicos.setFont(new Font("Arial", Font.BOLD, 15));
         add(totalMusicos).setBounds(totalUser.getX(),totalUser.getY()+20,500,35);
     ////TOTAL DE MUSICAS////////////////////////////////////////////////////////////////////////////////////////////////
-        totalMusicasInt = 10; //igualar ao numero total de musicas
+        totalMusicasInt = frameMusico.getRockStar().getBaseDadosMusicas().size(); //igualar ao numero total de musicas
         numeroMusicasString = String.valueOf(totalMusicasInt);
         totalMusicas = new JLabel("Total de músicas: "+numeroMusicasString);
         totalMusicas.setForeground(new Color(255,255,255));
         totalMusicas.setFont(new Font("Arial", Font.BOLD, 15));
         add(totalMusicas).setBounds(totalUser.getX(),totalMusicos.getY()+20,500,35);
     ////TOTAL DE ALBUNS/////////////////////////////////////////////////////////////////////////////////////////////////
-        totalAlbunsInt = 10; //igualar ao numero total de albuns
+        totalAlbunsInt = frameMusico.getRockStar().getBaseDadosAlbuns().size(); //igualar ao numero total de albuns
         numeroAlbunsString = String.valueOf(totalAlbunsInt);
         totalAlbuns = new JLabel("Total de albuns: "+numeroAlbunsString);
         totalAlbuns.setForeground(new Color(255,255,255));
@@ -71,7 +71,7 @@ public class MusicoEstatistica extends JPanel implements ActionListener {
         totalAlbunsGenero.setForeground(new Color(255,255,255));
         totalAlbunsGenero.setFont(new Font("Arial", Font.BOLD, 15));
         add(totalAlbunsGenero).setBounds(totalUser.getX(),totalAlbuns.getY()+20,170,35);
-        genero = new JComboBox<>(new String[]{" ", "Rock", "Hip-Hop", "Jazz"});
+        genero = new JComboBox<>(frameMusico.getRockStar().getGenerosMusicais());
         genero.addActionListener(this);
         add(genero).setBounds(totalAlbunsGenero.getX()+totalAlbunsGenero.getWidth()+5,totalAlbunsGenero.getY(),100,35);
         totalAlbunsGeneroCont =new JLabel();
@@ -80,7 +80,7 @@ public class MusicoEstatistica extends JPanel implements ActionListener {
         totalAlbunsGeneroCont.setBounds(totalUser.getX()+totalAlbunsGenero.getWidth()+genero.getWidth()+5,totalAlbunsGenero.getY(),100,35);
         add(totalAlbunsGeneroCont);
     ////VALOR TOTAL DE MÚSICAS//////////////////////////////////////////////////////////////////////////////////////////
-        valorTotalMusicasInt = 10; //igualar ao valor total de musicas
+        valorTotalMusicasInt = frameMusico.getRockStar().getValortotalMusicas(); //igualar ao valor total de musicas
         valorTotalMusicasString = String.valueOf(valorTotalMusicasInt);
         valorTotalMusicas = new JLabel("Valor total de músicas: "+valorTotalMusicasString);
         valorTotalMusicas.setForeground(new Color(255,255,255));
@@ -101,22 +101,26 @@ public class MusicoEstatistica extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String generoSelecionado = (String) genero.getSelectedItem();
-        int total = albunsDoGenero(generoSelecionado);
-        totalAlbunsGeneroCont.setText(String.valueOf(total) + " albuns");
+
+        int total = frameMusico.getRockStar().albumPorGenero(generoSelecionado.toLowerCase());
+        System.out.println(total+"albuns");
+        totalAlbunsGeneroCont.setText(total + " albuns");
+
     }
-    public int albunsDoGenero(String genero){
-        //metodo para calcular o numero total de musiscas do genero escolhido.
-        if(genero.equals("Rock")){
-            return 20;
-        }
-        else if(genero.equals("Hip-Hop")){
-            return 10;
-        }
-        else if(genero.equals("Jazz")){
-            return 50;
-        }
-        else return -1;
-    }
+//    public int albunsDoGenero(String genero){
+//        //metodo para calcular o numero total de musiscas do genero escolhido.
+//        if(genero.equals("Rock")){
+//            return 20;
+//        }
+//        else if(genero.equals("Hip-Hop")){
+//            return 10;
+//        }
+//        else if(genero.equals("Jazz")){
+//            return 50;
+//        }
+//        else return -1;
+//
+//    }
     //metodos para os cálculos.
 }
 

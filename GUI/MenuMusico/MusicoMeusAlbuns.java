@@ -1,5 +1,8 @@
 package GUI.MenuMusico;
 
+import BackEnd.Album;
+import BackEnd.Musica;
+import BackEnd.Musico;
 import GUI.MenuMusico.PopUps.CriarAlbum;
 
 import java.awt.*;
@@ -21,7 +24,7 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
     private JTable tabela;
     private JButton ver;
     private JButton criar;
-    private ArrayList<String> albuns;
+    private ArrayList<Album> albuns;
 
     public MusicoMeusAlbuns(FrameMusico frameMusico) {
         this.frameMusico = frameMusico;
@@ -53,19 +56,12 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         // Define as colunas da tabela
         tabelaDefault.addColumn("Nome");
         tabelaDefault.addColumn("Gênero");
-        tabelaDefault.addColumn("Produtor");
 
-//        // Adiciona as músicas ao modelo de tabela
-//        for (Album album : albuns) {
-//            Object[] musicaObjeto = {album.getNome(), album.getGenero(), album.getProdutor()};
-//            tabelaDefault.addRow(musicaObjeto);
-//        }
 
         // Cria a tabela com o modelo
         tabela = new JTable(tabelaDefault);
         tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(200);
         // Impede a movimentação das colunas.
         tabela.getTableHeader().setReorderingAllowed(false);
         // SCROLL
@@ -82,13 +78,13 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         painelEast.setPreferredSize(new Dimension(150, 0));
 
         //Criar elementos Painel EAST
-        ver = new JButton("Ver");
-        ver.addActionListener(this);    //adicionar o botão ao actionListener
+//        ver = new JButton("Ver");
+//        ver.addActionListener(this);    //adicionar o botão ao actionListener
         criar = new JButton("Criar");
         criar.addActionListener(this);  //adicionar o botão ao actionListener
         //Add elementos ao Painel Central
-        painelEast.add(ver).setBounds(0,125,120,35);
-        painelEast.add(criar).setBounds(ver.getX(), ver.getY() + 50,120,35);
+        //painelEast.add(ver).setBounds(0,125,120,35);
+        painelEast.add(criar).setBounds(0, 175,120,35);
 
         painelEast.setBackground(new Color(77, 24, 28));
 
@@ -97,6 +93,35 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
         add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
+        carregarAlbunsDoMusico();
+    }
+    private void atualizarTabelaAlbuns() {
+        // Limpar os dados existentes na tabela
+        tabelaDefault.setRowCount(0);
+
+        // Adicionar as músicas do músico à tabela
+        for (Album album : albuns) {
+            Object[] rowData = {album.getTitle(), album.getGenre()};
+            tabelaDefault.addRow(rowData);
+        }
+
+        // Atualizar a exibição da tabela
+        tabela.repaint();
+    }
+    public void carregarAlbunsDoMusico() {
+        // Limpar a lista de músicas
+        albuns.clear();
+
+        // Obter a lista de músicas do músico a partir do objeto RockStar
+        Musico musico = frameMusico.getRockStar().getUserAtivoMusico();
+        ArrayList<Album> albunsDoMusico = musico.getAlbuns();
+
+        // Adicionar as músicas do músico à lista de músicas do MusicoMusicas
+        if(albunsDoMusico !=null ) {
+            albuns.addAll(albunsDoMusico);
+        }
+        // Atualizar a exibição da tabela de músicas
+        atualizarTabelaAlbuns();
     }
 
     @Override
@@ -105,18 +130,18 @@ public class MusicoMeusAlbuns extends JPanel implements ActionListener {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
             if (selectedRow != -1) {
-                String nome = (String) tabela.getValueAt(selectedRow, 0);
-                String genero = (String) tabela.getValueAt(selectedRow, 1);
-                String produtor = (String) tabela.getValueAt(selectedRow, 2);
-
-                frameMusico.showMusicoAlbum();
+                int modelRow = tabela.convertRowIndexToModel(selectedRow);
+                Album albumSelecionado = albuns.get(modelRow);
+                frameMusico.showMusicoAlbum(albumSelecionado);
             }
             else {
                 JOptionPane.showMessageDialog(MusicoMeusAlbuns.this, "Nenhum album selecionado.");
             }
         }
         else if(e.getSource() == criar){
-            new CriarAlbum(frameMusico);
+            new CriarAlbum(frameMusico,frameMusico.getRockStar());
+            carregarAlbunsDoMusico();
+            atualizarTabelaAlbuns();
         }
     }
 }

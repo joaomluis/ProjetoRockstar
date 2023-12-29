@@ -7,7 +7,7 @@ public class Musica implements Serializable {
     private String title;
     private Musico artist;
     private String genre;
-    //private double preco;
+    private double preco;
     private ArrayList<Preco> historicoPreco = new ArrayList<>();
     private ArrayList<Avaliacao> avaliacoes = new ArrayList<>(); //<User, Avaliação>
     private boolean visibilidade;
@@ -17,7 +17,8 @@ public class Musica implements Serializable {
         this.title = tittle;
         this.artist = artist;
         this.genre = genre;
-        //this.preco = preco;
+        this.preco = preco;
+        this.visibilidade = true;
     }
 
     public String getTitle() {
@@ -38,7 +39,7 @@ public class Musica implements Serializable {
         //return preco;
         if(!historicoPreco.isEmpty()) {
             return historicoPreco.get(historicoPreco.size() - 1).getPreco();
-        }else return 0;
+        }else return preco;
     }
 
     /**
@@ -86,6 +87,9 @@ public class Musica implements Serializable {
     }
     public void alterarVisibilidade(){
         this.visibilidade = !visibilidade;
+    }
+    public void setVisibilidade(boolean visibilidade){
+        this.visibilidade = visibilidade;
     }
     public boolean alterarTitulo(String novoNome){
         if(novoNome != null && !novoNome.equals(" ")){

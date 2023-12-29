@@ -10,13 +10,16 @@ import GUI.MenuMusico.PopUps.AlterarPreco;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
 
-public class MusicoMusicas extends JPanel implements ActionListener {
+
+public class MusicoMusicas extends JPanel implements ActionListener, MouseListener {
     private JScrollPane scrollPane;
     private JTable tabela;
     private DefaultTableModel tabelaDefault;
@@ -61,16 +64,20 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         };
 
         tabelaDefault.addColumn("Titulo");
-        tabelaDefault.addColumn("Artista");
-        tabelaDefault.addColumn("Género");
+        tabelaDefault.addColumn("Genero");
+        tabelaDefault.addColumn("Preço");
+        tabelaDefault.addColumn("Disponibilidade");
 
         tabela = new JTable(tabelaDefault);
         tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(200);
         tabela.getColumnModel().getColumn(2).setPreferredWidth(200);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(200);
+
         // Impede a movimentação das colunas.
         tabela.getTableHeader().setReorderingAllowed(false);
-
+        // Activa o TableHeader para ser executado
+        tabela.getTableHeader().addMouseListener(this);
         scrollPane = new JScrollPane(tabela);
 
         // ADD scroll ao Panel
@@ -94,6 +101,7 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         editarPreco.addActionListener(this);    //adicionar o botão ao actionListener
         editarDisponibilidade.addActionListener(this);    //adicionar o botão ao actionListener
 
+
         //Add ao painel
         painelEast.add(adicionar).setBounds(0, 125, 120, 35);
         painelEast.add(editarNome).setBounds(adicionar.getX(), adicionar.getY() + 50, 120, 35);
@@ -114,7 +122,14 @@ public class MusicoMusicas extends JPanel implements ActionListener {
 
         // Adicionar as músicas do músico à tabela
         for (Musica musica : musicas) {
-            Object[] rowData = {musica.getTitle(), musica.getArtist(), musica.getGenre()};
+            String visibilidade="";
+            if(musica.isVisibilidade()){
+                 visibilidade = "Disponivel";
+            }
+            else{
+                visibilidade = "Indisponivel";
+            }
+            Object[] rowData = {musica.getTitle(), musica.getGenre(), musica.getPreco(), visibilidade};
             tabelaDefault.addRow(rowData);
         }
 
@@ -135,17 +150,40 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         // Atualizar a exibição da tabela de músicas
         atualizarTabelaMusicas();
     }
+    private ArrayList<Musica> ordenarMusicasPorNome() {
+        ArrayList<Musica> musicasOrdenadas = new ArrayList<>(musicas);
+
+        // Algoritmo de ordenação (bubble sort) para ordenar as músicas pelo título
+        for (int i = 0; i < musicasOrdenadas.size() - 1; i++) {
+            for (int j = 0; j < musicasOrdenadas.size() - i - 1; j++) {
+                // Comparar os títulos das músicas e trocar se estiverem fora de ordem
+                if (musicasOrdenadas.get(j).getTitle().compareToIgnoreCase(musicasOrdenadas.get(j + 1).getTitle()) > 0) {
+                    Musica temp = musicasOrdenadas.get(j);
+                    musicasOrdenadas.set(j, musicasOrdenadas.get(j + 1));
+                    musicasOrdenadas.set(j + 1, temp);
+                }
+            }
+        }
+        return musicasOrdenadas;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == editarNome) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarNome(frameMusico); //alterar para (selectedRow != -1) para funcionar corretamente
-            else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+            if (selectedRow != -1) {
+                // Obter a música correta com base no índice selecionado na tabela ordenada
+                int modelRow = tabela.convertRowIndexToModel(selectedRow);
+                //converRowIndexToModel identifica o indice real da linha selecionada, independentemente de onde ela aparece.
+                Musica musicaSelecionada = musicas.get(modelRow);
+
+                new AlterarNome(frameMusico, frameMusico.getRockStar(), musicaSelecionada);
+            } else {
+                JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+            }
             carregarMusicasDoMusico();
             atualizarTabelaMusicas();
-
         } else if (e.getSource() == adicionar) {
             new AdicionarMusica(frameMusico,frameMusico.getRockStar());
             carregarMusicasDoMusico();
@@ -154,15 +192,61 @@ public class MusicoMusicas extends JPanel implements ActionListener {
         } else if (e.getSource() == editarPreco) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarPreco(frameMusico);
+            if (selectedRow != -1){
+                // Obter a música correta com base no índice selecionado na tabela ordenada
+                int modelRow = tabela.convertRowIndexToModel(selectedRow);
+                Musica musicaSelecionada = musicas.get(modelRow);
+                new AlterarPreco(frameMusico, frameMusico.getRockStar(), musicaSelecionada);
+            }
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+            carregarMusicasDoMusico();
+            atualizarTabelaMusicas();
 
         } else if (e.getSource() == editarDisponibilidade) {
             // Lógica para exibir detalhes da música selecionada
             int selectedRow = tabela.getSelectedRow();
-            if (selectedRow == -1) new AlterarDisponibilidade(frameMusico);
+            if (selectedRow != -1){
+                // Obter a música correta com base no índice selecionado na tabela ordenada
+                int modelRow = tabela.convertRowIndexToModel(selectedRow);
+                Musica musicaSelecionada = musicas.get(modelRow);
+                new AlterarDisponibilidade(frameMusico, frameMusico.getRockStar(), musicaSelecionada);
+            }
             else JOptionPane.showMessageDialog(MusicoMusicas.this, "Nenhuma música selecionada.");
+            carregarMusicasDoMusico();
+            atualizarTabelaMusicas();
+
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == tabela.getTableHeader()) {
+            int columnIndex = tabela.getColumnModel().getColumnIndexAtX(e.getX());
+            if (columnIndex == 0) {
+                musicas = ordenarMusicasPorNome();
+                atualizarTabelaMusicas();
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 
 }

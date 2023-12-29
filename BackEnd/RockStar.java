@@ -4,6 +4,7 @@ import GUI.GUI;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class RockStar implements Serializable {
 
     private ArrayList<User> baseDadosUsers;
     private ArrayList<Musica> baseDadosMusicas;
+    private ArrayList<Album> baseDadosAlbuns;
+
     private User userAtivo;
     private GUI gui;
     private File file;
@@ -20,6 +23,7 @@ public class RockStar implements Serializable {
         this.gui = new GUI(this);
         this.baseDadosMusicas = new ArrayList<>();
         this.baseDadosUsers = new ArrayList<>();
+        this.baseDadosAlbuns = new ArrayList<>();
 
         file = new File(pathName);
 
@@ -32,6 +36,10 @@ public class RockStar implements Serializable {
 //        baseDadosMusicas.add(new Musica("Musica3", musico1, "Pop", 0));
     }
 
+    public ArrayList<Album> getBaseDadosAlbuns() {
+        return baseDadosAlbuns;
+    }
+
     public void getAllSongs(DefaultTableModel tableModel) {
         for (Musica musica : baseDadosMusicas) {
             boolean alreadyAdded = false;
@@ -41,12 +49,19 @@ public class RockStar implements Serializable {
                     break;
                 }
             }
-
             if (!alreadyAdded) {
                 Object[] row = {musica.getTitle(), musica.getArtist().getUsername(), musica.getPreco()};
                 tableModel.addRow(row);
             }
         }
+    }
+
+    public ArrayList<User> getBaseDadosUsers() {
+        return baseDadosUsers;
+    }
+
+    public ArrayList<Musica> getBaseDadosMusicas() {
+        return baseDadosMusicas;
     }
 
     public void serializeRockStar(String filePath) {
@@ -72,6 +87,7 @@ public class RockStar implements Serializable {
                 // Atualizando os campos da instância atual com os dados desserializados
                 this.baseDadosUsers = loadedRockStar.baseDadosUsers;
                 this.baseDadosMusicas = loadedRockStar.baseDadosMusicas;
+                this.baseDadosAlbuns = loadedRockStar.baseDadosAlbuns;
                 this.userAtivo = loadedRockStar.userAtivo;
 
                 System.out.println("RockStar deserialized");
@@ -279,15 +295,102 @@ public class RockStar implements Serializable {
         }
         return null;
     }
+    public Musico getUserAtivoMusico () {
+        if (userAtivo instanceof Musico) {
+            return (Musico) userAtivo;
+        }
+        return null;
+    }
+
+    public boolean addAlbum(Album album){
+        ArrayList<Album> albunsDomusico = getUserAtivoMusico().getAlbuns();
+        if(albunsDomusico != null){
+            for(Album a : albunsDomusico){
+                if(a.getTitle().equalsIgnoreCase(album.getTitle())){
+                    return false;
+                }
+            }
+        }
+        baseDadosAlbuns.add(album);
+        return true;
+    }
 
     public void logOut() {
         userAtivo = null;
     }
-    public void addMusica(Musica musica){
-        baseDadosMusicas.add(musica);
-        System.out.println("add (RockStar) Musicas na base de dados");
-        for(Musica m: baseDadosMusicas){
-            System.out.println(m);
+    public boolean addMusica(Musica musica){
+        ArrayList<Musica> musicasDomusico = getUserAtivoMusico().getMusicas();
+        if(musicasDomusico != null){
+            nomeMusicaValido(musica.getTitle());
         }
+        baseDadosMusicas.add(musica);
+        return true;
+    }
+    public boolean nomeMusicaValido(String nome){
+        for(Musica m : getUserAtivoMusico().getMusicas()){
+            if(m.getTitle().equalsIgnoreCase(nome)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int albumPorGenero(String genero){
+        int albumPorGenero = 0;
+        for(Album a: baseDadosAlbuns){
+            if(a.getGenre().toLowerCase().equals(genero.toLowerCase())){
+                albumPorGenero++;
+            }
+        }
+        return albumPorGenero;
+    }
+    public String[] albunsDoMusico(Musico musico){
+        int tamanhoArray = musico.getAlbuns().size()+1;
+        String[] dropBoxs = new String[tamanhoArray];
+        dropBoxs[0] = "Sem Album";
+        int i=1;
+        for(Album a : musico.getAlbuns()){
+            dropBoxs[i] = a.getTitle();
+            i++;
+        }
+        return dropBoxs;
+    }
+    public String[] getGenerosMusicais() {
+        Genero[] generos = Genero.values();
+        String[] generosMusicais = new String[generos.length];
+
+        for (int i = 0; i < generos.length; i++) {
+            generosMusicais[i] = generos[i].toString();
+        }
+        return generosMusicais;
+    }
+    public int getTotalUsers(){
+        if(baseDadosUsers!=null){
+            return baseDadosUsers.size();
+        }
+        return -1;
+    }
+
+    public int getTotalMusicos() {
+        int totalMusicos=0;
+        if(baseDadosUsers!=null){
+            for(User u: baseDadosUsers){
+                if(u instanceof Musico){
+                    totalMusicos++;
+                }
+            }
+            return totalMusicos;
+        }
+        return -1;
+    }
+
+    public double getValortotalMusicas() {
+        double valorTotalMusicas = 0;
+        if(baseDadosMusicas != null){
+            for(Musica m : baseDadosMusicas){
+                valorTotalMusicas += m.getPreco();
+            }
+            return valorTotalMusicas;
+        }
+        return -1;
     }
 }

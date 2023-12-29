@@ -1,5 +1,10 @@
 package GUI.MenuMusico.PopUps;
 
+import BackEnd.Album;
+import BackEnd.Musica;
+import BackEnd.Musico;
+import BackEnd.RockStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +21,11 @@ public class CriarAlbum extends JDialog implements ActionListener{
     private JButton cancelButton;
     private int width = 400;
     private int height = 200;
+    private RockStar rockstar;
 
-    public CriarAlbum(Frame parent) {
+    public CriarAlbum(Frame parent, RockStar rockStar) {
         super(parent, "Criar Album", true);
+        this.rockstar = rockStar;
 //SETTINGS DA JANELA////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         setSize(width,height);
@@ -26,7 +33,7 @@ public class CriarAlbum extends JDialog implements ActionListener{
         setResizable(false);
 //CRIAR BOTÕES//////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        dropdown = new JComboBox<>(new String[]{" ", "Rock", "Hip-Hop", "Jazz"});
+        dropdown = new JComboBox<>(rockStar.getGenerosMusicais());
         textField = new JTextField();
         okButton = new JButton("OK");
         cancelButton = new JButton("Cancelar");
@@ -64,8 +71,16 @@ public class CriarAlbum extends JDialog implements ActionListener{
         else if(e.getSource() == okButton){
          String escolhaGenero = (String) dropdown.getSelectedItem();
          String escolhaNome = textField.getText();
-         //
-         dispose(); // Fecha o pop-up.
+         Musico musico = rockstar.getUserAtivoMusico();
+
+         Album novaAlbum = new Album(escolhaNome,musico,escolhaGenero);
+         if(!rockstar.addAlbum(novaAlbum)){
+             JOptionPane.showMessageDialog(null, "O nome do Album já existe na sua lista.");
+         }else {
+             musico.addAlbum(novaAlbum);
+             rockstar.addAlbum(novaAlbum);
+             dispose(); // Fecha o pop-up.
+         }
         }
     }
 }
